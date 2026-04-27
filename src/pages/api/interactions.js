@@ -20,11 +20,14 @@ export default async function POST(req) {
 
         });
 
-        if (error) throw error;
+        if (error) {
+            console.error(error);
+            return res.status(500).json({ error: error.message }); // ← do not throw error
+        }
 
         return Response.json({ ok: true });
     } catch (e) {
         console.error("[log/interaction]", e);
-        return Response.json({ error: "Failed to log interaction" }, { status: 500 });
+        return res.status(500).json({ error: "Failed to log interaction" });
     }
 }
