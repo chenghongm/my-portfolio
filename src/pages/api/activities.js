@@ -21,7 +21,6 @@ export default async function handler(req, res) {
       section_id: body.section_id ?? null,
       event: body.event ?? null,
       start_at: body.start_at ? new Date(body.start_at) : null,
-      end_at: body.end_at ? new Date(body.end_at) : null,
       user_agent: req.headers["user-agent"] ?? null,
     });
 
