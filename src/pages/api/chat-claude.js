@@ -20,7 +20,7 @@ export default async function handler(req, res) {
       },
       body: JSON.stringify({
         model: 'claude-3-5-sonnet-20240620', // or your preferred model
-        max_tokens: 1024,
+        max_tokens: 2048,
         system: system || '',
         messages: messages || [],
       }),
