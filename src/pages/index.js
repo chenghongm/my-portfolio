@@ -6,13 +6,14 @@ export default function Landing() {
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-white flex flex-col items-center justify-center font-mono selection:bg-yellow-500/30">
       <Head>
+        <link rel="icon" href="./assets/eyes.gif" sizes="any" type="image/png"></link>
         <title>Chenghong Meng | Portfolios</title>
       </Head>
 
       <main className="max-w-5xl w-full px-8 flex flex-col md:flex-row items-center justify-center gap-16 md:gap-32">
         {/* Claude Style Link */}
-        <Link 
-          href="/claude-style" 
+        <Link
+          href="/claude-style"
           className="group relative flex flex-col items-center gap-8 transition-all duration-500 hover:-translate-x-4"
         >
           <div className="relative">
@@ -20,11 +21,11 @@ export default function Landing() {
               ←
             </div>
             <div className="absolute inset-0 flex items-center justify-center opacity-40 group-hover:opacity-100 transition-opacity duration-500">
-              <Image 
-                src="/assets/claude_icon.png" 
-                alt="Claude Icon" 
-                width={80} 
-                height={80} 
+              <Image
+                src="/assets/claude_icon.png"
+                alt="Claude Icon"
+                width={80}
+                height={80}
                 className="grayscale group-hover:grayscale-0 transition-all duration-500"
               />
             </div>
@@ -44,8 +45,8 @@ export default function Landing() {
         <div className="md:hidden w-32 h-px bg-gradient-to-r from-transparent via-gray-800 to-transparent" />
 
         {/* Gemini Style Link */}
-        <Link 
-          href="/gemini-style" 
+        <Link
+          href="/gemini-style"
           className="group relative flex flex-col items-center gap-8 transition-all duration-500 hover:translate-x-4"
         >
           <div className="text-center order-2 md:order-1">
@@ -59,11 +60,11 @@ export default function Landing() {
               →
             </div>
             <div className="absolute inset-0 flex items-center justify-center opacity-40 group-hover:opacity-100 transition-opacity duration-500">
-              <Image 
-                src="/assets/gemini_icon.png" 
-                alt="Gemini Icon" 
-                width={80} 
-                height={80} 
+              <Image
+                src="/assets/gemini_icon.png"
+                alt="Gemini Icon"
+                width={80}
+                height={80}
                 className="grayscale group-hover:grayscale-0 transition-all duration-500"
               />
             </div>
@@ -72,7 +73,7 @@ export default function Landing() {
           <div className="absolute -right-4 top-1/2 -translate-y-1/2 w-1 h-0 bg-green-500 transition-all duration-500 group-hover:h-32 opacity-0 group-hover:opacity-100" />
         </Link>
       </main>
-      
+
       <footer className="fixed bottom-12 text-gray-700 text-[10px] tracking-[0.3em] uppercase">
         Chenghong Meng — Systems & Engineering
       </footer>
