@@ -157,7 +157,18 @@ export default function Home() {
   const [history, setHistory] = useState([]);
   const [input, setInput] = useState("");
   const [isThinking, setIsThinking] = useState(false);
+  const [time, setTime] = useState("");
   const terminalBodyRef = useRef(null);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      const now = new Date();
+      setTime(now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }));
+    }, 1000);
+    const now = new Date();
+    setTime(now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }));
+    return () => clearInterval(timer);
+  }, []);
 
   useEffect(() => {
     if (terminalBodyRef.current) {
@@ -189,6 +200,13 @@ export default function Home() {
       } finally {
         setIsThinking(false);
       }
+    }
+  };
+
+  const scrollTo = (id) => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth" });
     }
   };
 
@@ -243,7 +261,7 @@ export default function Home() {
             </div>
           </WindowFrame>
 
-          <section className="section-block">
+          <section className="section-block" id="projects">
             <SectionHeader num="02" label="Projects" />
             <h2 className="section-heading">
               Selected
@@ -258,7 +276,7 @@ export default function Home() {
           </section>
 
           {/* Neural Link Terminal */}
-          <section className="section-block">
+          <section className="section-block" id="neural-link">
             <SectionHeader num="03" label="Neural Link" />
             <div className="terminal-window win95-inset">
               <div className="win95-header" style={{ marginBottom: 0 }}>
@@ -287,7 +305,7 @@ export default function Home() {
             </div>
           </section>
 
-          <section className="section-block">
+          <section className="section-block" id="how-i-work">
             <SectionHeader num="04" label="How I work" />
             <div className="work-grid">
               {workCards.map((card) => (
@@ -300,7 +318,7 @@ export default function Home() {
             </div>
           </section>
 
-          <section className="section-block">
+          <section className="section-block" id="contact">
             <SectionHeader num="05" label="Contact" />
             <h2 className="contact-heading">
               Let&apos;s build
@@ -315,6 +333,33 @@ export default function Home() {
           <span>Chenghong Meng — Full-Stack Developer - San Francisco, CA</span>
           <span>2026</span>
         </footer>
+      </div>
+
+      {/* Win95 Taskbar */}
+      <div className="win95-taskbar">
+        <div className="win95-start-btn" onClick={() => scrollTo("top")}>
+          <img src="/assets/gemini_icon.png" alt="Gemini" />
+          <span>Start</span>
+        </div>
+        <div className="taskbar-divider" />
+        <div className="taskbar-tabs">
+          <div className="taskbar-tab" onClick={() => scrollTo("projects")}>
+            Projects.exe
+          </div>
+          <div className="taskbar-tab" onClick={() => scrollTo("neural-link")}>
+            NeuralLink.com
+          </div>
+          <div className="taskbar-tab" onClick={() => scrollTo("how-i-work")}>
+            HowIWork.log
+          </div>
+          <div className="taskbar-tab" onClick={() => scrollTo("contact")}>
+            Contact.sys
+          </div>
+        </div>
+        <div className="taskbar-tray">
+          <img src="/assets/gemini_icon.png" alt="" style={{ width: 14, height: 14, filter: "grayscale(100%) brightness(0)" }} />
+          <span>{time}</span>
+        </div>
       </div>
     </div>
   );

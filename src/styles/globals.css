@@ -594,3 +594,123 @@ a {
     font-size: 11px;
   }
 }
+
+/* Windows 95 Taskbar */
+.win95-taskbar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 32px;
+  background: var(--win-bg);
+  border-top: 2px solid var(--win-white);
+  display: flex;
+  align-items: center;
+  padding: 2px;
+  gap: 4px;
+  z-index: 1000;
+  box-shadow: 0 -1px 0 var(--win-bg-dark);
+}
+
+.win95-start-btn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 6px;
+  background: var(--win-bg);
+  border-top: 1px solid var(--win-white);
+  border-left: 1px solid var(--win-white);
+  border-right: 1px solid var(--win-black);
+  border-bottom: 1px solid var(--win-black);
+  font-weight: 800;
+  font-size: 12px;
+  height: 24px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.win95-start-btn:active {
+  border-top: 1px solid var(--win-black);
+  border-left: 1px solid var(--win-black);
+  border-right: 1px solid var(--win-white);
+  border-bottom: 1px solid var(--win-white);
+  padding: 3px 5px 1px 7px;
+}
+
+.win95-start-btn img {
+  width: 16px;
+  height: 16px;
+}
+
+.taskbar-divider {
+  width: 2px;
+  height: 20px;
+  background: var(--win-bg-dark);
+  border-right: 1px solid var(--win-white);
+  margin: 0 2px;
+}
+
+.taskbar-tabs {
+  flex: 1;
+  display: flex;
+  gap: 3px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.taskbar-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.taskbar-tab {
+  min-width: 80px;
+  max-width: 160px;
+  padding: 2px 8px;
+  background: var(--win-bg);
+  border-top: 1px solid var(--win-white);
+  border-left: 1px solid var(--win-white);
+  border-right: 1px solid var(--win-black);
+  border-bottom: 1px solid var(--win-black);
+  font-size: 11px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: flex;
+  align-items: center;
+  height: 24px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.taskbar-tab:active, .taskbar-tab.active {
+  background: #e0e0e0;
+  border-top: 1px solid var(--win-black);
+  border-left: 1px solid var(--win-black);
+  border-right: 1px solid var(--win-white);
+  border-bottom: 1px solid var(--win-white);
+  padding: 3px 7px 1px 9px;
+  background-image: linear-gradient(45deg, #c0c0c0 25%, transparent 25%, transparent 75%, #c0c0c0 75%, #c0c0c0),
+    linear-gradient(45deg, #c0c0c0 25%, transparent 25%, transparent 75%, #c0c0c0 75%, #c0c0c0);
+  background-size: 2px 2px;
+  background-position: 0 0, 1px 1px;
+}
+
+.taskbar-tray {
+  padding: 2px 8px;
+  border-top: 1px solid var(--win-bg-dark);
+  border-left: 1px solid var(--win-bg-dark);
+  border-right: 1px solid var(--win-white);
+  border-bottom: 1px solid var(--win-white);
+  font-size: 11px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 24px;
+  margin-left: auto;
+  color: #000;
+}
+
+/* Adjust page shell to not be covered by taskbar */
+.gemini-theme .page-shell {
+  padding-bottom: 56px;
+}
