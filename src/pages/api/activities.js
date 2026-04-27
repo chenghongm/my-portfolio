@@ -33,6 +33,6 @@ export default async function POST(req) {
         return Response.json({ ok: true });
     } catch (e) {
         console.error("[log/activity]", e);
-        return res.status(500).json({ error: "Failed to log activity" });
+        return res.status(500).json({ error: e.message || "Failed to log activity" });
     }
 }
