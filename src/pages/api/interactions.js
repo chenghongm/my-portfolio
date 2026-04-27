@@ -9,7 +9,7 @@ export default async function POST(req) {
     try {
         const body = await req.json();
 
-        const { error } = await supabase.from("user_ai_interactions").insert({
+        const { data, error } = await supabase.from("user_ai_interactions").insert({
             user_prompt: body.user_prompt,
             ai_model: body.ai_model,
             ai_output: body.ai_output,
@@ -19,6 +19,8 @@ export default async function POST(req) {
             user_agent: req.headers.get("user-agent") ?? null,
 
         });
+        console.log("data:", data)
+        console.log("error:", JSON.stringify(error))
 
         if (error) {
             console.error(error);

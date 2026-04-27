@@ -10,7 +10,7 @@ export default async function POST(req) {
     try {
         const body = await req.json();
 
-        const { error } = await supabase.from("user_activities").insert({
+        const { data,error } = await supabase.from("user_activities").insert({
             user_forward_ip: req.headers.get("x-forwarded-for")?.split(",")[0].trim()
                 ?? null,
             user_remote_ip: req.headers.get("cf-connecting-ip") ?? null,
@@ -22,6 +22,8 @@ export default async function POST(req) {
             end_at: body.end_at ? new Date(body.end_at) : null,
             user_agent: req.headers.get("user-agent") ?? null,
         });
+        console.log("data:", data)
+        console.log("error:", JSON.stringify(error))
 
         if (error) {
             console.error(error);
