@@ -213,6 +213,7 @@ export default function Home() {
   return (
     <div className="gemini-theme">
       <Head>
+        <link rel="icon" href="./assets/eyes.gif" sizes="any" type="image/png"></link>
         <title>Chenghong Meng | Full-Stack Developer</title>
         <meta
           name="description"

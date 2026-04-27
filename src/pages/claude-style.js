@@ -152,7 +152,7 @@ export default function ClaudeStyle() {
     if (e.key === 'Enter' && inputValue.trim() && !isThinking) {
       const userText = inputValue.trim();
       setInputValue('');
-      
+
       setTerminalHistory(prev => {
         const next = [...prev];
         if (next[next.length - 1]?.text.endsWith('_')) next.pop();
@@ -164,7 +164,7 @@ export default function ClaudeStyle() {
       });
 
       setIsThinking(true);
-      
+
       try {
         const response = await fetch('/api/chat-claude', {
           method: 'POST',
@@ -200,6 +200,7 @@ export default function ClaudeStyle() {
   return (
     <div className={styles.container}>
       <Head>
+        <link rel="icon" href="./assets/eyes.gif" sizes="any" type="image/png"></link>
         <title>Chenghong Meng — Full-Stack Developer</title>
         <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@700;800&display=swap" rel="stylesheet" />
       </Head>
@@ -219,7 +220,7 @@ export default function ClaudeStyle() {
         <span className={styles.statusSep}>|</span>
         <div className={`${styles.statusItem} ${styles.statusStack}`}>STACK: Laravel · React · MySql · LLM · Python</div>
         <span className={styles.statusSep}>|</span>
-        <div className={styles.statusItem}>STATUS: 
+        <div className={styles.statusItem}>STATUS:
           <span className={styles.metaValueGreen} style={{ animation: 'blink 2s step-end infinite' }}> Available</span>
         </div>
         <span className={styles.statusSep}>|</span>
@@ -253,23 +254,23 @@ export default function ClaudeStyle() {
         </div>
 
         {/* Mac Hero Window Trigger */}
-        <div 
-          style={{ position:'fixed', top:'80px', right:'60px', width:'360px', zIndex:120 }}
+        <div
+          style={{ position: 'fixed', top: '80px', right: '60px', width: '360px', zIndex: 120 }}
           onClick={openTerminal}
         >
-          <div style={{ width:'100%', background:'#1e1e1e', border:'1px solid rgba(255,255,255,0.15)', borderRadius:'12px', overflow:'hidden', cursor:'pointer' }}>
-            <div style={{ background:'#2d2d2d', padding:'14px', display:'flex', gap:'8px', alignItems:'center' }}>
+          <div style={{ width: '100%', background: '#1e1e1e', border: '1px solid rgba(255,255,255,0.15)', borderRadius: '12px', overflow: 'hidden', cursor: 'pointer' }}>
+            <div style={{ background: '#2d2d2d', padding: '14px', display: 'flex', gap: '8px', alignItems: 'center' }}>
               <div className={`${styles.macBtn} ${styles.red}`}></div>
               <div className={`${styles.macBtn} ${styles.yellow}`}></div>
               <div className={`${styles.macBtn} ${styles.green}`}></div>
-              <span style={{ fontSize:'14px', letterSpacing:'2px', color:'white' }}>chenghong_terminal.sh</span>
+              <span style={{ fontSize: '14px', letterSpacing: '2px', color: 'white' }}>chenghong_terminal.sh</span>
             </div>
-            <div style={{ padding:'16px', fontSize:'12px', lineHeight:'2', color:'rgba(245,168,0,0.8)' }}>
+            <div style={{ padding: '16px', fontSize: '12px', lineHeight: '2', color: 'rgba(245,168,0,0.8)' }}>
               <div>// click anywhere to open terminal</div>
               <div>ASK_ME_ANYTHING_READY</div>
               <div>CONTEXT: projects · stack · experience</div>
-              <div style={{ marginTop:'10px' }}>
-                <span style={{ display:'inline-block', width:'8px', height:'14px', background:'#F5A800', animation: 'blink 1s step-end infinite' }}></span>
+              <div style={{ marginTop: '10px' }}>
+                <span style={{ display: 'inline-block', width: '8px', height: '14px', background: '#F5A800', animation: 'blink 1s step-end infinite' }}></span>
               </div>
             </div>
           </div>
@@ -282,8 +283,8 @@ export default function ClaudeStyle() {
           <span className={styles.terminalTitle}>chenghong@portfolio ~ bash</span>
         </div>
         <p className={styles.heroPrompt}><span>~/portfolio</span> $ whoami</p>
-        <h1 className={styles.heroTitle}>Full-Stack<br/><span className={styles.dimWord}>Developer</span><br/><span className={styles.hl}>who ships.</span></h1>
-        
+        <h1 className={styles.heroTitle}>Full-Stack<br /><span className={styles.dimWord}>Developer</span><br /><span className={styles.hl}>who ships.</span></h1>
+
         <div className={styles.heroMeta}>
           <div className={styles.metaCell}>
             <div className={styles.metaLabel}>Role</div>
@@ -310,7 +311,7 @@ export default function ClaudeStyle() {
             <div className={styles.sectionHeader}>
               <span className={styles.sectionNum}>01</span><span className={styles.sectionLine}></span><span className={styles.sectionLabel}>About</span>
             </div>
-            <h2 className={styles.sectionHeading}>Who<br/>I am.</h2>
+            <h2 className={styles.sectionHeading}>Who<br />I am.</h2>
             <p className={styles.aboutBody}>Full-stack engineer with a background in Biochemistry and 5+ years building production systems, specializing in LLM orchestration and compliance-grade workflows — seeking to apply domain knowledge in medical AI, drug discovery platforms, or healthcare management systems.</p>
             <p className={styles.aboutBody}>Currently deep into <strong style={{ color: '#F5A800' }}>AI tooling</strong>: local LLM fine-tuning pipelines, browser extensions, and the intersection where backend systems meet language models.</p>
             <div className={styles.logBlock}>
@@ -324,7 +325,7 @@ export default function ClaudeStyle() {
             <div className={styles.sectionHeader}>
               <span className={styles.sectionNum} style={{ visibility: 'hidden' }}>00</span><span className={styles.sectionLine}></span><span className={styles.sectionLabel}>Stack</span>
             </div>
-            <h2 className={styles.sectionHeading}>Tech<br/>Stack.</h2>
+            <h2 className={styles.sectionHeading}>Tech<br />Stack.</h2>
             <table className={styles.stackTable}>
               <tbody>
                 <tr><td>Laravel / PHP</td><td><div className={styles.bar} style={{ '--pct': '90%' }}></div></td><td>Primary</td></tr>
@@ -343,7 +344,7 @@ export default function ClaudeStyle() {
         <div className={`${styles.sectionHeader} ${styles.reveal}`}>
           <span className={styles.sectionNum}>02</span><span className={styles.sectionLine}></span><span className={styles.sectionLabel}>Projects</span>
         </div>
-        <h2 className={`${styles.sectionHeading} ${styles.reveal}`}>Selected<br/>Projects.</h2>
+        <h2 className={`${styles.sectionHeading} ${styles.reveal}`}>Selected<br />Projects.</h2>
         {projects.map((proj) => (
           <div key={proj.id} className={`${styles.projectItem} ${styles.reveal}`}>
             <span className={styles.projNum}>{proj.id}</span>
@@ -381,7 +382,7 @@ export default function ClaudeStyle() {
         <div className={`${styles.sectionHeader} ${styles.reveal}`}>
           <span className={styles.sectionNum}>04</span><span className={styles.sectionLine}></span><span className={styles.sectionLabel}>Contact</span>
         </div>
-        <h2 className={`${styles.contactHeading} ${styles.reveal}`}>Let's build<br/><span>something.</span></h2>
+        <h2 className={`${styles.contactHeading} ${styles.reveal}`}>Let's build<br /><span>something.</span></h2>
         <div className={`${styles.contactGrid} ${styles.reveal}`}>
           <a href="mailto:mengchh01@gmail.com" className={styles.contactLink}>mengchh01@gmail.com</a>
           <a href="https://github.com/chenghongm" className={styles.contactLink} target="_blank">⌥ GitHub</a>
@@ -401,7 +402,7 @@ export default function ClaudeStyle() {
         <div className={`${styles.terminalOverlay} ${styles.active}`}>
           <div className={styles.terminalWindow}>
             <div className={styles.termTitlebar}>
-              <div style={{ display:'flex', gap:'7px' }}>
+              <div style={{ display: 'flex', gap: '7px' }}>
                 <button className={`${styles.macBtn} ${styles.red}`} onClick={() => setIsTerminalOpen(false)}></button>
                 <button className={`${styles.macBtn} ${styles.yellow}`} onClick={() => setIsTerminalOpen(false)}></button>
                 <button className={`${styles.macBtn} ${styles.green}`}></button>
@@ -417,10 +418,10 @@ export default function ClaudeStyle() {
             </div>
             <div className={styles.termInputRow}>
               <span className={styles.termPromptLabel}>~/portfolio $</span>
-              <input 
+              <input
                 ref={termInputRef}
-                type="text" 
-                className={styles.termInput} 
+                type="text"
+                className={styles.termInput}
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
                 onKeyDown={handleTerminalSubmit}
@@ -444,12 +445,12 @@ export default function ClaudeStyle() {
               <p><strong>CHENGHONG_MENG_UNSTOPPABLE_FOUNDATION</strong></p>
               <p>LLAMA_3_PERSONALITY_SYNC_COMPLETE</p>
               <p>TARGET_LOCKED: <span style={{ color: '#00ff88' }}>NEXT_OPPORTUNITY</span></p>
-              <p style={{ marginTop:'16px', color:'rgba(254, 254, 254, 0.899)', fontSize:'14px', letterSpacing:'2px' }}>
+              <p style={{ marginTop: '16px', color: 'rgba(254, 254, 254, 0.899)', fontSize: '14px', letterSpacing: '2px' }}>
                 😎 You found it. Now hire me, or ...Email me for more info.
               </p>
             </div>
             <div style={{ padding: '12px 20px', borderTop: '1px solid rgba(255, 255, 255, 0.08)', display: 'flex', justifyContent: 'flex-end' }}>
-              <button 
+              <button
                 onClick={() => setIsEasterEggOpen(false)}
                 style={{ fontFamily: 'Space Mono, monospace', fontSize: '10px', letterSpacing: '2px', background: 'none', border: '1px solid rgba(255, 255, 255, 0.2)', color: 'rgba(255, 255, 255, 0.5)', padding: '6px 14px', cursor: 'pointer' }}
               >
