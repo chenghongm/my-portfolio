@@ -3,7 +3,8 @@ import { useState, useRef, useEffect } from "react";
 
 const projects = [
   {
-    id: "01",
+    id: "proj_qpr",
+    num: "01",
     windowTitle: "APP://QPR_SYSTEM_UPGRADE.EXE",
     title: "AI-assistant QPR (Quarterly Progress Report) System Upgrade",
     description:
@@ -13,7 +14,8 @@ const projects = [
     year: "2026",
   },
   {
-    id: "02",
+    id: "proj_llm_pipeline",
+    num: "02",
     windowTitle: "ML://LOCAL_LLM_PIPELINE.SH",
     title: "Local LLM Training Pipeline",
     description:
@@ -23,7 +25,8 @@ const projects = [
     year: "2026",
   },
   {
-    id: "03",
+    id: "proj_workbench",
+    num: "03",
     windowTitle: "APP://AI_CHAT_WORKBENCH.EXE",
     title: "AI Chat Workbench Extension",
     description:
@@ -33,7 +36,8 @@ const projects = [
     year: "2026",
   },
   {
-    id: "04",
+    id: "proj_scorer",
+    num: "04",
     windowTitle: "ML://MULTI_MODEL_SCORER.SH",
     title: "Multi-model Scoring Pipeline",
     description:
@@ -46,18 +50,21 @@ const projects = [
 
 const workCards = [
   {
+    id: "work_scope",
     num: "01 // scope",
     title: "Scope first.",
     description:
       "Break tasks by complexity before touching code. Know the blast radius before you dig.",
   },
   {
+    id: "work_iterate",
     num: "02 // iterate",
     title: "Iterate tight.",
     description:
       "File by file. Line by line. Fresh context when things go in circles. No spaghetti.",
   },
   {
+    id: "work_ship",
     num: "03 // ship",
     title: "Ship, then refine.",
     description:
@@ -66,6 +73,41 @@ const workCards = [
 ];
 
 const SYSTEM_PROMPT = `You are Chenghong's portfolio assistant (Gemini Edition). You help visitors understand Chenghong's work. Answer concisely and professionally. Focus on Backend, LLMs, and System Architecture.`;
+
+async function trackActivity(event, sectionId, extra = {}) {
+
+  try {
+    await fetch("/api/activities", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        from_page: "gemini-style",
+        section_id: sectionId,
+        event: event,
+        start_at: extra.start_at || new Date().toISOString(),
+        ...extra,
+      }),
+    });
+  } catch (err) {
+    console.error("Activity tracking failed", err);
+  }
+}
+
+async function trackInteraction(prompt, model, output) {
+  try {
+    await fetch("/api/interactions", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        user_prompt: prompt,
+        ai_model: model,
+        ai_output: output,
+      }),
+    });
+  } catch (err) {
+    console.error("Interaction tracking failed", err);
+  }
+}
 
 function SectionHeader({ num, label }) {
   return (
@@ -77,9 +119,9 @@ function SectionHeader({ num, label }) {
   );
 }
 
-function WindowFrame({ title, children, className = "", compact = false }) {
+function WindowFrame({ title, children, id, className = "", compact = false }) {
   return (
-    <section className={`win95-window ${className}`}>
+    <section id={id} className={`win95-window ${className}`} onClick={() => id && trackActivity("click", id)}>
       <div className="win95-header">
         <span>{title}</span>
         <div className="win95-controls" aria-hidden="true">
@@ -102,14 +144,15 @@ function WindowFrame({ title, children, className = "", compact = false }) {
 function ProjectCard({ project }) {
   return (
     <WindowFrame
+      id={project.id}
       title={project.windowTitle}
-      className={`project-window ${project.id === "01" || project.id === "04" ? "project-window-wide" : ""}`}
+      className={`project-window ${project.num === "01" || project.num === "04" ? "project-window-wide" : ""}`}
       compact
     >
       <div className="project-panel win95-inset">
         <div className="project-card-top">
           <div>
-            <div className="project-id">{project.id}</div>
+            <div className="project-id">{project.num}</div>
             <h3 className="project-title">{project.title}</h3>
           </div>
           <div className="project-side">
@@ -132,9 +175,9 @@ function ProjectCard({ project }) {
 
 function ContactBlock() {
   return (
-    <WindowFrame title="CONTACT://CHANNELS.SYS" className="contact-window" compact>
+    <WindowFrame id="contact_block" title="CONTACT://CHANNELS.SYS" className="contact-window" compact>
       <div className="contact-grid">
-        <a className="contact-link" href="mailto:mengchh01@gmail.com">
+        <a className="contact-link" href="mailto:mengchh01@gmail.com" onClick={() => trackActivity("click", "contact_email")}>
           mengchh01@gmail.com
         </a>
         <a
@@ -142,10 +185,11 @@ function ContactBlock() {
           href="https://github.com/chenghongm"
           target="_blank"
           rel="noreferrer"
+          onClick={() => trackActivity("click", "contact_github")}
         >
           ⌥ GitHub
         </a>
-        <a className="contact-link" href="https://www.linkedin.com/in/chenghong-m-6ab022103">
+        <a className="contact-link" href="https://www.linkedin.com/in/chenghong-m-6ab022103" onClick={() => trackActivity("click", "contact_linkedin")}>
           → LinkedIn
         </a>
       </div>
@@ -161,6 +205,7 @@ export default function Home() {
   const terminalBodyRef = useRef(null);
 
   useEffect(() => {
+    trackActivity("session_start", "page_load");
     const timer = setInterval(() => {
       const now = new Date();
       setTime(now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }));
@@ -182,9 +227,10 @@ export default function Home() {
       setInput("");
       setHistory((prev) => [...prev, { role: "user", content: userMsg }]);
       setIsThinking(true);
+      trackActivity("chat_submit", "gemini_terminal");
 
       try {
-        const response = await fetch("/api/chat-gemini", {
+        const response = await fetch("/api/py/chat/gemini", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -195,6 +241,7 @@ export default function Home() {
         const data = await response.json();
         const aiMsg = data.content?.[0]?.text || data.reply || "COMMAND_NOT_FOUND";
         setHistory((prev) => [...prev, { role: "assistant", content: aiMsg }]);
+        trackInteraction(userMsg, "gemini-1.5-flash", aiMsg);
       } catch (err) {
         setHistory((prev) => [...prev, { role: "assistant", content: `ERROR: ${err.message}` }]);
       } finally {
@@ -207,6 +254,7 @@ export default function Home() {
     const el = document.getElementById(id);
     if (el) {
       el.scrollIntoView({ behavior: "smooth" });
+      trackActivity("nav_click", id);
     }
   };
 
@@ -222,7 +270,7 @@ export default function Home() {
       </Head>
       <div className="page-shell" id="top">
         <main className="page-grid">
-          <WindowFrame title="IDENTITY_V95.SYS" className="hero-window">
+          <WindowFrame id="hero_window" title="IDENTITY_V95.SYS" className="hero-window">
             <div className="hero-layout">
               <div className="hero-copy">
                 <h1 className="hero-title">
@@ -262,7 +310,7 @@ export default function Home() {
             </div>
           </WindowFrame>
 
-          <section className="section-block" id="projects">
+          <section className="section-block" id="sec_projects">
             <SectionHeader num="02" label="Projects" />
             <h2 className="section-heading">
               Selected
@@ -277,7 +325,7 @@ export default function Home() {
           </section>
 
           {/* Neural Link Terminal */}
-          <section className="section-block" id="neural-link">
+          <section className="section-block" id="sec_neural_link">
             <SectionHeader num="03" label="Neural Link" />
             <div className="terminal-window win95-inset">
               <div className="win95-header" style={{ marginBottom: 0 }}>
@@ -306,11 +354,11 @@ export default function Home() {
             </div>
           </section>
 
-          <section className="section-block" id="how-i-work">
+          <section className="section-block" id="sec_how_i_work">
             <SectionHeader num="04" label="How I work" />
             <div className="work-grid">
               {workCards.map((card) => (
-                <article key={card.num} className="work-card">
+                <article key={card.id} id={card.id} className="work-card" onClick={() => trackActivity("click", card.id)}>
                   <div className="work-card-num">{card.num}</div>
                   <h3 className="work-card-title">{card.title}</h3>
                   <p className="work-card-desc">{card.description}</p>
@@ -319,7 +367,7 @@ export default function Home() {
             </div>
           </section>
 
-          <section className="section-block" id="contact">
+          <section className="section-block" id="sec_contact">
             <SectionHeader num="05" label="Contact" />
             <h2 className="contact-heading">
               Let&apos;s build
@@ -344,16 +392,16 @@ export default function Home() {
         </div>
         <div className="taskbar-divider" />
         <div className="taskbar-tabs">
-          <div className="taskbar-tab" onClick={() => scrollTo("projects")}>
+          <div className="taskbar-tab" onClick={() => scrollTo("sec_projects")}>
             Projects.exe
           </div>
-          <div className="taskbar-tab" onClick={() => scrollTo("neural-link")}>
+          <div className="taskbar-tab" onClick={() => scrollTo("sec_neural_link")}>
             NeuralLink.com
           </div>
-          <div className="taskbar-tab" onClick={() => scrollTo("how-i-work")}>
+          <div className="taskbar-tab" onClick={() => scrollTo("sec_how_i_work")}>
             HowIWork.log
           </div>
-          <div className="taskbar-tab" onClick={() => scrollTo("contact")}>
+          <div className="taskbar-tab" onClick={() => scrollTo("sec_contact")}>
             Contact.sys
           </div>
         </div>
