@@ -19,8 +19,7 @@ export default async function handler(req, res) {
       ai_output: body.ai_output,
       user_remote_addr: req.headers["x-forwarded-for"]?.split(",")[0].trim()
                         ?? req.headers["cf-connecting-ip"]
-                        ?? null,
-      user_agent: req.headers["user-agent"] ?? null,
+                        ?? null
     });
 
     if (error) {
