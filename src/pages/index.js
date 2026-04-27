@@ -1,78 +1,87 @@
-import Image from "next/image";
-import { Geist, Geist_Mono } from "next/font/google";
+import Link from 'next/link';
+import Head from 'next/head';
+import Image from 'next/image';
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
-export default function Home() {
+export default function Landing() {
   return (
-    <div
-      className={`${geistSans.className} ${geistMono.className} flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black`}
-    >
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the index.js file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs/pages/getting-started?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
+    <div className="min-h-screen bg-[#0a0a0a] text-white flex flex-col items-center justify-center font-mono selection:bg-yellow-500/30">
+      <Head>
+        <title>Chenghong Meng | Portfolios</title>
+      </Head>
+
+      <main className="max-w-5xl w-full px-8 flex flex-col md:flex-row items-center justify-center gap-16 md:gap-32">
+        {/* Claude Style Link */}
+        <Link 
+          href="/claude-style" 
+          className="group relative flex flex-col items-center gap-8 transition-all duration-500 hover:-translate-x-4"
+        >
+          <div className="relative">
+            <div className="text-8xl md:text-9xl font-light text-white/10 group-hover:text-yellow-500/20 transition-colors duration-500 ease-out">
+              ←
+            </div>
+            <div className="absolute inset-0 flex items-center justify-center opacity-40 group-hover:opacity-100 transition-opacity duration-500">
+              <Image 
+                src="/assets/claude_icon.png" 
+                alt="Claude Icon" 
+                width={80} 
+                height={80} 
+                className="grayscale group-hover:grayscale-0 transition-all duration-500"
+              />
+            </div>
+          </div>
+          <div className="text-center">
+            <h2 className="text-3xl font-bold tracking-tighter mb-3 uppercase group-hover:text-yellow-500 transition-colors">Claude Style</h2>
+            <p className="text-gray-500 text-sm max-w-[200px] leading-relaxed">
+              Modern terminal interface, dark aesthetic, spacious layout.
+            </p>
+          </div>
+          {/* Decorative line */}
+          <div className="absolute -left-4 top-1/2 -translate-y-1/2 w-1 h-0 bg-yellow-500 transition-all duration-500 group-hover:h-32 opacity-0 group-hover:opacity-100" />
+        </Link>
+
+        {/* Vertical Divider */}
+        <div className="hidden md:block h-64 w-px bg-gradient-to-b from-transparent via-gray-800 to-transparent" />
+        <div className="md:hidden w-32 h-px bg-gradient-to-r from-transparent via-gray-800 to-transparent" />
+
+        {/* Gemini Style Link */}
+        <Link 
+          href="/gemini-style" 
+          className="group relative flex flex-col items-center gap-8 transition-all duration-500 hover:translate-x-4"
+        >
+          <div className="text-center order-2 md:order-1">
+            <h2 className="text-3xl font-bold tracking-tighter mb-3 uppercase group-hover:text-green-500 transition-colors">Gemini Style</h2>
+            <p className="text-gray-500 text-sm max-w-[200px] leading-relaxed">
+              Windows 95 nostalgia, lab aesthetic, retro precision.
+            </p>
+          </div>
+          <div className="relative order-1 md:order-2">
+            <div className="text-8xl md:text-9xl font-light text-white/10 group-hover:text-green-500/20 transition-colors duration-500 ease-out">
+              →
+            </div>
+            <div className="absolute inset-0 flex items-center justify-center opacity-40 group-hover:opacity-100 transition-opacity duration-500">
+              <Image 
+                src="/assets/gemini_icon.png" 
+                alt="Gemini Icon" 
+                width={80} 
+                height={80} 
+                className="grayscale group-hover:grayscale-0 transition-all duration-500"
+              />
+            </div>
+          </div>
+          {/* Decorative line */}
+          <div className="absolute -right-4 top-1/2 -translate-y-1/2 w-1 h-0 bg-green-500 transition-all duration-500 group-hover:h-32 opacity-0 group-hover:opacity-100" />
+        </Link>
       </main>
+      
+      <footer className="fixed bottom-12 text-gray-700 text-[10px] tracking-[0.3em] uppercase">
+        Chenghong Meng — Systems & Engineering
+      </footer>
+
+      {/* Background decoration */}
+      <div className="fixed inset-0 pointer-events-none z-[-1] overflow-hidden">
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-yellow-500/5 rounded-full blur-[128px]" />
+        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-green-500/5 rounded-full blur-[128px]" />
+      </div>
     </div>
   );
 }
