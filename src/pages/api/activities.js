@@ -6,6 +6,11 @@ const supabase = createClient(
 );
 
 export default async function POST(req) {
+   
+  console.log("URL:", process.env.mybase_SUPABASE_URL)
+  console.log("KEY:", process.env.mybase_SUPABASE_SERVICE_ROLE_KEY ? "exists" : "missing")
+
+
   try {
     const body = await req.json();
 
