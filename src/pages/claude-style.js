@@ -173,7 +173,7 @@ export default function ClaudeStyle() {
       setIsThinking(true);
       
       try {
-        const response = await fetch('/api/py/chat/claude', {
+        const response = await fetch('/api/chat-claude', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({

@@ -230,7 +230,7 @@ export default function Home() {
       trackActivity("chat_submit", "gemini_terminal");
 
       try {
-        const response = await fetch("/api/py/chat/gemini", {
+        const response = await fetch("/api/chat-gemini", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
