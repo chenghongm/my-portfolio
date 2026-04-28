@@ -229,8 +229,8 @@ export default function ClaudeStyle() {
         <div className={styles.statusItem}>STATUS:
           <span className={styles.metaValueGreen} style={{ animation: 'blink 2s step-end infinite' }}> Available</span>
         </div>
-        <div className={styles.statusItem}>Laravel/React</div>
         <span className={styles.statusSep}>|</span>
+        <div className={styles.statusItem}>STACK: Laravel/React/MySQL/Python</div>
         <span className={styles.statusSep}>|</span>
         <div className={styles.statusItem}>{time}</div>
       </div>
