@@ -199,6 +199,7 @@ export default function ClaudeStyle() {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             system: SYSTEM_PROMPT,
+            model: MODEL_NAME,
             messages: [{ role: 'user', content: userText }],
             turnstile_token: token,
           })
