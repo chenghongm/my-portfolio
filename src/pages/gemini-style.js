@@ -204,6 +204,24 @@ export default function Home() {
   const [time, setTime] = useState("");
   const terminalBodyRef = useRef(null);
 
+  // ✅ Invisible 模式正确写法（先 render，再 execute）
+  const getToken = () => {
+    return new Promise((resolve) => {
+      const container = document.createElement("div");
+      document.body.appendChild(container);
+
+      window.turnstile.render(container, {
+        sitekey: process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY,
+        action: "chat",
+        appearance: "invisible",
+        callback: (token) => {
+          resolve(token);
+          document.body.removeChild(container); // 用完清掉
+        },
+      });
+    });
+  };
+
   useEffect(() => {
     trackActivity("session_start", "page_load");
     const timer = setInterval(() => {

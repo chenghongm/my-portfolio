@@ -109,12 +109,21 @@ export default function ClaudeStyle() {
   const termInputRef = useRef(null);
 
 
+  // ✅ Invisible 模式正确写法（先 render，再 execute）
   const getToken = () => {
     return new Promise((resolve) => {
-      window.turnstile.execute(
-        process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY,
-        { action: "chat", callback: (token) => resolve(token) }
-      );
+      const container = document.createElement("div");
+      document.body.appendChild(container);
+
+      window.turnstile.render(container, {
+        sitekey: process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY,
+        action: "chat",
+        appearance: "invisible",
+        callback: (token) => {
+          resolve(token);
+          document.body.removeChild(container); // 用完清掉
+        },
+      });
     });
   };
 
