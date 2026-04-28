@@ -216,7 +216,7 @@ export default function Home() {
         appearance: "execute",
         callback: (token) => {
           resolve(token);
-          document.body.removeChild(container); // 用完清掉
+          document.body.removeChild(container); // 清理 DOM
         },
       });
     });
