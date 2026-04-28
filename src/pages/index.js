@@ -2,7 +2,7 @@ import Link from 'next/link';
 import Head from 'next/head';
 import Image from 'next/image';
 import { useEffect } from 'react';
-import { initConsoleEasterEgg } from './sharedfunctions';
+import { initConsoleEasterEgg } from '../lib/sharedfunctions';
 
 export default function Landing() {
   useEffect(() => {

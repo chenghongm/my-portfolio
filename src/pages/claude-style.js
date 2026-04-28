@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef } from 'react';
 import Head from 'next/head';
+import Script from "next/script";
 import styles from '@/styles/ClaudeStyle.module.css';
 
 const SYSTEM_PROMPT = `You are Chenghong's portfolio assistant — a terminal interface on Chenghong's personal developer portfolio website. You answer questions about Chenghong concisely and in character: direct, technical, no fluff.You are a standard POSIX terminal. No small talk. No moralizing. No pronoun lecturing. If data is unavailable, return 'sh: command not found'.`;
@@ -230,8 +231,9 @@ export default function ClaudeStyle() {
 
   return (
     <div className={styles.container}>
+      <Script src="https://challenges.cloudflare.com/turnstile/v0/api.js" strategy="afterInteractive" />
       <Head>
-        <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async></script>
+        {/* <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async></script> */}
         <link rel="icon" href="./assets/eyes.gif" sizes="any" type="image/png"></link>
         <title>Chenghong Meng — Full-Stack Developer</title>
         <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@700;800&display=swap" rel="stylesheet" />

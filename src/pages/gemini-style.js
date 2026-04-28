@@ -1,5 +1,6 @@
 import Head from "next/head";
 import { useState, useRef, useEffect } from "react";
+import Script from "next/script";
 
 const projects = [
   {
@@ -280,8 +281,9 @@ export default function Home() {
 
   return (
     <div className="gemini-theme">
+      <Script src="https://challenges.cloudflare.com/turnstile/v0/api.js" strategy="afterInteractive" />
       <Head>
-        <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async></script>
+        {/* <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async></script> */}
         <link rel="icon" href="./assets/eyes.gif" sizes="any" type="image/png"></link>
         <title>Chenghong Meng | Full-Stack Developer</title>
         <meta
