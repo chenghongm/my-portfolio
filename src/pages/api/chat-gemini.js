@@ -1,4 +1,22 @@
 export default async function handler(req, res) {
+  // Turnstile 验证
+  const verify = await fetch(
+    "https://challenges.cloudflare.com/turnstile/v0/siteverify",
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        secret: process.env.TURNSTILE_SECRET,
+        response: req.body.turnstile_token,
+      }),
+    }
+  );
+  const result = await verify.json();
+  if (!result.success) {
+    return res.status(403).json({ error: "Bot detected" });
+  }
+
+  // 1. 验证请求方法
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }

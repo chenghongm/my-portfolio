@@ -230,12 +230,14 @@ export default function Home() {
       trackActivity("chat_submit", "gemini_terminal");
 
       try {
+        const token = await getToken();
         const response = await fetch("/api/chat-gemini", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             system: SYSTEM_PROMPT,
             messages: [{ role: "user", content: userMsg }],
+            turnstile_token: token,
           }),
         });
         const data = await response.json();
@@ -261,6 +263,7 @@ export default function Home() {
   return (
     <div className="gemini-theme">
       <Head>
+        <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async></script>
         <link rel="icon" href="./assets/eyes.gif" sizes="any" type="image/png"></link>
         <title>Chenghong Meng | Full-Stack Developer</title>
         <meta

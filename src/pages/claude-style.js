@@ -108,6 +108,16 @@ export default function ClaudeStyle() {
   const termBodyRef = useRef(null);
   const termInputRef = useRef(null);
 
+
+  const getToken = () => {
+    return new Promise((resolve) => {
+      window.turnstile.execute(
+        process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY,
+        { action: "chat", callback: (token) => resolve(token) }
+      );
+    });
+  };
+
   useEffect(() => {
     trackActivity("session_start", "page_load");
     // Clock
@@ -173,12 +183,14 @@ export default function ClaudeStyle() {
       setIsThinking(true);
 
       try {
+        const token = await getToken();
         const response = await fetch('/api/chat-claude', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             system: SYSTEM_PROMPT,
-            messages: [{ role: 'user', content: userText }]
+            messages: [{ role: 'user', content: userText }],
+            turnstile_token: token,
           })
         });
 
@@ -208,6 +220,7 @@ export default function ClaudeStyle() {
   return (
     <div className={styles.container}>
       <Head>
+        <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async></script>
         <link rel="icon" href="./assets/eyes.gif" sizes="any" type="image/png"></link>
         <title>Chenghong Meng — Full-Stack Developer</title>
         <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@700;800&display=swap" rel="stylesheet" />
