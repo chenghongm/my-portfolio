@@ -118,7 +118,7 @@ export default function ClaudeStyle() {
       window.turnstile.render(container, {
         sitekey: process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY,
         action: "chat",
-        appearance: "invisible",
+        appearance: "execute",
         callback: (token) => {
           resolve(token);
           document.body.removeChild(container); // 用完清掉
