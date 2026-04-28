@@ -1,0 +1,673 @@
+/* GeminiStyle.module.css */
+
+:root {
+  --win-bg: #c0c0c0;
+  --win-bg-dark: #a6a6a6;
+  --win-white: #ffffff;
+  --win-black: #000000;
+  --win-blue: #000080;
+  --win-blue-light: #1084d0;
+  --win-green: #259f4e;
+  --win-text: #111111;
+  --win-text-soft: #333333;
+  --win-accent: #4ade80;
+  --page-bg: #0a0a0a;
+}
+
+.metaValueGreen {
+  color: var(--win-green);
+  animation: blink 2s step-end infinite;
+}
+
+/* Win95 / Gemini Theme specific body styles */
+.geminiTheme {
+  min-height: 100vh;
+  background: url('/assets/night.jpg') no-repeat center center fixed;
+  background-size: cover;
+  color: var(--win-text);
+  font-family: "JetBrains Mono", monospace;
+  position: relative;
+}
+
+.geminiTheme::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(255, 255, 255, 0.03) 0,
+    rgba(255, 255, 255, 0.03) 1px,
+    transparent 1px,
+    transparent 4px
+  );
+  mix-blend-mode: soft-light;
+  z-index: 0;
+}
+
+.pageShell {
+  min-height: 100vh;
+  padding: 24px 16px 32px;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(2px);
+}
+
+.pageGrid {
+  max-width: 1180px;
+  margin: 0 auto;
+  display: grid;
+  gap: 32px;
+}
+
+.win95Window {
+  background: var(--win-bg);
+  border-top: 2px solid var(--win-white);
+  border-left: 2px solid var(--win-white);
+  border-right: 2px solid var(--win-black);
+  border-bottom: 2px solid var(--win-black);
+  box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.455);
+}
+
+.win95Header {
+  min-height: 26px;
+  padding: 4px 6px 4px 8px;
+  background: linear-gradient(90deg, var(--win-blue) 0%, var(--win-blue-light) 100%);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.win95Controls {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.win95Btn {
+  width: 16px;
+  height: 14px;
+  background: var(--win-bg);
+  border-top: 1px solid var(--win-white);
+  border-left: 1px solid var(--win-white);
+  border-right: 1px solid var(--win-black);
+  border-bottom: 1px solid var(--win-black);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.win95Btn:active {
+  border-top: 1px solid var(--win-black);
+  border-left: 1px solid var(--win-black);
+  border-right: 1px solid var(--win-white);
+  border-bottom: 1px solid var(--win-white);
+  transform: translate(1px, 1px);
+}
+
+.iconMin {
+  width: 6px;
+  height: 1px;
+  background: var(--win-black);
+  margin-top: 6px;
+}
+
+.iconMax {
+  width: 7px;
+  height: 6px;
+  border: 1px solid var(--win-black);
+  border-top-width: 2px;
+}
+
+.iconClose {
+  font-size: 12px;
+  line-height: 1;
+  color: var(--win-black);
+  margin-top: -1px;
+}
+
+.win95Body {
+  padding: 24px;
+}
+
+.win95Body.compact {
+  padding: 18px 20px 20px;
+}
+
+.heroLayout {
+  display: grid;
+  gap: 24px;
+  align-items: center;
+}
+
+.heroCopy {
+  display: grid;
+  gap: 12px;
+}
+
+.heroTitle {
+  margin: 0;
+  font-size: clamp(2rem, 4.8vw, 4.6rem);
+  line-height: 0.95;
+  letter-spacing: -0.08em;
+  font-weight: 800;
+  color: #000;
+}
+
+.heroTitleSub {
+  display: block;
+  margin-top: 14px;
+  font-size: clamp(0.82rem, 1.3vw, 1.06rem);
+  line-height: 1.3;
+  letter-spacing: 0.02em;
+  color: #000080;
+  font-weight: 700;
+}
+
+.heroSummary {
+  max-width: 62ch;
+  padding: 12px 14px;
+  background: #fff;
+  border-top: 2px solid var(--win-black);
+  border-left: 2px solid var(--win-black);
+  border-right: 2px solid var(--win-white);
+  border-bottom: 2px solid var(--win-white);
+  color: var(--win-text-soft);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.heroMeta {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  border-top: 1px solid var(--win-black);
+  border-left: 1px solid var(--win-black);
+  border-right: 1px solid var(--win-black);
+  border-bottom: 1px solid var(--win-black);
+}
+
+.metaCell {
+  min-width: 0;
+  padding: 12px 14px;
+  background: #d9d9d9;
+  border-right: 1px solid rgba(0, 0, 0, 0.28);
+}
+
+.metaCell:last-child {
+  border-right: none;
+}
+
+.metaLabel,
+.projectId,
+.workCardNum {
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #000080;
+  font-weight: 700;
+}
+
+.metaValue {
+  margin-top: 6px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #111;
+  word-break: break-word;
+}
+
+.metaValueGreen {
+  color: var(--win-green);
+  animation: blink 2s step-end infinite;
+}
+
+.heroArt {
+  margin: 0;
+  width: 100%;
+  padding: 16px 18px;
+  background: #111;
+  color: #61d66d;
+  border-top: 2px solid #000;
+  border-left: 2px solid #000;
+  border-right: 2px solid #fff;
+  border-bottom: 2px solid #fff;
+  font-size: 10px;
+  line-height: 1.35;
+  overflow: auto;
+}
+
+.sectionBlock {
+  display: grid;
+  gap: 18px;
+  padding: 18px 16px 20px;
+  background: linear-gradient(180deg, rgba(16, 16, 16, 0.92), rgba(10, 10, 10, 0.84));
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    0 12px 32px rgba(0, 0, 0, 0.2);
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.sectionNum {
+  color: #7dd3fc;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-shadow: 0 0 10px rgba(125, 211, 252, 0.2);
+}
+
+.sectionLine {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(125, 211, 252, 0.02), rgba(255, 255, 255, 0.32), rgba(125, 211, 252, 0.02));
+}
+
+.sectionLabel {
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.24em;
+  font-weight: 700;
+}
+
+.sectionHeading,
+.contactHeading {
+  margin: 0;
+  color: #f5f7fa;
+  font-weight: 800;
+  letter-spacing: -0.05em;
+  line-height: 0.94;
+  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.55);
+}
+
+.sectionHeading {
+  font-size: clamp(2rem, 4vw, 4.2rem);
+}
+
+.contactHeading {
+  font-size: clamp(2rem, 4vw, 3.6rem);
+}
+
+.projectsGrid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+}
+
+.projectWindow {
+  grid-column: span 6;
+  min-width: 0;
+  width: 100%;
+}
+
+.projectWindowWide {
+  grid-column: span 12;
+  min-width: 0;
+  width: 100%;
+}
+
+.projectWindow .win95Body {
+  padding: 10px;
+}
+
+.projectWindow .win95Header {
+  min-width: 0;
+}
+
+.projectWindow .win95Header > span:first-child {
+  min-width: 0;
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.projectWindow .win95Controls {
+  flex-shrink: 0;
+}
+
+.projectPanel {
+  padding: 18px 16px 16px;
+  background: #f5f5f5;
+  display: grid;
+  gap: 14px;
+  min-height: 100%;
+}
+
+.projectCardTop {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.projectTitle {
+  margin: 8px 0 0;
+  color: #000;
+  font-size: 1.1rem;
+  line-height: 1.35;
+}
+
+.projectSide {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.projectStatus {
+  color: #0b6b2b;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.projectYear {
+  margin-top: 4px;
+  font-size: 12px;
+  color: rgba(0, 0, 0, 0.68);
+}
+
+.projectDesc {
+  margin: 0;
+  color: var(--win-text-soft);
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.projectTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.projectTag {
+  padding: 4px 8px 5px;
+  background: #ececec;
+  border-top: 1px solid #fff;
+  border-left: 1px solid #fff;
+  border-right: 1px solid #666;
+  border-bottom: 1px solid #666;
+  color: #000080;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.workGrid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.workCard {
+  padding: 18px;
+  background: #d0d0d0;
+  border-top: 2px solid var(--win-white);
+  border-left: 2px solid var(--win-white);
+  border-right: 2px solid var(--win-black);
+  border-bottom: 2px solid var(--win-black);
+  min-height: 100%;
+}
+
+.workCardTitle {
+  margin: 10px 0 12px;
+  color: #000;
+  font-size: 1.2rem;
+}
+
+.workCardDesc {
+  margin: 0;
+  color: var(--win-text-soft);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.contactWindow {
+  max-width: 100%;
+}
+
+.contactGrid {
+  display: grid;
+  gap: 12px;
+}
+
+.contactLink {
+  display: block;
+  padding: 14px 16px;
+  background: rgba(255, 255, 255, 0.96);
+  border-top: 2px solid var(--win-white);
+  border-left: 2px solid var(--win-white);
+  border-right: 2px solid var(--win-black);
+  border-bottom: 2px solid var(--win-black);
+  color: #000080;
+  font-weight: 700;
+}
+
+.contactLink:hover {
+  background: #f2f2f2;
+}
+
+/* Win95 Terminal Styles */
+.terminalWindow {
+  margin-top: 40px;
+  background: #000;
+  border: 2px solid var(--win-black);
+  box-shadow: inset 2px 2px 0 rgba(255, 255, 255, 0.2);
+  color: #4ade80;
+  font-family: "JetBrains Mono", monospace;
+}
+
+.terminalBody {
+  height: 300px;
+  overflow-y: auto;
+  padding: 16px;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.terminalInputArea {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  background: #050505;
+}
+
+.terminalInput {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #4ade80;
+  font-family: inherit;
+  font-size: inherit;
+}
+
+.terminalPrompt {
+  color: #fff;
+  font-weight: bold;
+}
+
+.terminalLineUser {
+  color: #fff;
+  margin-top: 8px;
+}
+
+.terminalLineAi {
+  color: #4ade80;
+  margin-bottom: 8px;
+}
+
+.pageFooter {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 0 4px;
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+}
+
+/* Windows 95 Taskbar */
+.win95Taskbar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 32px;
+  background: var(--win-bg);
+  border-top: 2px solid var(--win-white);
+  display: flex;
+  align-items: center;
+  padding: 2px;
+  gap: 4px;
+  z-index: 1000;
+  box-shadow: 0 -1px 0 var(--win-bg-dark);
+}
+
+.win95StartBtn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 6px;
+  background: var(--win-bg);
+  border-top: 1px solid var(--win-white);
+  border-left: 1px solid var(--win-white);
+  border-right: 1px solid var(--win-black);
+  border-bottom: 1px solid var(--win-black);
+  font-weight: 800;
+  font-size: 12px;
+  height: 24px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.win95StartBtn img {
+  width: 16px;
+  height: 16px;
+}
+
+.taskbarDivider {
+  width: 2px;
+  height: 20px;
+  background: var(--win-bg-dark);
+  border-right: 1px solid var(--win-white);
+  margin: 0 2px;
+}
+
+.taskbarTabs {
+  flex: 1;
+  display: flex;
+  gap: 3px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.taskbarTab {
+  min-width: 80px;
+  max-width: 160px;
+  padding: 2px 8px;
+  background: var(--win-bg);
+  border-top: 1px solid var(--win-white);
+  border-left: 1px solid var(--win-white);
+  border-right: 1px solid var(--win-black);
+  border-bottom: 1px solid var(--win-black);
+  font-size: 11px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: flex;
+  align-items: center;
+  height: 24px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.taskbarTray {
+  padding: 2px 8px;
+  border-top: 1px solid var(--win-bg-dark);
+  border-left: 1px solid var(--win-bg-dark);
+  border-right: 1px solid var(--win-white);
+  border-bottom: 1px solid var(--win-white);
+  font-size: 11px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 24px;
+  margin-left: auto;
+  color: #000;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1 }
+  50% { opacity: 0 }
+}
+
+@media (min-width: 900px) {
+  .heroLayout {
+    grid-template-columns: minmax(0, 2fr) minmax(240px, 1fr);
+    align-items: start;
+  }
+}
+
+@media (max-width: 900px) {
+  .projectsGrid,
+  .workGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .projectWindow,
+  .projectWindowWide {
+    grid-column: auto;
+  }
+}
+
+@media (max-width: 720px) {
+  .pageShell {
+    padding: 14px 10px 24px;
+  }
+
+  .win95Body {
+    padding: 18px 14px;
+  }
+
+  .heroMeta {
+    grid-template-columns: 1fr;
+  }
+
+  .metaCell {
+    border-right: none;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.22);
+  }
+
+  .metaCell:last-child {
+    border-bottom: none;
+  }
+
+  .projectCardTop {
+    flex-direction: column;
+  }
+
+  .projectSide {
+    text-align: left;
+  }
+
+  .pageFooter {
+    font-size: 11px;
+  }
+}
+
+.geminiTheme .pageShell {
+  padding-bottom: 56px;
+}
+
+.compact {
+  padding: 18px 20px 20px;
+}

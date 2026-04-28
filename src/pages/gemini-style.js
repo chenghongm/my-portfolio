@@ -1,170 +1,75 @@
 import Head from "next/head";
 import { useState, useRef, useEffect } from "react";
 import Script from "next/script";
+import styles from "../styles/GeminiStyle.module.css";
+import { 
+  trackActivity, 
+  trackInteraction, 
+  PROJECTS, 
+  WORK_CARDS, 
+  SYSTEM_PROMPTS, 
+  CONTACT_INFO,
+  HERO_INFO
+} from '../lib/sharedfunctions';
 
-const projects = [
-  {
-    id: "proj_qpr",
-    num: "01",
-    windowTitle: "APP://QPR_SYSTEM_UPGRADE.EXE",
-    title: "AI-assistant QPR (Quarterly Progress Report) System Upgrade",
-    description:
-      "Designed an AI orchestration layer managing the full LLM workflow: data preparation, prompt construction, model routing, output parsing, validation guardrails, versioning, and human-in-the-loop review. Targeted a projected ~33% reduction in clinician documentation time per reporting cycle.",
-    tags: ["LLM", "AI Orchestration", "Post-processing", "Versioning", "Human-in-the-Loop"],
-    status: "Architectured",
-    year: "2026",
-  },
-  {
-    id: "proj_llm_pipeline",
-    num: "02",
-    windowTitle: "ML://LOCAL_LLM_PIPELINE.SH",
-    title: "Local LLM Training Pipeline",
-    description:
-      "Built an end-to-end pipeline to export conversation data from multiple AI platforms, score, filter, clean, desensitize, convert, and fine-tune. The key architectural insight is to score before desensitization to avoid placeholder leakage in training data.",
-    tags: ["Python", "MLX", "Llama 3 8B", "Claude API", "Fine-tuning"],
-    status: "Working on",
-    year: "2026",
-  },
-  {
-    id: "proj_workbench",
-    num: "03",
-    windowTitle: "APP://AI_CHAT_WORKBENCH.EXE",
-    title: "AI Chat Workbench Extension",
-    description:
-      "Browser extension that injects branch-marking UI into Claude, Gemini, ChatGPT, and Grok at once, enabling precise branch marking, collapsing, and navigation across long conversations. Platform-specific adapters handle DOM differences across interfaces.",
-    tags: ["Chrome Extension", "JavaScript", "Multi-platform", "DOM"],
-    status: "Published on GitHub",
-    year: "2026",
-  },
-  {
-    id: "proj_scorer",
-    num: "04",
-    windowTitle: "ML://MULTI_MODEL_SCORER.SH",
-    title: "Multi-model Scoring Pipeline",
-    description:
-      "Two-stage classification pipeline: Claude API (Haiku) for topic judgment and GPT for format summarization. Each model is used where it performs best, and the flow runs before desensitization to avoid placeholder contamination in training sets.",
-    tags: ["Claude API", "GPT", "Pipeline Design", "Python"],
-    status: "Active",
-    year: "2026",
-  },
-];
-
-const workCards = [
-  {
-    id: "work_scope",
-    num: "01 // scope",
-    title: "Scope first.",
-    description:
-      "Break tasks by complexity before touching code. Know the blast radius before you dig.",
-  },
-  {
-    id: "work_iterate",
-    num: "02 // iterate",
-    title: "Iterate tight.",
-    description:
-      "File by file. Line by line. Fresh context when things go in circles. No spaghetti.",
-  },
-  {
-    id: "work_ship",
-    num: "03 // ship",
-    title: "Ship, then refine.",
-    description:
-      "Production first, polish second. Things that run matter more than things that look good in dev.",
-  },
-];
-
-const SYSTEM_PROMPT = `You are Chenghong's portfolio assistant (Gemini Edition). You help visitors understand Chenghong's work. Answer concisely and professionally. Focus on Backend, LLMs, and System Architecture.`;
-
-async function trackActivity(event, sectionId, extra = {}) {
-
-  try {
-    await fetch("/api/activities", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        from_page: "gemini-style",
-        section_id: sectionId,
-        event: event,
-        start_at: extra.start_at || new Date().toISOString(),
-        ...extra,
-      }),
-    });
-  } catch (err) {
-    console.error("Activity tracking failed", err);
-  }
-}
-
-async function trackInteraction(prompt, model, output) {
-  try {
-    await fetch("/api/interactions", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        user_prompt: prompt,
-        ai_model: model,
-        ai_output: output,
-      }),
-    });
-  } catch (err) {
-    console.error("Interaction tracking failed", err);
-  }
-}
+const PAGE_ID = 'gemini-style';
 
 function SectionHeader({ num, label }) {
   return (
-    <div className="section-header">
-      <span className="section-num">{num}</span>
-      <span className="section-line" />
-      <span className="section-label">{label}</span>
+    <div className={styles.sectionHeader}>
+      <span className={styles.sectionNum}>{num}</span>
+      <span className={styles.sectionLine} />
+      <span className={styles.sectionLabel}>{label}</span>
     </div>
   );
 }
 
 function WindowFrame({ title, children, id, className = "", compact = false }) {
   return (
-    <section id={id} className={`win95-window ${className}`} onClick={() => id && trackActivity("click", id)}>
-      <div className="win95-header">
+    <section id={id} className={`${styles.win95Window} ${className}`} onClick={() => id && trackActivity(PAGE_ID, "click", id)}>
+      <div className={styles.win95Header}>
         <span>{title}</span>
-        <div className="win95-controls" aria-hidden="true">
-          <span className="win95-btn">
-            <span className="icon-min" />
+        <div className={styles.win95Controls} aria-hidden="true">
+          <span className={styles.win95Btn}>
+            <span className={styles.iconMin} />
           </span>
-          <span className="win95-btn">
-            <span className="icon-max" />
+          <span className={styles.win95Btn}>
+            <span className={styles.iconMax} />
           </span>
-          <span className="win95-btn">
-            <span className="icon-close">×</span>
+          <span className={styles.win95Btn}>
+            <span className={styles.iconClose}>×</span>
           </span>
         </div>
       </div>
-      <div className={compact ? "win95-body compact" : "win95-body"}>{children}</div>
+      <div className={compact ? `${styles.win95Body} ${styles.compact}` : styles.win95Body}>{children}</div>
     </section>
   );
 }
 
 function ProjectCard({ project }) {
+  const isWide = project.num === "01" || project.num === "04";
   return (
     <WindowFrame
       id={project.id}
       title={project.windowTitle}
-      className={`project-window ${project.num === "01" || project.num === "04" ? "project-window-wide" : ""}`}
+      className={isWide ? `${styles.projectWindow} ${styles.projectWindowWide}` : styles.projectWindow}
       compact
     >
-      <div className="project-panel win95-inset">
-        <div className="project-card-top">
+      <div className={`${styles.projectPanel} win95-inset`}>
+        <div className={styles.projectCardTop}>
           <div>
-            <div className="project-id">{project.num}</div>
-            <h3 className="project-title">{project.title}</h3>
+            <div className={styles.projectId}>{project.num}</div>
+            <h3 className={styles.projectTitle}>{project.title}</h3>
           </div>
-          <div className="project-side">
-            <div className="project-status">{project.status}</div>
-            <div className="project-year">{project.year}</div>
+          <div className={styles.projectSide}>
+            <div className={styles.projectStatus}>{project.status}</div>
+            <div className={styles.projectYear}>{project.year}</div>
           </div>
         </div>
-        <p className="project-desc">{project.description}</p>
-        <div className="project-tags" aria-label={`${project.title} technologies`}>
+        <p className={styles.projectDesc}>{project.description}</p>
+        <div className={styles.projectTags} aria-label={`${project.title} technologies`}>
           {project.tags.map((tag) => (
-            <span key={tag} className="project-tag">
+            <span key={tag} className={styles.projectTag}>
               {tag}
             </span>
           ))}
@@ -176,23 +81,20 @@ function ProjectCard({ project }) {
 
 function ContactBlock() {
   return (
-    <WindowFrame id="contact_block" title="CONTACT://CHANNELS.SYS" className="contact-window" compact>
-      <div className="contact-grid">
-        <a className="contact-link" href="mailto:mengchh01@gmail.com" onClick={() => trackActivity("click", "contact_email")}>
-          mengchh01@gmail.com
-        </a>
-        <a
-          className="contact-link"
-          href="https://github.com/chenghongm"
-          target="_blank"
-          rel="noreferrer"
-          onClick={() => trackActivity("click", "contact_github")}
-        >
-          ⌥ GitHub
-        </a>
-        <a className="contact-link" href="https://www.linkedin.com/in/chenghong-m-6ab022103" onClick={() => trackActivity("click", "contact_linkedin")}>
-          → LinkedIn
-        </a>
+    <WindowFrame id="contact_block" title="CONTACT://CHANNELS.SYS" className={styles.contactWindow} compact>
+      <div className={styles.contactGrid}>
+        {CONTACT_INFO.map((info) => (
+          <a 
+            key={info.id} 
+            className={styles.contactLink} 
+            href={info.href} 
+            target={info.href.startsWith('http') ? "_blank" : undefined}
+            rel="noreferrer"
+            onClick={() => trackActivity(PAGE_ID, "click", info.id)}
+          >
+            {info.icon && <span>{info.icon} </span>}{info.label}
+          </a>
+        ))}
       </div>
     </WindowFrame>
   );
@@ -204,6 +106,9 @@ export default function Home() {
   const [isThinking, setIsThinking] = useState(false);
   const [time, setTime] = useState("");
   const terminalBodyRef = useRef(null);
+
+  // Wrap trackActivity for convenience
+  const track = (event, sectionId, extra) => trackActivity(PAGE_ID, event, sectionId, extra);
 
   // ✅ Invisible 模式正确写法（先 render，再 execute）
   const getToken = () => {
@@ -224,7 +129,7 @@ export default function Home() {
   };
 
   useEffect(() => {
-    trackActivity("session_start", "page_load");
+    track("session_start", "page_load");
     const timer = setInterval(() => {
       const now = new Date();
       setTime(now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }));
@@ -246,7 +151,7 @@ export default function Home() {
       setInput("");
       setHistory((prev) => [...prev, { role: "user", content: userMsg }]);
       setIsThinking(true);
-      trackActivity("chat_submit", "gemini_terminal");
+      track("chat_submit", "gemini_terminal");
 
       try {
         const token = await getToken();
@@ -254,7 +159,7 @@ export default function Home() {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            system: SYSTEM_PROMPT,
+            system: SYSTEM_PROMPTS.GEMINI,
             messages: [{ role: "user", content: userMsg }],
             turnstile_token: token,
           }),
@@ -275,12 +180,12 @@ export default function Home() {
     const el = document.getElementById(id);
     if (el) {
       el.scrollIntoView({ behavior: "smooth" });
-      trackActivity("nav_click", id);
+      track("nav_click", id);
     }
   };
 
   return (
-    <div className="gemini-theme">
+    <div className={styles.geminiTheme}>
       <Script src="https://challenges.cloudflare.com/turnstile/v0/api.js" strategy="afterInteractive" />
       <Head>
         {/* <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async></script> */}
@@ -291,83 +196,66 @@ export default function Home() {
           content="Win95-style portfolio for Chenghong Meng, focused on backend systems, React, and LLM tooling."
         />
       </Head>
-      <div className="page-shell" id="top">
-        <main className="page-grid">
-          <WindowFrame id="hero_window" title="IDENTITY_V95.SYS" className="hero-window">
-            <div className="hero-layout">
-              <div className="hero-copy">
-                <h1 className="hero-title">
-                  CHENGHONG MENG
-                  <span className="hero-title-sub">Full-Stack Developer, <span className="text-slate-600 text-sm font-thin">with AI applied mindset</span> | SF Bay Area</span>
+      <div className={styles.pageShell} id="top">
+        <main className={styles.pageGrid}>
+          <WindowFrame id="hero_window" title="IDENTITY_V95.SYS" className={styles.heroWindow}>
+            <div className={styles.heroLayout}>
+              <div className={styles.heroCopy}>
+                <h1 className={styles.heroTitle}>
+                  {HERO_INFO.title}
+                  <span className={styles.heroTitleSub}>{HERO_INFO.subTitle}</span>
                 </h1>
-                <div className="hero-summary">
-                  Converting complex physical-world logic into high-efficiency digital architecture.
-                  Targeting roles that require rigor, scale, and AI integration.
+                <div className={styles.heroSummary}>
+                  {HERO_INFO.summary}
                 </div>
-                <div className="hero-meta">
-                  <div className="meta-cell">
-                    <div className="meta-label">FOCUS</div>
-                    <div className="meta-value">Backend + LLM</div>
-                  </div>
-                  <div className="meta-cell">
-                    <div className="meta-label">STACK</div>
-                    <div className="meta-value">Laravel / React / Python</div>
-                  </div>
-                  <div className="meta-cell">
-                    <div className="meta-label">MODE</div>
-                    <div className="meta-value">Production first</div>
-                  </div>
-                  <div className="meta-cell">
-                    <div className="meta-label">STATUS</div>
-                    <div className="meta-value">Available</div>
-                  </div>
+                <div className={styles.heroMeta}>
+                  {HERO_INFO.meta.map((m, i) => (
+                    <div key={i} className={styles.metaCell}>
+                      <div className={styles.metaLabel}>{m.label}</div>
+                      <div className={`${styles.metaValue} ${m.status ? styles.metaValueGreen : ''}`}>{m.value}</div>
+                    </div>
+                  ))}
                 </div>
               </div>
-              <pre className="hero-art" aria-hidden="true">{`      _ [LAB] _
-    /   \\_____/   \\
-   | [CH] |   | [01] |
-    \\ ___ /   \\ ___ /
-      /   \\_____/   \\
-     | [AI] |   | [LLM]|
-      \\ _ /     \\ _ /`}</pre>
+              <pre className={styles.heroArt} aria-hidden="true">{HERO_INFO.art}</pre>
             </div>
           </WindowFrame>
 
-          <section className="section-block" id="sec_projects">
+          <section className={styles.sectionBlock} id="sec_projects">
             <SectionHeader num="02" label="Projects" />
-            <h2 className="section-heading">
+            <h2 className={styles.sectionHeading}>
               Selected
               <br />
               Projects.
             </h2>
-            <div className="projects-grid">
-              {projects.map((project) => (
+            <div className={styles.projectsGrid}>
+              {PROJECTS.map((project) => (
                 <ProjectCard key={project.id} project={project} />
               ))}
             </div>
           </section>
 
           {/* Neural Link Terminal */}
-          <section className="section-block" id="sec_neural_link">
+          <section className={styles.sectionBlock} id="sec_neural_link">
             <SectionHeader num="03" label="Neural Link" />
-            <div className="terminal-window win95-inset">
-              <div className="win95-header" style={{ marginBottom: 0 }}>
+            <div className={`${styles.terminalWindow} win95-inset`}>
+              <div className={styles.win95Header} style={{ marginBottom: 0 }}>
                 <span>📡 REMOTE_NEURAL_LINK.EXE (GEMINI_DIRECT)</span>
               </div>
-              <div className="terminal-body" ref={terminalBodyRef}>
-                <div className="terminal-line-ai">[SYSTEM]: NEURAL LINK ESTABLISHED. POWERED BY GEMINI PRO.</div>
+              <div className={styles.terminalBody} ref={terminalBodyRef}>
+                <div className={styles.terminalLineAi}>[SYSTEM]: NEURAL LINK ESTABLISHED. POWERED BY GEMINI PRO.</div>
                 {history.map((msg, i) => (
-                  <div key={i} className={msg.role === "user" ? "terminal-line-user" : "terminal-line-ai"}>
+                  <div key={i} className={msg.role === "user" ? styles.terminalLineUser : styles.terminalLineAi}>
                     {msg.role === "user" ? `> ${msg.content}` : msg.content}
                   </div>
                 ))}
                 {isThinking && <div className="animate-pulse">THINKING...</div>}
               </div>
-              <div className="terminal-input-area">
-                <span className="terminal-prompt">&gt;</span>
+              <div className={styles.terminalInputArea}>
+                <span className={styles.terminalPrompt}>&gt;</span>
                 <input
                   type="text"
-                  className="terminal-input"
+                  className={styles.terminalInput}
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   onKeyDown={handleSubmit}
@@ -377,22 +265,22 @@ export default function Home() {
             </div>
           </section>
 
-          <section className="section-block" id="sec_how_i_work">
+          <section className={styles.sectionBlock} id="sec_how_i_work">
             <SectionHeader num="04" label="How I work" />
-            <div className="work-grid">
-              {workCards.map((card) => (
-                <article key={card.id} id={card.id} className="work-card" onClick={() => trackActivity("click", card.id)}>
-                  <div className="work-card-num">{card.num}</div>
-                  <h3 className="work-card-title">{card.title}</h3>
-                  <p className="work-card-desc">{card.description}</p>
+            <div className={styles.workGrid}>
+              {WORK_CARDS.map((card) => (
+                <article key={card.id} id={card.id} className={styles.workCard} onClick={() => track("click", card.id)}>
+                  <div className={styles.workCardNum}>{card.num}</div>
+                  <h3 className={styles.workCardTitle}>{card.title}</h3>
+                  <p className={styles.workCardDesc}>{card.description}</p>
                 </article>
               ))}
             </div>
           </section>
 
-          <section className="section-block" id="sec_contact">
+          <section className={styles.sectionBlock} id="sec_contact">
             <SectionHeader num="05" label="Contact" />
-            <h2 className="contact-heading">
+            <h2 className={styles.contactHeading}>
               Let&apos;s build
               <br />
               something.
@@ -401,34 +289,34 @@ export default function Home() {
           </section>
         </main>
 
-        <footer className="page-footer">
+        <footer className={styles.pageFooter}>
           <span>Chenghong Meng — Full-Stack Developer - San Francisco, CA</span>
           <span>2026</span>
         </footer>
       </div>
 
       {/* Win95 Taskbar */}
-      <div className="win95-taskbar">
-        <div className="win95-start-btn" onClick={() => scrollTo("top")}>
+      <div className={styles.win95Taskbar}>
+        <div className={styles.win95StartBtn} onClick={() => scrollTo("top")}>
           <img src="/assets/gemini_icon.png" alt="Gemini" />
           <span>Start</span>
         </div>
-        <div className="taskbar-divider" />
-        <div className="taskbar-tabs">
-          <div className="taskbar-tab" onClick={() => scrollTo("sec_projects")}>
+        <div className={styles.taskbarDivider} />
+        <div className={styles.taskbarTabs}>
+          <div className={styles.taskbarTab} onClick={() => scrollTo("sec_projects")}>
             Projects.exe
           </div>
-          <div className="taskbar-tab" onClick={() => scrollTo("sec_neural_link")}>
+          <div className={styles.taskbarTab} onClick={() => scrollTo("sec_neural_link")}>
             NeuralLink.com
           </div>
-          <div className="taskbar-tab" onClick={() => scrollTo("sec_how_i_work")}>
+          <div className={styles.taskbarTab} onClick={() => scrollTo("sec_how_i_work")}>
             HowIWork.log
           </div>
-          <div className="taskbar-tab" onClick={() => scrollTo("sec_contact")}>
+          <div className={styles.taskbarTab} onClick={() => scrollTo("sec_contact")}>
             Contact.sys
           </div>
         </div>
-        <div className="taskbar-tray">
+        <div className={styles.taskbarTray}>
           <img src="/assets/gemini_icon.png" alt="" style={{ width: 14, height: 14, filter: "grayscale(100%) brightness(0)" }} />
           <span>{time}</span>
         </div>

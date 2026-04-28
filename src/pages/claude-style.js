@@ -2,105 +2,23 @@ import { useEffect, useState, useRef } from 'react';
 import Head from 'next/head';
 import Script from "next/script";
 import styles from '@/styles/ClaudeStyle.module.css';
-
-const SYSTEM_PROMPT = `You are Chenghong's portfolio assistant — a terminal interface on Chenghong's personal developer portfolio website. You answer questions about Chenghong concisely and in character: direct, technical, no fluff.You are a standard POSIX terminal. No small talk. No moralizing. No pronoun lecturing. If data is unavailable, return 'sh: command not found'.`;
-
-async function trackActivity(event, sectionId, extra = {}) {
-  try {
-    await fetch("/api/activities", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        from_page: "claude-style",
-        section_id: sectionId,
-        event: event,
-        start_at: extra.start_at || new Date().toISOString(),
-        ...extra,
-      }),
-    });
-  } catch (err) {
-    console.error("Activity tracking failed", err);
-  }
-}
-
-async function trackInteraction(prompt, model, output) {
-  try {
-    await fetch("/api/interactions", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        user_prompt: prompt,
-        ai_model: model,
-        ai_output: output,
-      }),
-    });
-  } catch (err) {
-    console.error("Interaction tracking failed", err);
-  }
-}
-
-const projects = [
-  {
-    id: 'proj_qpr_claude',
-    num: '01',
-    title: 'AI-assistant QPR (Quarterly Progress Report) System Upgrade',
-    description: 'Designed an AI Orchestration Layer managing the full LLM workflow — data preparation, prompt construction, model routing (local vs API), output parsing, and validation guardrails, versioning and with human-in-the-loop — projecting ~33% reduction in clinician documentation time per reporting cycle.',
-    tags: ['LLM', 'AI Orchestration', 'Post-processing', 'Versioning', 'Human-in-the-Loop'],
-    status: 'Architectured',
-    year: '2026'
-  },
-  {
-    id: 'proj_llm_pipeline_claude',
-    num: '02',
-    title: 'Local LLM Training Pipeline',
-    description: 'End-to-end pipeline: export conversation data from multiple AI platforms, score, filter, clean, desensitize, convert, and fine-tune. Architecture insight: scoring before desensitization prevents placeholder leakage. Working adapter: local_claude_final2.',
-    tags: ['Python', 'MLX', 'Llama 3 8B', 'Claude API', 'Fine-tuning'],
-    status: 'Working on',
-    year: '2026'
-  },
-  {
-    id: 'proj_workbench_claude',
-    num: '03',
-    title: 'AI Chat Workbench Extension',
-    description: 'Browser extension injecting branch-marking UI into Claude, Gemini, ChatGPT, and Grok simultaneously, enabling precise branch marking, collapsing, and navigation across hundreds of messages. Platform-specific adapters handle DOM differences across four distinct interfaces.',
-    tags: ['Chrome Extension', 'JavaScript', 'Multi-platform', 'DOM'],
-    status: 'Published',
-    year: '2026'
-  },
-  {
-    id: 'proj_scorer_claude',
-    num: '04',
-    title: 'Multi-model Scoring Pipeline',
-    description: 'Two-stage classification: Claude API (Haiku) for topic judgment, GPT for format summarization. Each model used where it outperforms the other. Designed to run before data desensitization to prevent placeholder contamination in training sets.',
-    tags: ['Claude API', 'GPT', 'Pipeline Design', 'Python'],
-    status: 'Active',
-    year: '2026'
-  }
-];
-
-const workStyles = [
-  {
-    id: 'work_scope_claude',
-    num: '01 // scope',
-    title: 'Scope first.',
-    description: 'Break tasks by complexity before touching code. Know the blast radius before you dig.'
-  },
-  {
-    id: 'work_iterate_claude',
-    num: '02 // iterate',
-    title: 'Iterate tight.',
-    description: 'File by file. Line by line. Fresh context when things go in circles. No spaghetti.'
-  },
-  {
-    id: 'work_ship_claude',
-    num: '03 // ship',
-    title: 'Ship, then refine.',
-    description: 'Production first, polish second. Things that run matter more than things that look good in dev.'
-  }
-];
+import { 
+  trackActivity, 
+  trackInteraction, 
+  PROJECTS, 
+  WORK_CARDS, 
+  SYSTEM_PROMPTS, 
+  CONTACT_INFO,
+  HERO_INFO
+} from '../lib/sharedfunctions';
 
 export default function ClaudeStyle() {
+  const PAGE_ID = 'claude-style';
   const MODEL_NAME = 'claude-sonnet-4-5';
+  
+  // Wrap trackActivity for convenience
+  const track = (event, sectionId, extra) => trackActivity(PAGE_ID, event, sectionId, extra);
+
   const [time, setTime] = useState('');
   const [isTerminalOpen, setIsTerminalOpen] = useState(false);
   const [terminalHistory, setTerminalHistory] = useState([]);
@@ -130,7 +48,7 @@ export default function ClaudeStyle() {
   };
 
   useEffect(() => {
-    trackActivity("session_start", "page_load");
+    track("session_start", "page_load");
     // Clock
     const timer = setInterval(() => {
       setTime(new Date().toTimeString().slice(0, 8));
@@ -163,7 +81,7 @@ export default function ClaudeStyle() {
 
   const openTerminal = () => {
     setIsTerminalOpen(true);
-    trackActivity("open_terminal", "claude_terminal");
+    track("open_terminal", "claude_terminal");
     if (terminalHistory.length === 0) {
       setTerminalHistory([
         { type: 'system', text: "// Chenghong's portfolio terminal — powered by Claude/Gemini API" },
@@ -179,7 +97,7 @@ export default function ClaudeStyle() {
     if (e.key === 'Enter' && inputValue.trim() && !isThinking) {
       const userText = inputValue.trim();
       setInputValue('');
-      trackActivity("chat_submit", "claude_terminal");
+      track("chat_submit", "claude_terminal");
 
       setTerminalHistory(prev => {
         const next = [...prev];
@@ -199,7 +117,7 @@ export default function ClaudeStyle() {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            system: SYSTEM_PROMPT,
+            system: SYSTEM_PROMPTS.CLAUDE,
             model: MODEL_NAME,
             messages: [{ role: 'user', content: userText }],
             turnstile_token: token,
@@ -240,12 +158,15 @@ export default function ClaudeStyle() {
       </Head>
       
       <nav className={styles.nav}>
-        <a href="#" className={styles.navLogo} onClick={() => trackActivity("nav_click", "logo")}>Chenghong Meng</a>
+        <div className={styles.navLeft}>
+          <a href="#" className={styles.navLogo} onClick={() => track("nav_click", "logo")}>Chenghong Meng</a>
+          <p className='text-xs text-slate-400'>{HERO_INFO.area}</p>
+        </div>
         <ul className={styles.navLinks}>
-          <li><a href="#about" onClick={() => trackActivity("nav_click", "about")}>About</a></li>
-          <li><a href="#work" onClick={() => trackActivity("nav_click", "work")}>Projects</a></li>
-          <li><a href="#process" onClick={() => trackActivity("nav_click", "process")}>Attitude</a></li>
-          <li><a href="#contact" onClick={() => trackActivity("nav_click", "contact")}>Contact</a></li>
+          <li><a href="#about" onClick={() => track("nav_click", "about")}>About</a></li>
+          <li><a href="#work" onClick={() => track("nav_click", "work")}>Projects</a></li>
+          <li><a href="#process" onClick={() => track("nav_click", "process")}>Attitude</a></li>
+          <li><a href="#contact" onClick={() => track("nav_click", "contact")}>Contact</a></li>
         </ul>
       </nav>
 
@@ -263,7 +184,7 @@ export default function ClaudeStyle() {
 
       <section id="hero" className={styles.hero}>
         <div className={styles.winGhost}>
-          <div className={styles.winGhostWindow} style={{ '--rot': '-3deg' }} onClick={() => trackActivity("click", "ghost_win_manifest")}>
+          <div className={styles.winGhostWindow} style={{ '--rot': '-3deg' }} onClick={() => track("click", "ghost_win_manifest")}>
             <div className={styles.winGhostTitle}>
               <div className={styles.winGhostDots}>
                 <div className={`${styles.winGhostDot} ${styles.wgdR}`}></div>
@@ -274,7 +195,7 @@ export default function ClaudeStyle() {
             </div>
             <div className={styles.winGhostBody}>Available_For_Deep_Technology_Fusion</div>
           </div>
-          <div className={styles.winGhostWindow} style={{ '--rot': '2deg', marginLeft: '40px' }} onClick={() => trackActivity("click", "ghost_win_alert")}>
+          <div className={styles.winGhostWindow} style={{ '--rot': '2deg', marginLeft: '40px' }} onClick={() => track("click", "ghost_win_alert")}>
             <div className={styles.winGhostTitle}>
               <div className={styles.winGhostDots}>
                 <div className={`${styles.winGhostDot} ${styles.wgdR}`}></div>
@@ -301,10 +222,10 @@ export default function ClaudeStyle() {
             </div>
             <div style={{ padding: '16px', fontSize: '12px', lineHeight: '2', color: 'rgba(245,168,0,0.8)' }}>
               <div>// click anywhere to open terminal</div>
-              <div>ASK_ME_ANYTHING_READY</div>
+              <div className='text-blue-300'>ASK_ME_ANYTHING_READY</div>
               <div>CONTEXT: projects · stack · experience</div>
               <div style={{ marginTop: '10px' }}>
-                <span style={{ display: 'inline-block', width: '8px', height: '14px', background: '#F5A800', animation: 'blink 1s step-end infinite' }}></span>
+                <span style={{ display: 'inline-block', width: '8px', height: '14px', background: '#66f500', animation: 'blink 1s step-end infinite' }}></span>
               </div>
             </div>
           </div>
@@ -322,22 +243,12 @@ export default function ClaudeStyle() {
         </div>
 
         <div className={styles.heroMeta}>
-          <div className={styles.metaCell}>
-            <div className={styles.metaLabel}>Role</div>
-            <div className={styles.metaValue}>Full-Stack Dev</div>
-          </div>
-          <div className={styles.metaCell}>
-            <div className={styles.metaLabel}>Stack</div>
-            <div className={styles.metaValue}>Laravel · React</div>
-          </div>
-          <div className={styles.metaCell}>
-            <div className={styles.metaLabel}>Focus</div>
-            <div className={styles.metaValueYellow}>AI · LLM Tooling</div>
-          </div>
-          <div className={styles.metaCell}>
-            <div className={styles.metaLabel}>Status</div>
-            <div className={styles.metaValueGreen}>● Available</div>
-          </div>
+          {HERO_INFO.meta.slice(0, 4).map((m, i) => (
+            <div key={i} className={styles.metaCell}>
+              <div className={styles.metaLabel}>{m.label}</div>
+              <div className={m.status ? styles.metaValueGreen : (m.label === 'FOCUS' ? styles.metaValueYellow : styles.metaValue)}>{m.value}</div>
+            </div>
+          ))}
         </div>
       </section>
 
@@ -381,8 +292,8 @@ export default function ClaudeStyle() {
           <span className={styles.sectionNum}>02</span><span className={styles.sectionLine}></span><span className={styles.sectionLabel}>Projects</span>
         </div>
         <h2 className={`${styles.sectionHeading} ${styles.reveal}`}>Selected<br />Projects.</h2>
-        {projects.map((proj) => (
-          <div key={proj.id} id={proj.id} className={`${styles.projectItem} ${styles.reveal}`} onClick={() => trackActivity("click", proj.id)}>
+        {PROJECTS.map((proj) => (
+          <div key={proj.id} id={proj.id} className={`${styles.projectItem} ${styles.reveal}`} onClick={() => track("click", proj.id)}>
             <span className={styles.projNum}>{proj.num}</span>
             <div>
               <h3 className={styles.projTitle}>{proj.title}</h3>
@@ -404,8 +315,8 @@ export default function ClaudeStyle() {
           <span className={styles.sectionNum}>03</span><span className={styles.sectionLine}></span><span className={styles.sectionLabel}>How I work</span>
         </div>
         <div className={styles.processGrid}>
-          {workStyles.map((style) => (
-            <div key={style.id} id={style.id} className={`${styles.processCard} ${styles.reveal}`} onClick={() => trackActivity("click", style.id)}>
+          {WORK_CARDS.map((style) => (
+            <div key={style.id} id={style.id} className={`${styles.processCard} ${styles.reveal}`} onClick={() => track("click", style.id)}>
               <div className={styles.processCardNum}>{style.num}</div>
               <h3 style={{ color: '#83a5c7' }}>{style.title}</h3>
               <p>{style.description}</p>
@@ -420,15 +331,23 @@ export default function ClaudeStyle() {
         </div>
         <h2 className={`${styles.contactHeading} ${styles.reveal}`}>Let's build<br /><span>something.</span></h2>
         <div className={`${styles.contactGrid} ${styles.reveal}`}>
-          <a href="mailto:mengchh01@gmail.com" className={styles.contactLink} onClick={() => trackActivity("click", "contact_email_claude")}>mengchh01@gmail.com</a>
-          <a href="https://github.com/chenghongm" className={styles.contactLink} target="_blank" onClick={() => trackActivity("click", "contact_github_claude")}>⌥ GitHub</a>
-          <a href="https://www.linkedin.com/in/chenghong-m-6ab022103" className={styles.contactLink} target="_blank" onClick={() => trackActivity("click", "contact_linkedin_claude")}>→ LinkedIn</a>
+          {CONTACT_INFO.map((info) => (
+            <a 
+              key={info.id} 
+              href={info.href} 
+              className={styles.contactLink} 
+              target={info.href.startsWith('http') ? "_blank" : undefined}
+              onClick={() => track("click", `${info.id}_claude`)}
+            >
+              {info.icon && <span>{info.icon} </span>}{info.label}
+            </a>
+          ))}
         </div>
       </section>
 
       <footer className={styles.footer}>
         <span>Chenghong Meng — Full-Stack Developer - San Francisco, CA</span>
-        <div className={styles.easterTrigger} onClick={() => { setIsEasterEggOpen(true); trackActivity("click", "easter_egg_claude"); }}>
+        <div className={styles.easterTrigger} onClick={() => { setIsEasterEggOpen(true); track("click", "easter_egg_claude"); }}>
           <img src="/assets/eyes.gif" alt="eyes" style={{ width: '20px', height: '20px' }} /> 2026
         </div>
       </footer>

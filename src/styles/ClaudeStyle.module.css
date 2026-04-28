@@ -240,7 +240,10 @@
 }
 
 .metaValueYellow { color: var(--yellow); }
-.metaValueGreen { color: var(--green); }
+.metaValueGreen { 
+  color: var(--green);
+  animation: blink 2s step-end infinite; 
+}
 
 /* GHOST WINDOWS */
 .winGhost {
