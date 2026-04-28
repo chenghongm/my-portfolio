@@ -100,16 +100,16 @@
   display: flex;
   align-items: center;
   padding: 0 16px;
-  gap: 24px;
+  gap: 40px;
 }
 
 .statusItem {
-  font-size: 14px;
+  font-size: 11px;
   letter-spacing: 1px;
   color: #000;
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 4px;
 }
 
 .statusStack {
@@ -139,7 +139,7 @@
   padding: 140px 60px 100px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: start;
   position: relative;
   border-bottom: 1px solid var(--border);
 }
@@ -181,14 +181,18 @@
 .heroPrompt span {
   color: var(--green);
 }
-
+/* .heroTerminalBody {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+} */
 .heroTitle {
   font-family: 'Syne', sans-serif;
   font-size: clamp(52px, 8vw, 110px);
   font-weight: 800;
-  line-height: 0.92;
+  line-height: 1.1;
   letter-spacing: -3px;
-  margin-bottom: 48px;
+  margin-bottom: 80px;
   opacity: 0;
   animation: fadeUp 0.7s ease 0.5s forwards;
 }
@@ -664,13 +668,16 @@
 }
 
 .footer span {
-  font-size: 14px;
+  font-size: 11px;
   letter-spacing: 2px;
   color: var(--dim);
 }
 
 .easterTrigger {
+  display: flex;
+  align-items: center;
   cursor: pointer;
+  text-align: center;
   transition: color 0.2s;
 }
 
@@ -851,14 +858,50 @@
   to { opacity: 1; transform: none }
 }
 
+.terminalTrigger {
+  position: fixed;
+  top: 80px;
+  right: 60px;
+  width: 360px;
+  z-index: 120;
+  cursor: pointer;
+}
+
 @media(max-width:768px) {
   .nav { padding: 16px 24px; }
   .navLinks { display: none; }
-  .hero { padding: 24px 24px 80px; align-items: center; }
+  .hero { padding: 140px 24px 80px; align-items: center; text-align: center; }
   .winGhost { display: none; }
+  .terminalTrigger {
+    position: relative;
+    top: 0;
+    right: 0;
+    width: min(100%, 400px);
+    margin: 40px auto;
+    z-index: 10;
+  }
+  .heroTerminalHeader {
+    justify-content: center;
+  }
+  .heroMeta {
+    grid-template-columns: 1fr;
+    max-width: 100%;
+  }
+  .metaCell {
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+  }
+  .metaCell:last-child {
+    border-bottom: none;
+  }
   .about { grid-template-columns: 1fr; }
   .aboutLeft { padding: 80px 24px; border-right: none; border-bottom: 1px solid var(--border); }
   .aboutRight { padding: 80px 24px; transform: none; box-shadow: none; border: none; }
   .projectItem { grid-template-columns: 40px 1fr; padding: 44px 24px; }
+  .projSide { text-align: left; margin-top: 10px; }
   .processGrid { grid-template-columns: 1fr; transform: none; box-shadow: none; border: none; }
+  .contactGrid { flex-direction: column; }
+  .contactLink { border-right: none; border-bottom: 1px solid var(--border); }
+  .contactLink:last-child { border-bottom: none; }
+  .footer { padding: 24px; flex-direction: column; gap: 16px; text-align: center; }
 }
