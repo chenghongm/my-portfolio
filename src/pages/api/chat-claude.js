@@ -21,7 +21,7 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const { system, messages } = req.body;
+  const { system, messages, model } = req.body;
   const apiKey = process.env.ASSISTANT_ID; // Using ASSISTANT_ID for Claude
 
   if (!apiKey) {
@@ -37,7 +37,7 @@ export default async function handler(req, res) {
         'content-type': 'application/json',
       },
       body: JSON.stringify({
-        model: req.model, // or your preferred model
+        model: model || 'claude-sonnet-4-5', // or your preferred model
         max_tokens: 2048,
         system: system || '',
         messages: messages || [],
