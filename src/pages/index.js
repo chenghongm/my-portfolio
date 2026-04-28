@@ -1,8 +1,15 @@
 import Link from 'next/link';
 import Head from 'next/head';
 import Image from 'next/image';
+import { useEffect } from 'react';
+import { initConsoleEasterEgg } from './sharedfunctions';
 
 export default function Landing() {
+  useEffect(() => {
+    console.log("Initializing console easter egg...");
+    initConsoleEasterEgg();
+  }, []);
+
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-white flex flex-col items-center justify-center font-mono selection:bg-yellow-500/30">
       <Head>

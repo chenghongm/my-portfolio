@@ -214,7 +214,7 @@ export default function ClaudeStyle() {
           { type: 'empty', text: "" },
           { type: 'prompt', text: "~/portfolio $ _" }
         ]);
-        trackInteraction(userText, MODEL_NAME , reply);
+        trackInteraction(userText, MODEL_NAME, reply);
       } catch (err) {
         setTerminalHistory(prev => [
           ...prev,
@@ -236,7 +236,7 @@ export default function ClaudeStyle() {
         <title>Chenghong Meng — Full-Stack Developer</title>
         <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@700;800&display=swap" rel="stylesheet" />
       </Head>
-
+      
       <nav className={styles.nav}>
         <a href="#" className={styles.navLogo} onClick={() => trackActivity("nav_click", "logo")}>Chenghong Meng</a>
         <ul className={styles.navLinks}>
