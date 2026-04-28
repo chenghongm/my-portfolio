@@ -112,6 +112,19 @@ export const PROJECTS = [
   }
 ];
 
+export const TERMINALS = {
+  CLAUDE: {
+    title: "CHENGHONG_TERMINAL.sh (CLAUDE_SONNET_4-5)",
+    desc: "A sleek, modern terminal interface inspired by Anthropic's Claude, featuring a dark aesthetic, spacious layout, and subtle animations for an immersive user experience.",
+    alert: "⚠️ This is NOT A REAL TERMINAL. It is AI interface designed to answer questions about Chenghong's portfolio. AI may hallucinate. For critical info, please refer to the actual portfolio content or contact directly. Logs are stored for alignment purposes. DO NOT share sensitive information."
+  },
+  GEMINI: {
+    title: "REMOTE_NEURAL_LINK.EXE (GEMINI_DIRECT)",
+    desc: "A vibrant terminal interface inspired by Google's Gemini Pro, showcasing a bright color palette, dynamic elements, and a futuristic design that emphasizes clarity and user engagement.",
+    alert: "⚠️ This is NOT A REAL TERMINAL. It is AI interface designed to answer questions about Chenghong's portfolio. AI may hallucinate. For critical info, please refer to the actual portfolio content or contact directly. Logs are stored for alignment purposes. DO NOT share sensitive information."
+  } 
+}
+
 export const WORK_CARDS = [
   {
     id: 'work_scope',
@@ -157,6 +170,15 @@ export const CONTACT_INFO = [
     href: "https://www.linkedin.com/in/chenghong-m-6ab022103",
     icon: "→",
   }
+];
+
+export const SKILLS = [
+  { name: 'Laravel / PHP', pct: '90%', level: 'Primary' },
+  { name: 'React', pct: '80%', level: 'Primary' },
+  { name: 'MySQL', pct: '85%', level: 'Primary' },
+  { name: 'LLM / MLX', pct: '70%', level: 'Growing' },
+  { name: 'Node / JS', pct: '75%', level: 'Fluent' },
+  { name: 'Python', pct: '65%', level: 'Fluent' },
 ];
 
 export const HERO_INFO = {

@@ -8,8 +8,10 @@ import {
   PROJECTS, 
   WORK_CARDS, 
   SYSTEM_PROMPTS, 
+  TERMINALS,
   CONTACT_INFO,
-  HERO_INFO
+  HERO_INFO,
+  SKILLS
 } from '../lib/sharedfunctions';
 
 export default function ClaudeStyle() {
@@ -84,7 +86,6 @@ export default function ClaudeStyle() {
     track("open_terminal", "claude_terminal");
     if (terminalHistory.length === 0) {
       setTerminalHistory([
-        { type: 'system', text: "// Chenghong's portfolio terminal — powered by Claude/Gemini API" },
         { type: 'system', text: "// type your question and press Enter" },
         { type: 'empty', text: "" },
         { type: 'prompt', text: "~/portfolio $ _" }
@@ -158,10 +159,7 @@ export default function ClaudeStyle() {
       </Head>
       
       <nav className={styles.nav}>
-        <div className={styles.navLeft}>
-          <a href="#" className={styles.navLogo} onClick={() => track("nav_click", "logo")}>Chenghong Meng</a>
-          <p className='text-xs text-slate-400'>{HERO_INFO.area}</p>
-        </div>
+        <a href="#" className={styles.navLogo} onClick={() => track("nav_click", "logo")}>Chenghong Meng</a>
         <ul className={styles.navLinks}>
           <li><a href="#about" onClick={() => track("nav_click", "about")}>About</a></li>
           <li><a href="#work" onClick={() => track("nav_click", "work")}>Projects</a></li>
@@ -222,10 +220,10 @@ export default function ClaudeStyle() {
             </div>
             <div style={{ padding: '16px', fontSize: '12px', lineHeight: '2', color: 'rgba(245,168,0,0.8)' }}>
               <div>// click anywhere to open terminal</div>
-              <div className='text-blue-300'>ASK_ME_ANYTHING_READY</div>
+              <div>ASK_ME_ANYTHING_READY</div>
               <div>CONTEXT: projects · stack · experience</div>
               <div style={{ marginTop: '10px' }}>
-                <span style={{ display: 'inline-block', width: '8px', height: '14px', background: '#66f500', animation: 'blink 1s step-end infinite' }}></span>
+                <span style={{ display: 'inline-block', width: '8px', height: '14px', background: '#F5A800', animation: 'blink 1s step-end infinite' }}></span>
               </div>
             </div>
           </div>
@@ -275,12 +273,13 @@ export default function ClaudeStyle() {
             <h2 className={styles.sectionHeading}>Tech<br />Stack.</h2>
             <table className={styles.stackTable}>
               <tbody>
-                <tr><td>Laravel / PHP</td><td><div className={styles.bar} style={{ '--pct': '90%' }}></div></td><td>Primary</td></tr>
-                <tr><td>React</td><td><div className={styles.bar} style={{ '--pct': '80%' }}></div></td><td>Primary</td></tr>
-                <tr><td>MySQL</td><td><div className={styles.bar} style={{ '--pct': '85%' }}></div></td><td>Primary</td></tr>
-                <tr><td>LLM / MLX</td><td><div className={styles.bar} style={{ '--pct': '70%' }}></div></td><td>Growing</td></tr>
-                <tr><td>Node / JS</td><td><div className={styles.bar} style={{ '--pct': '75%' }}></div></td><td>Fluent</td></tr>
-                <tr><td>Python</td><td><div className={styles.bar} style={{ '--pct': '65%' }}></div></td><td>Fluent</td></tr>
+                {SKILLS.map((skill, index) => (
+                  <tr key={index}>
+                    <td>{skill.name}</td>
+                    <td><div className={styles.bar} style={{ '--pct': skill.pct }}></div></td>
+                    <td>{skill.level}</td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>
@@ -363,6 +362,9 @@ export default function ClaudeStyle() {
                 <button className={`${styles.macBtn} ${styles.green}`}></button>
               </div>
               <span className={styles.termTitleText}>chenghong_terminal.sh</span>
+            </div>
+            <div className='p-2'>
+              <p className='text-yellow-500 text-xs'><b>NOTE:</b> {TERMINALS.CLAUDE.alert}</p>
             </div>
             <div className={styles.termBody} ref={termBodyRef}>
               {terminalHistory.map((line, i) => (

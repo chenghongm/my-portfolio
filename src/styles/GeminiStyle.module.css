@@ -671,3 +671,67 @@
 .compact {
   padding: 18px 20px 20px;
 }
+
+.skillGrid {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+}
+
+.skillItem {
+  display: grid;
+  gap: 8px;
+}
+
+.skillInfo {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--win-blue);
+}
+
+.skillBarContainer {
+  height: 20px;
+  background: #fff;
+  border-top: 2px solid var(--win-bg-dark);
+  border-left: 2px solid var(--win-bg-dark);
+  border-right: 1px solid var(--win-white);
+  border-bottom: 1px solid var(--win-white);
+  padding: 2px;
+}
+
+.skillBar {
+  height: 100%;
+  background: var(--win-blue);
+  width: var(--pct, 0%);
+}
+
+.heroArtContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.miniTerminal {
+  background: #000;
+  border: 2px solid var(--win-black);
+  box-shadow: inset 2px 2px 0 rgba(255, 255, 255, 0.2);
+  color: #4ade80;
+  padding: 8px 12px;
+  font-size: 11px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+  font-family: "JetBrains Mono", monospace;
+}
+
+.miniTerminal:active {
+  box-shadow: inset -1px -1px 0 rgba(255, 255, 255, 0.2);
+  transform: translate(1px, 1px);
+}
+
+.miniTerminalBlink {
+  animation: blink 1s step-end infinite;
+}

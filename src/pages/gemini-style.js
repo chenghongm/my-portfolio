@@ -2,14 +2,16 @@ import Head from "next/head";
 import { useState, useRef, useEffect } from "react";
 import Script from "next/script";
 import styles from "../styles/GeminiStyle.module.css";
-import { 
-  trackActivity, 
-  trackInteraction, 
-  PROJECTS, 
-  WORK_CARDS, 
-  SYSTEM_PROMPTS, 
+import {
+  trackActivity,
+  trackInteraction,
+  PROJECTS,
+  WORK_CARDS,
+  SYSTEM_PROMPTS,
+  TERMINALS,
   CONTACT_INFO,
-  HERO_INFO
+  HERO_INFO,
+  SKILLS
 } from '../lib/sharedfunctions';
 
 const PAGE_ID = 'gemini-style';
@@ -84,10 +86,10 @@ function ContactBlock() {
     <WindowFrame id="contact_block" title="CONTACT://CHANNELS.SYS" className={styles.contactWindow} compact>
       <div className={styles.contactGrid}>
         {CONTACT_INFO.map((info) => (
-          <a 
-            key={info.id} 
-            className={styles.contactLink} 
-            href={info.href} 
+          <a
+            key={info.id}
+            className={styles.contactLink}
+            href={info.href}
             target={info.href.startsWith('http') ? "_blank" : undefined}
             rel="noreferrer"
             onClick={() => trackActivity(PAGE_ID, "click", info.id)}
@@ -217,7 +219,17 @@ export default function Home() {
                   ))}
                 </div>
               </div>
-              <pre className={styles.heroArt} aria-hidden="true">{HERO_INFO.art}</pre>
+              <div className={styles.heroArtContainer}>
+                <div
+                  className={styles.miniTerminal}
+                  onClick={() => scrollTo("sec_neural_link")}
+                  title="Initialize Remote Neural Link"
+                >
+                  <span className={styles.terminalPrompt}>&gt;</span>
+                  <span>CONNECT NEURAL_LINK.EXE<span className={styles.miniTerminalBlink}>_</span></span>
+                </div>
+                <pre className={styles.heroArt} aria-hidden="true">{HERO_INFO.art}</pre>
+              </div>
             </div>
           </WindowFrame>
 
@@ -243,7 +255,10 @@ export default function Home() {
                 <span>📡 REMOTE_NEURAL_LINK.EXE (GEMINI_DIRECT)</span>
               </div>
               <div className={styles.terminalBody} ref={terminalBodyRef}>
-                <div className={styles.terminalLineAi}>[SYSTEM]: NEURAL LINK ESTABLISHED. POWERED BY GEMINI PRO.</div>
+                <div className={styles.terminalLineAi}>[SYSTEM]: NEURAL LINK ESTABLISHED. <b className="text-yellow-500">ASK ME ANYTHING ABOUT PROJECTS. </b> POWERED BY GEMINI PRO.</div>
+                <div className="text-[10px] font-mono mt-2">
+                  <p className="text-yellow-500 "><b>NOTE:</b> {TERMINALS.GEMINI.alert}</p>
+                </div>
                 {history.map((msg, i) => (
                   <div key={i} className={msg.role === "user" ? styles.terminalLineUser : styles.terminalLineAi}>
                     {msg.role === "user" ? `> ${msg.content}` : msg.content}
@@ -253,6 +268,9 @@ export default function Home() {
               </div>
               <div className={styles.terminalInputArea}>
                 <span className={styles.terminalPrompt}>&gt;</span>
+                <div style={{ marginTop: '5px' }}>
+                  <span style={{ display: 'inline-block', width: '8px', height: '14px', background: '#F5A800', animation: 'blink 1s step-end infinite' }}></span>
+                </div>
                 <input
                   type="text"
                   className={styles.terminalInput}
@@ -278,8 +296,30 @@ export default function Home() {
             </div>
           </section>
 
+          <section className={styles.sectionBlock} id="sec_skills">
+            <SectionHeader num="05" label="Technical Skills" />
+            <WindowFrame title="SYSTEM://CORE_CAPABILITIES.DLL" compact>
+              <div className={styles.skillGrid}>
+                {SKILLS.map((skill, index) => (
+                  <div key={index} className={styles.skillItem}>
+                    <div className={styles.skillInfo}>
+                      <span>{skill.name}</span>
+                      <span>{skill.level}</span>
+                    </div>
+                    <div className={styles.skillBarContainer}>
+                      <div
+                        className={styles.skillBar}
+                        style={{ '--pct': skill.pct }}
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </WindowFrame>
+          </section>
+
           <section className={styles.sectionBlock} id="sec_contact">
-            <SectionHeader num="05" label="Contact" />
+            <SectionHeader num="06" label="Contact" />
             <h2 className={styles.contactHeading}>
               Let&apos;s build
               <br />
@@ -311,6 +351,9 @@ export default function Home() {
           </div>
           <div className={styles.taskbarTab} onClick={() => scrollTo("sec_how_i_work")}>
             HowIWork.log
+          </div>
+          <div className={styles.taskbarTab} onClick={() => scrollTo("sec_skills")}>
+            Skills.dll
           </div>
           <div className={styles.taskbarTab} onClick={() => scrollTo("sec_contact")}>
             Contact.sys
