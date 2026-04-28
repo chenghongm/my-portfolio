@@ -37,7 +37,7 @@ export default async function handler(req, res) {
         'content-type': 'application/json',
       },
       body: JSON.stringify({
-        model: 'claude-sonnet-4-5', // or your preferred model
+        model: req.model, // or your preferred model
         max_tokens: 2048,
         system: system || '',
         messages: messages || [],

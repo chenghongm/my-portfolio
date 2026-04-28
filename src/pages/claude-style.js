@@ -99,6 +99,7 @@ const workStyles = [
 ];
 
 export default function ClaudeStyle() {
+  const MODEL_NAME = 'claude-sonnet-4-5';
   const [time, setTime] = useState('');
   const [isTerminalOpen, setIsTerminalOpen] = useState(false);
   const [terminalHistory, setTerminalHistory] = useState([]);
@@ -212,7 +213,7 @@ export default function ClaudeStyle() {
           { type: 'empty', text: "" },
           { type: 'prompt', text: "~/portfolio $ _" }
         ]);
-        trackInteraction(userText, "claude-3-5-sonnet", reply);
+        trackInteraction(userText, MODEL_NAME , reply);
       } catch (err) {
         setTerminalHistory(prev => [
           ...prev,
