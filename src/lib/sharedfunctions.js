@@ -97,7 +97,7 @@ export const PROJECTS = [
     title: 'AI Chat Workbench Extension',
     description: 'Browser extension injecting branch-marking UI into Claude, Gemini, ChatGPT, and Grok simultaneously, enabling precise branch marking, collapsing, and navigation across hundreds of messages. Platform-specific adapters handle DOM differences across four distinct interfaces.',
     tags: ['Chrome Extension', 'JavaScript', 'Multi-platform', 'DOM'],
-    status: 'Published',
+    status: 'Published on GitHub',
     year: '2026'
   },
   {
