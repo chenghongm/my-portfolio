@@ -1,24 +1,43 @@
 export default async function handler(req, res) {
-   // Turnstile 验证
+  // 1. 验证请求方法 —— 先校验方法，避免在非 POST 请求上访问 req.body
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Method not allowed' });
+  }
+
+  // 2. Turnstile 验证 —— siteverify 需要 application/x-www-form-urlencoded，
+  //    并且必须传入非空的 response，否则 Cloudflare 会返回 400。
+  const turnstileToken = req.body?.turnstile_token;
+  if (!turnstileToken) {
+    return res.status(400).json({ error: 'Missing Turnstile token' });
+  }
+  if (!process.env.TURNSTILE_SECRET) {
+    return res.status(500).json({ error: 'Turnstile secret not configured' });
+  }
+
+  const verifyParams = new URLSearchParams();
+  verifyParams.append('secret', process.env.TURNSTILE_SECRET);
+  verifyParams.append('response', turnstileToken);
+  const remoteip = (
+    req.headers['cf-connecting-ip'] ||
+    req.headers['x-forwarded-for'] ||
+    ''
+  ).toString().split(',')[0].trim();
+  if (remoteip) verifyParams.append('remoteip', remoteip);
+
   const verify = await fetch(
-    "https://challenges.cloudflare.com/turnstile/v0/siteverify",
+    'https://challenges.cloudflare.com/turnstile/v0/siteverify',
     {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        secret: process.env.TURNSTILE_SECRET,
-        response: req.body.turnstile_token,
-      }),
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: verifyParams.toString(),
     }
   );
   const result = await verify.json();
   if (!result.success) {
-    return res.status(403).json({ error: "Bot detected" });
-  }
-
-  // 1. 验证请求方法
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' });
+    return res.status(403).json({
+      error: 'Turnstile verification failed',
+      codes: result['error-codes'],
+    });
   }
 
   const { system, messages, model } = req.body;
