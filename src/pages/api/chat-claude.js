@@ -33,6 +33,7 @@ export default async function handler(req, res) {
     }
   );
   const result = await verify.json();
+  console.log("Turnstile result:", JSON.stringify(result));
   if (!result.success) {
     return res.status(403).json({
       error: 'Turnstile verification failed',

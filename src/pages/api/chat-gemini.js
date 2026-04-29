@@ -12,6 +12,7 @@ export default async function handler(req, res) {
     }
   );
   const result = await verify.json();
+  console.log("Turnstile result - gemini:", JSON.stringify(result));
   if (!result.success) {
     return res.status(403).json({ error: "Bot detected" });
   }
