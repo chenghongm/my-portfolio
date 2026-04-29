@@ -125,6 +125,59 @@ export const TERMINALS = {
   } 
 }
 
+export const EXPERIENCES = [
+  {
+    id: 'exp_1',
+    title: 'Full-Stack Developer | HealthCare Industry | New York, NY',
+    dateRange: '2022-03 - 2026-04',
+    status: 'Completed',
+    scope: 'Designed and developed internal systems for session scheduling, wellness digitalization, goal progress tracking, batch reporting,and compliance workflows across multiple roles and campuses.',
+    projects: [
+      {
+        id: 'exp_proj_1',
+        title: 'AI-assisted Quarterly Progress Report System',
+        description: 'Architected an AI Orchestration Layer managing the full LLM workflow — data preparation, prompt construction, model routing (local vs API), output parsing, and validation guardrails, versioning and with human-in-the-loop — projecting ~33% reduction in clinician documentation time per reporting cycle.',
+        tags: ['LLM', 'AI Orchestration', 'Post-processing', 'Versioning', 'Human-in-the-Loop'],
+        status: 'Architectured',
+        year: '2026'
+      },
+      {
+        id: 'exp_proj_2',
+        title: 'Scheduling Systems for session coordination across 5+ roles and 3 campuses',
+        description: 'Designed a scheduling system to orchestra resources across 5+ roles and 3 campuses weekly 2000+ and daily 400+ sessions to be auditable and aligned with student attendance and employee PTO and availability; ensure session manageable under flexible constraints; generate reports for resource coordination and capacity planning.',
+        tags: ['Scheduling', 'Resource Coordination', 'Multi-role', 'Multi-campus'],
+        status: 'Deployed and maintained',
+        year: '2024'
+      },
+      {
+        id: 'exp_proj_3',
+        title: 'Goal Progress Tracking System daily/bi-weekly/quarterly progress tracking for 30k+ goals and multiple years',
+        description: 'Designed a goal progress tracking system to manage 30k+ goals and multiple years of data, enabling time shift monitoring of progress towards goals, generating insights with visualization of heat maps for clinicians, and providing actionable recommendations for next steps.',
+        tags: ['Progress Tracking', 'Data Management', 'Insight Generation', 'Visualization'],
+        status: 'Deployed and maintained',
+        year: '2023-2024'
+      },
+      {
+        id: 'exp_proj_4',
+        title: 'Bank-like PTO system',
+        description: 'Designed and developed a bank-like PTO system to manage staff time off, allowing customize PTO requests and track PTO in a transparent and auditable manner, ensuring alignment with scheduling and session coordination.',
+        tags: ['PTO Management', 'Scheduling Alignment', 'Transparency', 'Auditability'],
+        status: 'Deployed and maintained',
+        year: '2024'
+      }
+
+    ]
+  },
+  {
+    id: 'exp_2',
+    title: 'Software Engineer | Crypto Trading Platform | New York, NY',
+    dateRange: '2021-05 - 2022-01',
+    status: 'Completed',
+    scope: 'Managed user center and developed KYC verification flow for a cryptocurrency trading platform supporting 68k+ users',
+    projects:[]
+    
+  }
+];
 export const WORK_CARDS = [
   {
     id: 'work_scope',

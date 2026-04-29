@@ -6,6 +6,7 @@ import {
   trackActivity, 
   trackInteraction, 
   PROJECTS, 
+  EXPERIENCES,
   WORK_CARDS, 
   SYSTEM_PROMPTS, 
   TERMINALS,
@@ -17,7 +18,7 @@ import {
 export default function ClaudeStyle() {
   const PAGE_ID = 'claude-style';
   const MODEL_NAME = 'claude-sonnet-4-5';
-  
+
   // Wrap trackActivity for convenience
   const track = (event, sectionId, extra) => trackActivity(PAGE_ID, event, sectionId, extra);
 
@@ -157,11 +158,12 @@ export default function ClaudeStyle() {
         <title>Chenghong Meng — Full-Stack Developer</title>
         <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@700;800&display=swap" rel="stylesheet" />
       </Head>
-      
+
       <nav className={styles.nav}>
         <a href="#" className={styles.navLogo} onClick={() => track("nav_click", "logo")}>Chenghong Meng</a>
         <ul className={styles.navLinks}>
           <li><a href="#about" onClick={() => track("nav_click", "about")}>About</a></li>
+          <li><a href="#experience" onClick={() => track("nav_click", "experience")}>Experience</a></li>
           <li><a href="#work" onClick={() => track("nav_click", "work")}>Projects</a></li>
           <li><a href="#process" onClick={() => track("nav_click", "process")}>Attitude</a></li>
           <li><a href="#contact" onClick={() => track("nav_click", "contact")}>Contact</a></li>
@@ -286,9 +288,50 @@ export default function ClaudeStyle() {
         </div>
       </section>
 
+      <section id="experience" className={styles.section}>
+        <div className={`${styles.sectionHeader} ${styles.reveal}`}>
+          <span className={styles.sectionNum}>02</span><span className={styles.sectionLine}></span><span className={styles.sectionLabel}>Experience</span>
+        </div>
+        <h2 className={`${styles.sectionHeading} ${styles.reveal}`}>Work<br />Experience.</h2>
+        {EXPERIENCES.map((exp) => (
+          <div key={exp.id} id={exp.id} className={`${styles.expItem} ${styles.reveal}`} onClick={() => track("click", exp.id)}>
+            <div className={styles.expWindowHeader}>
+              <div className={styles.expWindowDots}>
+                <div className={`${styles.macBtn} ${styles.red}`}></div>
+                <div className={`${styles.macBtn} ${styles.yellow}`}></div>
+                <div className={`${styles.macBtn} ${styles.green}`}></div>
+              </div>
+              <div className={styles.expStatus}>{exp.status}</div>
+            </div>
+            <div className={styles.expWindowBody}>
+              <div className={styles.expHeader}>
+                <h3 className={styles.expTitle}>{exp.title}</h3>
+                <span className={styles.expDate}>{exp.dateRange}</span>
+              </div>
+              <p className={styles.expScope}>{exp.scope}</p>
+              {exp.projects && exp.projects.length > 0 && (
+                <div className={styles.expProjects}>
+                  {exp.projects.map(p => (
+                    <div key={p.id} id={p.id} className={styles.expProjCard} onClick={(e) => { e.stopPropagation(); track("click", p.id); }}>
+                      <h4 className={styles.expProjTitle}>{p.title}</h4>
+                      <small className={styles.expProjStatus}>{p.status}</small>
+                      <p className={styles.expProjYear}>{p.year}</p>
+                      <p className={styles.expProjDesc}>{p.description}</p>
+                      <div className={styles.projTags}>
+                        {p.tags.map(tag => <span key={tag} className={styles.projTag}>{tag}</span>)}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        ))}
+      </section>
+
       <section id="work" className={styles.section}>
         <div className={`${styles.sectionHeader} ${styles.reveal}`}>
-          <span className={styles.sectionNum}>02</span><span className={styles.sectionLine}></span><span className={styles.sectionLabel}>Projects</span>
+          <span className={styles.sectionNum}>03</span><span className={styles.sectionLine}></span><span className={styles.sectionLabel}>Projects</span>
         </div>
         <h2 className={`${styles.sectionHeading} ${styles.reveal}`}>Selected<br />Projects.</h2>
         {PROJECTS.map((proj) => (
@@ -311,7 +354,7 @@ export default function ClaudeStyle() {
 
       <section id="process" className={styles.section}>
         <div className={`${styles.sectionHeader} ${styles.reveal}`}>
-          <span className={styles.sectionNum}>03</span><span className={styles.sectionLine}></span><span className={styles.sectionLabel}>How I work</span>
+          <span className={styles.sectionNum}>04</span><span className={styles.sectionLine}></span><span className={styles.sectionLabel}>How I work</span>
         </div>
         <div className={styles.processGrid}>
           {WORK_CARDS.map((style) => (
@@ -326,7 +369,7 @@ export default function ClaudeStyle() {
 
       <section id="contact" className={styles.section}>
         <div className={`${styles.sectionHeader} ${styles.reveal}`}>
-          <span className={styles.sectionNum}>04</span><span className={styles.sectionLine}></span><span className={styles.sectionLabel}>Contact</span>
+          <span className={styles.sectionNum}>05</span><span className={styles.sectionLine}></span><span className={styles.sectionLabel}>Contact</span>
         </div>
         <h2 className={`${styles.contactHeading} ${styles.reveal}`}>Let's build<br /><span>something.</span></h2>
         <div className={`${styles.contactGrid} ${styles.reveal}`}>
@@ -372,7 +415,6 @@ export default function ClaudeStyle() {
                   {line.text}
                 </div>
               ))}
-              
               {isThinking && (
                 <div className={styles.thinkingLine}>
                   Thinking<span>.</span><span>.</span><span>.</span>
@@ -426,3 +468,4 @@ export default function ClaudeStyle() {
     </div>
   );
 }
+

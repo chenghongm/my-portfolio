@@ -6,6 +6,7 @@ import {
   trackActivity,
   trackInteraction,
   PROJECTS,
+  EXPERIENCES,
   WORK_CARDS,
   SYSTEM_PROMPTS,
   TERMINALS,
@@ -162,7 +163,7 @@ export default function Home() {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             system: SYSTEM_PROMPTS.GEMINI,
-            messages: [{ role: "user", content: userMsg }],
+            messages: [{ role: 'user', content: userMsg }],
             turnstile_token: token,
           }),
         });
@@ -247,9 +248,51 @@ export default function Home() {
             </div>
           </section>
 
+          <section className={styles.sectionBlock} id="sec_experience">
+            <SectionHeader num="03" label="Experience" />
+            <h2 className={styles.sectionHeading}>
+              Professional
+              <br />
+              Journey.
+            </h2>
+            <div className={styles.experienceGrid}>
+              {EXPERIENCES.map((exp) => (
+                <WindowFrame key={exp.id} title={`EXP://${exp.id}.LOG`} id={exp.id}>
+                   <div className={styles.expContent}>
+                      <div className={styles.expTop}>
+                        <div>
+                          <h3 className={styles.expTitle}>{exp.title}</h3>
+                          <div className={styles.expStatus}>{exp.status}</div>
+                        </div>
+                        <span className={styles.expDate}>{exp.dateRange}</span>
+                      </div>
+                      <p className={styles.expScope}>{exp.scope}</p>
+                      {exp.projects && exp.projects.length > 0 && (
+                        <div className={styles.expProjectsList}>
+                          {exp.projects.map(p => (
+                            <div key={p.id} id={p.id} className={styles.expProjItem} onClick={(e) => { e.stopPropagation(); track("click", p.id); }}>
+                               <strong className={styles.expProjTitle}>{p.title}</strong>
+                               {p.status && <p className={styles.expProjStatus}>{p.status}</p>}
+                               {p.year && <p className={styles.expProjYear}>{p.year}</p>}
+                               <p className={styles.expProjDesc}>{p.description}</p>
+                               <div className={styles.expProjTags}>
+                                  {p.tags.map(tag => (
+                                    <span key={tag} className={styles.expProjTag}>{tag}</span>
+                                  ))}
+                               </div>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                   </div>
+                </WindowFrame>
+              ))}
+            </div>
+          </section>
+
           {/* Neural Link Terminal */}
           <section className={styles.sectionBlock} id="sec_neural_link">
-            <SectionHeader num="03" label="Neural Link" />
+            <SectionHeader num="04" label="Neural Link" />
             <div className={`${styles.terminalWindow} win95-inset`}>
               <div className={styles.win95Header} style={{ marginBottom: 0 }}>
                 <span>📡 REMOTE_NEURAL_LINK.EXE (GEMINI_DIRECT)</span>
@@ -284,7 +327,7 @@ export default function Home() {
           </section>
 
           <section className={styles.sectionBlock} id="sec_how_i_work">
-            <SectionHeader num="04" label="How I work" />
+            <SectionHeader num="05" label="How I work" />
             <div className={styles.workGrid}>
               {WORK_CARDS.map((card) => (
                 <article key={card.id} id={card.id} className={styles.workCard} onClick={() => track("click", card.id)}>
@@ -297,7 +340,7 @@ export default function Home() {
           </section>
 
           <section className={styles.sectionBlock} id="sec_skills">
-            <SectionHeader num="05" label="Technical Skills" />
+            <SectionHeader num="06" label="Technical Skills" />
             <WindowFrame title="SYSTEM://CORE_CAPABILITIES.DLL" compact>
               <div className={styles.skillGrid}>
                 {SKILLS.map((skill, index) => (
@@ -319,7 +362,7 @@ export default function Home() {
           </section>
 
           <section className={styles.sectionBlock} id="sec_contact">
-            <SectionHeader num="06" label="Contact" />
+            <SectionHeader num="07" label="Contact" />
             <h2 className={styles.contactHeading}>
               Let&apos;s build
               <br />
@@ -345,6 +388,9 @@ export default function Home() {
         <div className={styles.taskbarTabs}>
           <div className={styles.taskbarTab} onClick={() => scrollTo("sec_projects")}>
             Projects.exe
+          </div>
+          <div className={styles.taskbarTab} onClick={() => scrollTo("sec_experience")}>
+            Experience.log
           </div>
           <div className={styles.taskbarTab} onClick={() => scrollTo("sec_neural_link")}>
             NeuralLink.com
