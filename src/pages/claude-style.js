@@ -372,6 +372,7 @@ export default function ClaudeStyle() {
                   {line.text}
                 </div>
               ))}
+              
               {isThinking && (
                 <div className={styles.thinkingLine}>
                   Thinking<span>.</span><span>.</span><span>.</span>
