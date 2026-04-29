@@ -79,7 +79,7 @@ export default function ClaudeStyle() {
     if (termBodyRef.current) {
       termBodyRef.current.scrollTop = termBodyRef.current.scrollHeight;
     }
-  }, [terminalHistory]);
+  }, [terminalHistory, isThinking]);
 
   const openTerminal = () => {
     setIsTerminalOpen(true);
@@ -372,6 +372,11 @@ export default function ClaudeStyle() {
                   {line.text}
                 </div>
               ))}
+              {isThinking && (
+                <div className={styles.thinkingLine}>
+                  Thinking<span>.</span><span>.</span><span>.</span>
+                </div>
+              )}
             </div>
             <div className={styles.termInputRow}>
               <span className={styles.termPromptLabel}>~/portfolio $</span>
