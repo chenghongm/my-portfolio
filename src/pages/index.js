@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import Head from 'next/head';
 import Image from 'next/image';
+import Script from 'next/script';
 import { useEffect } from 'react';
 import { initConsoleEasterEgg } from '../lib/sharedfunctions';
 
@@ -12,8 +13,8 @@ export default function Landing() {
 
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-white flex flex-col items-center justify-center font-mono selection:bg-yellow-500/30">
+      <Script src="https://challenges.cloudflare.com/turnstile/v0/api.js" strategy="afterInteractive" />
       <Head>
-        <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async></script>
         <link rel="icon" href="./assets/eyes.gif" sizes="any" type="image/png"></link>
         <title>Chenghong Meng | Portfolios</title>
       </Head>
