@@ -1,7 +1,35 @@
+const PROMPT_CHAR_LIMIT = 300;
+
+function getPromptCharacterCount(messages = []) {
+  return messages.reduce((total, message) => {
+    if (typeof message?.content === 'string') {
+      return total + message.content.length;
+    }
+
+    if (Array.isArray(message?.content)) {
+      return total + message.content.reduce((partTotal, part) => {
+        return partTotal + (typeof part?.text === 'string' ? part.text.length : 0);
+      }, 0);
+    }
+
+    return total;
+  }, 0);
+}
+
 export default async function handler(req, res) {
   // 1. 验证请求方法 —— 先校验方法，避免在非 POST 请求上访问 req.body
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
+  }
+
+  const { system, messages, model } = req.body;
+
+  if (!Array.isArray(messages)) {
+    return res.status(400).json({ error: 'Messages payload is required' });
+  }
+
+  if (getPromptCharacterCount(messages) > PROMPT_CHAR_LIMIT) {
+    return res.status(400).json({ error: `Prompt limit is ${PROMPT_CHAR_LIMIT} characters per request` });
   }
 
   // 2. Turnstile 验证 —— siteverify 需要 application/x-www-form-urlencoded，
@@ -41,7 +69,6 @@ export default async function handler(req, res) {
     });
   }
 
-  const { system, messages, model } = req.body;
   const apiKey = process.env.ASSISTANT_ID; // Using ASSISTANT_ID for Claude
 
   if (!apiKey) {

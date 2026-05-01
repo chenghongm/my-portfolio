@@ -19,6 +19,7 @@ import {
 export default function ClaudeStyle() {
   const PAGE_ID = 'claude-style';
   const MODEL_NAME = 'claude-sonnet-4-5';
+  const PROMPT_CHAR_LIMIT = 300;
 
   // Wrap trackActivity for convenience
   const track = (event, sectionId, extra) => trackActivity(PAGE_ID, event, sectionId, extra);
@@ -26,6 +27,7 @@ export default function ClaudeStyle() {
   const [time, setTime] = useState('');
   const [isTerminalOpen, setIsTerminalOpen] = useState(false);
   const [terminalHistory, setTerminalHistory] = useState([]);
+  const [chatHistory, setChatHistory] = useState([]);
   const [inputValue, setInputValue] = useState('');
   const [isThinking, setIsThinking] = useState(false);
   const [isEasterEggOpen, setIsEasterEggOpen] = useState(false);
@@ -99,8 +101,24 @@ export default function ClaudeStyle() {
   const handleTerminalSubmit = async (e) => {
     if (e.key === 'Enter' && inputValue.trim() && !isThinking) {
       const userText = inputValue.trim();
+      if (userText.length > PROMPT_CHAR_LIMIT) {
+        setTerminalHistory(prev => {
+          const next = [...prev];
+          if (next[next.length - 1]?.text.endsWith('_')) next.pop();
+          return [
+            ...next,
+            { type: 'response error', text: `ERROR: Prompt limit is ${PROMPT_CHAR_LIMIT} characters.` },
+            { type: 'empty', text: "" },
+            { type: 'prompt', text: "~/portfolio $ _" }
+          ];
+        });
+        return;
+      }
       setInputValue('');
       track("chat_submit", "claude_terminal");
+
+      const updatedChatHistory = [...chatHistory, { role: 'user', content: userText }];
+      setChatHistory(updatedChatHistory);
 
       setTerminalHistory(prev => {
         const next = [...prev];
@@ -120,7 +138,7 @@ export default function ClaudeStyle() {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            system: buildSystemPrompt(SYSTEM_PROMPTS.CLAUDE),
+            system: buildSystemPrompt(SYSTEM_PROMPTS.CLAUDE, updatedChatHistory),
             model: MODEL_NAME,
             messages: [{ role: 'user', content: userText }],
             turnstile_token: token,
@@ -136,6 +154,7 @@ export default function ClaudeStyle() {
           { type: 'empty', text: "" },
           { type: 'prompt', text: "~/portfolio $ _" }
         ]);
+        setChatHistory(prev => [...prev, { role: 'assistant', content: reply }]);
         trackInteraction(userText, MODEL_NAME, reply);
       } catch (err) {
         setTerminalHistory(prev => [
@@ -409,6 +428,7 @@ export default function ClaudeStyle() {
             </div>
             <div className='p-2'>
               <p className='text-yellow-500 text-xs'><b>NOTE:</b> {TERMINALS.CLAUDE.alert}</p>
+              <p className='text-yellow-500 text-xs'><b>LIMIT:</b> Ask one prompt at a time, up to {PROMPT_CHAR_LIMIT} characters.</p>
             </div>
             <div className={styles.termBody} ref={termBodyRef}>
               {terminalHistory.map((line, i) => (
@@ -429,11 +449,12 @@ export default function ClaudeStyle() {
                 type="text"
                 className={styles.termInput}
                 value={inputValue}
-                onChange={(e) => setInputValue(e.target.value)}
+                onChange={(e) => setInputValue(e.target.value.slice(0, PROMPT_CHAR_LIMIT))}
                 onKeyDown={handleTerminalSubmit}
                 placeholder="ask me anything..."
+                maxLength={PROMPT_CHAR_LIMIT}
               />
-              <span className={styles.termSendHint}>↵ send</span>
+              <span className={styles.termSendHint}>{inputValue.length}/{PROMPT_CHAR_LIMIT} · ↵ send</span>
             </div>
           </div>
         </div>
@@ -469,4 +490,3 @@ export default function ClaudeStyle() {
     </div>
   );
 }
-

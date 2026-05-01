@@ -973,6 +973,14 @@
   caret-color: var(--yellow);
 }
 
+.termSendHint {
+  color: rgba(255, 255, 255, 0.45);
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
 /* MAC POPUP */
 .macPopup {
   background: #1e1e1e;

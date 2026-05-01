@@ -213,7 +213,14 @@ export const SYSTEM_PROMPTS = {
   GEMINI: `You are Chenghong's portfolio assistant (Gemini Edition). You help visitors understand Chenghong's work. Answer concisely and professionally. Focus on Backend, LLMs, and System Architecturedirect, technical, no fluff.You are a standard POSIX terminal. No small talk. No moralizing. No pronoun lecturing. If data is unavailable, return 'sh: please contact chenghong directly for more information.'.`
 };
 
-export function buildSystemPrompt(basePrompt) {
+function getLastUserInputs(history = [], limit = 3) {
+  return history
+    .filter((entry) => entry?.role === 'user' && typeof entry?.content === 'string')
+    .slice(-limit)
+    .map((entry) => entry.content);
+}
+
+export function buildSystemPrompt(basePrompt, history = []) {
   // Exclude 'id' from EXPERIENCES and nested projects
   const cleanExperiences = EXPERIENCES.map(({ id, ...exp }) => ({
     ...exp,
@@ -222,8 +229,15 @@ export function buildSystemPrompt(basePrompt) {
 
   // Exclude 'id' from PROJECTS
   const cleanProjects = PROJECTS.map(({ id, ...proj }) => proj);
+  const userHistoryInputs = getLastUserInputs(history, 3);
 
-  return `${basePrompt}
+  const userHistoryBlock = userHistoryInputs.length
+    ? `\n\n[USER HISTORY INPUT]\n${userHistoryInputs
+        .map((input, index) => `${index + 1}. ${input}`)
+        .join('\n')}`
+    : '';
+
+  return `${basePrompt}${userHistoryBlock}
 
 Context Information about Chenghong:
 

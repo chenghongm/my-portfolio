@@ -1,4 +1,27 @@
+const PROMPT_CHAR_LIMIT = 300;
+
+function getPromptCharacterCount(messages = []) {
+  return messages.reduce((total, message) => {
+    return total + (typeof message?.content === 'string' ? message.content.length : 0);
+  }, 0);
+}
+
 export default async function handler(req, res) {
+  // 1. 验证请求方法
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Method not allowed' });
+  }
+
+  const { system, messages } = req.body;
+
+  if (!Array.isArray(messages)) {
+    return res.status(400).json({ error: 'Messages payload is required' });
+  }
+
+  if (getPromptCharacterCount(messages) > PROMPT_CHAR_LIMIT) {
+    return res.status(400).json({ error: `Prompt limit is ${PROMPT_CHAR_LIMIT} characters per request` });
+  }
+
   // Turnstile 验证
   const verify = await fetch(
     "https://challenges.cloudflare.com/turnstile/v0/siteverify",
@@ -17,12 +40,6 @@ export default async function handler(req, res) {
     return res.status(403).json({ error: "Bot detected" });
   }
 
-  // 1. 验证请求方法
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' });
-  }
-
-  const { system, messages } = req.body;
   const apiKey = process.env.ASSISTANT_GEMINI_ID;
 
   if (!apiKey) {

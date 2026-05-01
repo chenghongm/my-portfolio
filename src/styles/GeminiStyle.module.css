@@ -617,12 +617,19 @@
 
 .terminalInput {
   flex: 1;
+  min-width: 0;
   background: transparent;
   border: none;
   outline: none;
   color: #4ade80;
   font-family: inherit;
   font-size: inherit;
+}
+
+.terminalLimitHint {
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 11px;
+  white-space: nowrap;
 }
 
 .terminalPrompt {

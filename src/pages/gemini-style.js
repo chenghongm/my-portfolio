@@ -17,6 +17,7 @@ import {
 } from '../lib/sharedfunctions';
 
 const PAGE_ID = 'gemini-style';
+const PROMPT_CHAR_LIMIT = 300;
 
 function SectionHeader({ num, label }) {
   return (
@@ -152,8 +153,13 @@ export default function Home() {
   const handleSubmit = async (e) => {
     if (e.key === "Enter" && input.trim() && !isThinking) {
       const userMsg = input.trim();
+      if (userMsg.length > PROMPT_CHAR_LIMIT) {
+        setHistory((prev) => [...prev, { role: "assistant", content: `ERROR: Prompt limit is ${PROMPT_CHAR_LIMIT} characters.` }]);
+        return;
+      }
       setInput("");
-      setHistory((prev) => [...prev, { role: "user", content: userMsg }]);
+      const updatedHistory = [...history, { role: "user", content: userMsg }];
+      setHistory(updatedHistory);
       setIsThinking(true);
       track("chat_submit", "gemini_terminal");
 
@@ -163,7 +169,7 @@ export default function Home() {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            system: buildSystemPrompt(SYSTEM_PROMPTS.GEMINI),
+            system: buildSystemPrompt(SYSTEM_PROMPTS.GEMINI, updatedHistory),
             messages: [{ role: 'user', content: userMsg }],
             turnstile_token: token,
           }),
@@ -302,6 +308,7 @@ export default function Home() {
                 <div className={styles.terminalLineAi}>[SYSTEM]: NEURAL LINK ESTABLISHED. <b className="text-yellow-500">ASK ME ANYTHING ABOUT PROJECTS. </b> POWERED BY GEMINI PRO.</div>
                 <div className="text-[10px] font-mono mt-2">
                   <p className="text-yellow-500 "><b>NOTE:</b> {TERMINALS.GEMINI.alert}</p>
+                  <p className="text-yellow-500 "><b>LIMIT:</b> Ask one prompt at a time, up to {PROMPT_CHAR_LIMIT} characters.</p>
                 </div>
                 {history.map((msg, i) => (
                   <div key={i} className={msg.role === "user" ? styles.terminalLineUser : styles.terminalLineAi}>
@@ -319,10 +326,12 @@ export default function Home() {
                   type="text"
                   className={styles.terminalInput}
                   value={input}
-                  onChange={(e) => setInput(e.target.value)}
+                  onChange={(e) => setInput(e.target.value.slice(0, PROMPT_CHAR_LIMIT))}
                   onKeyDown={handleSubmit}
                   placeholder="Ask about my projects..."
+                  maxLength={PROMPT_CHAR_LIMIT}
                 />
+                <span className={styles.terminalLimitHint}>{input.length}/{PROMPT_CHAR_LIMIT}</span>
               </div>
             </div>
           </section>
