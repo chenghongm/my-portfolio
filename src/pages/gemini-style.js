@@ -9,6 +9,7 @@ import {
   EXPERIENCES,
   WORK_CARDS,
   SYSTEM_PROMPTS,
+  buildSystemPrompt,
   TERMINALS,
   CONTACT_INFO,
   HERO_INFO,
@@ -162,7 +163,7 @@ export default function Home() {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            system: SYSTEM_PROMPTS.GEMINI,
+            system: buildSystemPrompt(SYSTEM_PROMPTS.GEMINI),
             messages: [{ role: 'user', content: userMsg }],
             turnstile_token: token,
           }),

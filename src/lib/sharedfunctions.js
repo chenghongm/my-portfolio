@@ -143,6 +143,15 @@ export const EXPERIENCES = [
       },
       {
         id: 'exp_proj_2',
+        title: 'Event and Reminder Management System',
+        description: 'Designed and developed and event management system to send timely reminders for important dates and events, allowing admin flexiblely grouping up different categories employees based on their roles and locations to customize reminder preferences and ensuring high attendance and engagement. Implemented with queue-based architecture for scalability and reliability',
+        tags: ['Event Management', 'Reminder System', 'User Preferences', 'Queue Architecture'],
+        status: 'Deployed on dev and pending production deployment',
+        year: '2026'
+
+      },
+      {
+        id: 'exp_proj_3',
         title: 'Scheduling Systems for session coordination across 5+ roles and 3 campuses',
         description: 'Designed a scheduling system to orchestra resources across 5+ roles and 3 campuses weekly 2000+ and daily 400+ sessions to be auditable and aligned with student attendance and employee PTO and availability; ensure session manageable under flexible constraints; generate reports for resource coordination and capacity planning.',
         tags: ['Scheduling', 'Resource Coordination', 'Multi-role', 'Multi-campus'],
@@ -150,7 +159,7 @@ export const EXPERIENCES = [
         year: '2024'
       },
       {
-        id: 'exp_proj_3',
+        id: 'exp_proj_4',
         title: 'Goal Progress Tracking System daily/bi-weekly/quarterly progress tracking for 30k+ goals and multiple years',
         description: 'Designed a goal progress tracking system to manage 30k+ goals and multiple years of data, enabling time shift monitoring of progress towards goals, generating insights with visualization of heat maps for clinicians, and providing actionable recommendations for next steps.',
         tags: ['Progress Tracking', 'Data Management', 'Insight Generation', 'Visualization'],
@@ -158,7 +167,7 @@ export const EXPERIENCES = [
         year: '2023-2024'
       },
       {
-        id: 'exp_proj_4',
+        id: 'exp_proj_5',
         title: 'Bank-like PTO system',
         description: 'Designed and developed a bank-like PTO system to manage staff time off, allowing customize PTO requests and track PTO in a transparent and auditable manner, ensuring alignment with scheduling and session coordination.',
         tags: ['PTO Management', 'Scheduling Alignment', 'Transparency', 'Auditability'],
@@ -200,9 +209,30 @@ export const WORK_CARDS = [
 ];
 
 export const SYSTEM_PROMPTS = {
-  CLAUDE: `You are Chenghong's portfolio assistant — a terminal interface on Chenghong's personal developer portfolio website. You answer questions about Chenghong concisely and in character: direct, technical, no fluff.You are a standard POSIX terminal. No small talk. No moralizing. No pronoun lecturing. If data is unavailable, return 'sh: command not found'.`,
-  GEMINI: `You are Chenghong's portfolio assistant (Gemini Edition). You help visitors understand Chenghong's work. Answer concisely and professionally. Focus on Backend, LLMs, and System Architecture.`
+  CLAUDE: `You are Chenghong's portfolio assistant — a terminal interface on Chenghong's personal developer portfolio website. You answer questions about Chenghong concisely and professionally in character: direct, technical, no fluff.You are a standard POSIX terminal. No small talk. No moralizing. No pronoun lecturing. If data is unavailable, return 'sh: please contact chenghong directly for more information.'.`,
+  GEMINI: `You are Chenghong's portfolio assistant (Gemini Edition). You help visitors understand Chenghong's work. Answer concisely and professionally. Focus on Backend, LLMs, and System Architecturedirect, technical, no fluff.You are a standard POSIX terminal. No small talk. No moralizing. No pronoun lecturing. If data is unavailable, return 'sh: please contact chenghong directly for more information.'.`
 };
+
+export function buildSystemPrompt(basePrompt) {
+  // Exclude 'id' from EXPERIENCES and nested projects
+  const cleanExperiences = EXPERIENCES.map(({ id, ...exp }) => ({
+    ...exp,
+    projects: exp.projects?.map(({ id, ...proj }) => proj) || []
+  }));
+
+  // Exclude 'id' from PROJECTS
+  const cleanProjects = PROJECTS.map(({ id, ...proj }) => proj);
+
+  return `${basePrompt}
+
+Context Information about Chenghong:
+
+[EXPERIENCES]
+${JSON.stringify(cleanExperiences, null, 2)}
+
+[PROJECTS]
+${JSON.stringify(cleanProjects, null, 2)}`;
+}
 
 export const CONTACT_INFO = [
   {

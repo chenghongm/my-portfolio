@@ -8,7 +8,8 @@ import {
   PROJECTS, 
   EXPERIENCES,
   WORK_CARDS, 
-  SYSTEM_PROMPTS, 
+  SYSTEM_PROMPTS,
+  buildSystemPrompt,
   TERMINALS,
   CONTACT_INFO,
   HERO_INFO,
@@ -119,7 +120,7 @@ export default function ClaudeStyle() {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            system: SYSTEM_PROMPTS.CLAUDE,
+            system: buildSystemPrompt(SYSTEM_PROMPTS.CLAUDE),
             model: MODEL_NAME,
             messages: [{ role: 'user', content: userText }],
             turnstile_token: token,
