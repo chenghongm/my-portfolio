@@ -13,13 +13,20 @@ import {
   TERMINALS,
   CONTACT_INFO,
   HERO_INFO,
-  SKILLS
+  SKILLS,
+  INITIAL_PROMPT_HOOKS,
+  getFollowupHooks
 } from '../lib/sharedfunctions';
 
 export default function ClaudeStyle() {
   const PAGE_ID = 'claude-style';
   const MODEL_NAME = 'claude-sonnet-4-5';
   const PROMPT_CHAR_LIMIT = 300;
+  const INITIAL_TERMINAL_LINES = [
+    { type: 'system', text: "// type your question and press Enter" },
+    { type: 'empty', text: "" },
+    { type: 'prompt', text: "~/portfolio $ _" }
+  ];
 
   // Wrap trackActivity for convenience
   const track = (event, sectionId, extra) => trackActivity(PAGE_ID, event, sectionId, extra);
@@ -31,6 +38,7 @@ export default function ClaudeStyle() {
   const [inputValue, setInputValue] = useState('');
   const [isThinking, setIsThinking] = useState(false);
   const [isEasterEggOpen, setIsEasterEggOpen] = useState(false);
+  const [visibleHooks, setVisibleHooks] = useState(INITIAL_PROMPT_HOOKS);
   const termBodyRef = useRef(null);
   const termInputRef = useRef(null);
 
@@ -89,85 +97,123 @@ export default function ClaudeStyle() {
     setIsTerminalOpen(true);
     track("open_terminal", "claude_terminal");
     if (terminalHistory.length === 0) {
-      setTerminalHistory([
-        { type: 'system', text: "// type your question and press Enter" },
-        { type: 'empty', text: "" },
-        { type: 'prompt', text: "~/portfolio $ _" }
-      ]);
+      setTerminalHistory(INITIAL_TERMINAL_LINES);
     }
     setTimeout(() => termInputRef.current?.focus(), 100);
   };
 
-  const handleTerminalSubmit = async (e) => {
-    if (e.key === 'Enter' && inputValue.trim() && !isThinking) {
-      const userText = inputValue.trim();
-      if (userText.length > PROMPT_CHAR_LIMIT) {
-        setTerminalHistory(prev => {
-          const next = [...prev];
-          if (next[next.length - 1]?.text.endsWith('_')) next.pop();
-          return [
-            ...next,
-            { type: 'response error', text: `ERROR: Prompt limit is ${PROMPT_CHAR_LIMIT} characters.` },
-            { type: 'empty', text: "" },
-            { type: 'prompt', text: "~/portfolio $ _" }
-          ];
-        });
-        return;
-      }
-      setInputValue('');
-      track("chat_submit", "claude_terminal");
+  const submitPrompt = async (rawPrompt, source = 'typed', hookType = null) => {
+    const userText = rawPrompt.trim();
+    if (!userText || isThinking) return;
 
-      const updatedChatHistory = [...chatHistory, { role: 'user', content: userText }];
-      setChatHistory(updatedChatHistory);
-
+    if (userText.length > PROMPT_CHAR_LIMIT) {
       setTerminalHistory(prev => {
-        const next = [...prev];
-        if (next[next.length - 1]?.text.endsWith('_')) next.pop();
+        const seeded = prev.length ? [...prev] : [...INITIAL_TERMINAL_LINES];
+        if (seeded[seeded.length - 1]?.text.endsWith('_')) seeded.pop();
         return [
-          ...next,
-          { type: 'prompt', text: `~/portfolio $ ${userText}` },
-          { type: 'empty', text: "" }
+          ...seeded,
+          { type: 'response error', text: `ERROR: Prompt limit is ${PROMPT_CHAR_LIMIT} characters.` },
+          { type: 'empty', text: "" },
+          { type: 'prompt', text: "~/portfolio $ _" }
         ];
       });
+      setVisibleHooks(getFollowupHooks(userText));
+      return;
+    }
 
-      setIsThinking(true);
+    setInputValue('');
+    if (source === 'hook') {
+      track("hook_click", "claude_terminal", { hook_type: hookType, prompt_text: userText });
+    } else {
+      track("chat_submit", "claude_terminal");
+    }
 
-      try {
-        const token = await getToken();
-        const response = await fetch('/api/chat-claude', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            system: buildSystemPrompt(SYSTEM_PROMPTS.CLAUDE, updatedChatHistory),
-            model: MODEL_NAME,
-            messages: [{ role: 'user', content: userText }],
-            turnstile_token: token,
-          })
-        });
+    const updatedChatHistory = [...chatHistory, { role: 'user', content: userText }];
+    setChatHistory(updatedChatHistory);
+    setTerminalHistory(prev => {
+      const seeded = prev.length ? [...prev] : [...INITIAL_TERMINAL_LINES];
+      if (seeded[seeded.length - 1]?.text.endsWith('_')) seeded.pop();
+      return [
+        ...seeded,
+        { type: 'prompt', text: `~/portfolio $ ${userText}` },
+        { type: 'empty', text: "" }
+      ];
+    });
+    setIsThinking(true);
 
-        const data = await response.json();
-        const reply = data.content?.[0]?.text || data.reply || "sh: command not found";
+    try {
+      const token = await getToken();
+      const response = await fetch('/api/chat-claude', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          system: buildSystemPrompt(SYSTEM_PROMPTS.CLAUDE, updatedChatHistory),
+          model: MODEL_NAME,
+          messages: [{ role: 'user', content: userText }],
+          turnstile_token: token,
+        })
+      });
 
-        setTerminalHistory(prev => [
-          ...prev,
-          { type: 'response', text: reply },
-          { type: 'empty', text: "" },
-          { type: 'prompt', text: "~/portfolio $ _" }
-        ]);
-        setChatHistory(prev => [...prev, { role: 'assistant', content: reply }]);
-        trackInteraction(userText, MODEL_NAME, reply);
-      } catch (err) {
-        setTerminalHistory(prev => [
-          ...prev,
-          { type: 'response error', text: `ERROR: ${err.message}` },
-          { type: 'empty', text: "" },
-          { type: 'prompt', text: "~/portfolio $ _" }
-        ]);
-      } finally {
-        setIsThinking(false);
-      }
+      const data = await response.json();
+      const reply = data.content?.[0]?.text || data.reply || "sh: command not found";
+
+      setTerminalHistory(prev => [
+        ...prev,
+        { type: 'response', text: reply },
+        { type: 'empty', text: "" },
+        { type: 'prompt', text: "~/portfolio $ _" }
+      ]);
+      setChatHistory(prev => [...prev, { role: 'assistant', content: reply }]);
+      trackInteraction(userText, MODEL_NAME, reply);
+    } catch (err) {
+      setTerminalHistory(prev => [
+        ...prev,
+        { type: 'response error', text: `ERROR: ${err.message}` },
+        { type: 'empty', text: "" },
+        { type: 'prompt', text: "~/portfolio $ _" }
+      ]);
+    } finally {
+      setVisibleHooks(getFollowupHooks(userText));
+      setIsThinking(false);
     }
   };
+
+  const handleTerminalSubmit = async (e) => {
+    if (e.key === 'Enter') {
+      await submitPrompt(inputValue, 'typed');
+    }
+  };
+
+  const handleHookClick = async (prompt, hookType = 'followup_hook') => {
+    if (isThinking) return;
+    if (!isTerminalOpen) {
+      setIsTerminalOpen(true);
+    }
+    if (terminalHistory.length === 0) {
+      setTerminalHistory(INITIAL_TERMINAL_LINES);
+    }
+    setTimeout(() => termInputRef.current?.focus(), 100);
+    await submitPrompt(prompt, 'hook', hookType);
+  };
+
+  const renderHooks = (hookType, compact = false) => (
+    <div className={`${styles.promptHookGroup} ${compact ? styles.promptHookGroupCompact : ''}`}>
+      {visibleHooks.map((hook) => (
+        <button
+          key={hook}
+          type="button"
+          className={styles.promptHook}
+          disabled={isThinking}
+          onClick={(event) => {
+            event.stopPropagation();
+            handleHookClick(hook, hookType);
+          }}
+        >
+          {hook}
+        </button>
+      ))}
+    </div>
+  );
 
   return (
     <div className={styles.container}>
@@ -194,7 +240,7 @@ export default function ClaudeStyle() {
         <div className={styles.statusItem}><span className={styles.statusDot}></span>SYSTEM_ONLINE</div>
         <span className={styles.statusSep}>|</span>
         <div className={styles.statusItem}>STATUS:
-          <span className={styles.metaValueGreen} style={{ animation: 'blink 2s step-end infinite' }}> Available</span>
+          <span className={styles.metaValueGreen} style={{ animation: 'blink 2s step-end infinite' }}> Listening</span>
         </div>
         <span className={styles.statusSep}>|</span>
         <div className={styles.statusItem}>STACK: Laravel/React/MySQL/Python</div>
@@ -213,7 +259,7 @@ export default function ClaudeStyle() {
               </div>
               <span>SYSTEM_MANIFEST</span>
             </div>
-            <div className={styles.winGhostBody}>Available_For_Deep_Technology_Fusion</div>
+            <div className={styles.winGhostBody}>Listening_For_Deep_Technology_Fusion</div>
           </div>
           <div className={styles.winGhostWindow} style={{ '--rot': '2deg', marginLeft: '40px' }} onClick={() => track("click", "ghost_win_alert")}>
             <div className={styles.winGhostTitle}>
@@ -241,9 +287,12 @@ export default function ClaudeStyle() {
               <span style={{ fontSize: '14px', letterSpacing: '2px', color: 'white' }}>chenghong_terminal.sh</span>
             </div>
             <div style={{ padding: '16px', fontSize: '12px', lineHeight: '2', color: 'rgba(245,168,0,0.8)' }}>
-              <div>// click anywhere to open terminal</div>
+              <div>{'// click anywhere to open terminal'}</div>
               <div>ASK_ME_ANYTHING_READY</div>
               <div>CONTEXT: projects · stack · experience</div>
+              <div className={styles.triggerHookWrap}>
+                {renderHooks(chatHistory.length === 0 ? 'initial_hook' : 'followup_hook', true)}
+              </div>
               <div style={{ marginTop: '10px' }}>
                 <span style={{ display: 'inline-block', width: '8px', height: '14px', background: '#F5A800', animation: 'blink 1s step-end infinite' }}></span>
               </div>
@@ -391,7 +440,7 @@ export default function ClaudeStyle() {
         <div className={`${styles.sectionHeader} ${styles.reveal}`}>
           <span className={styles.sectionNum}>05</span><span className={styles.sectionLine}></span><span className={styles.sectionLabel}>Contact</span>
         </div>
-        <h2 className={`${styles.contactHeading} ${styles.reveal}`}>Let's build<br /><span>something.</span></h2>
+        <h2 className={`${styles.contactHeading} ${styles.reveal}`}>Let&apos;s build<br /><span>something.</span></h2>
         <div className={`${styles.contactGrid} ${styles.reveal}`}>
           {CONTACT_INFO.map((info) => (
             <a 
@@ -436,6 +485,7 @@ export default function ClaudeStyle() {
                   {line.text}
                 </div>
               ))}
+              {renderHooks(chatHistory.length === 0 ? 'initial_hook' : 'followup_hook')}
               {isThinking && (
                 <div className={styles.thinkingLine}>
                   Thinking<span>.</span><span>.</span><span>.</span>

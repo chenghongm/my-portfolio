@@ -209,8 +209,8 @@ export const WORK_CARDS = [
 ];
 
 export const SYSTEM_PROMPTS = {
-  CLAUDE: `You are Chenghong's portfolio assistant — a terminal interface on Chenghong's personal developer portfolio website. You answer questions about Chenghong concisely and professionally in character: direct, technical, no fluff.You are a standard POSIX terminal. No small talk. No moralizing. No pronoun lecturing. If data is unavailable, return 'sh: please contact chenghong directly for more information.'.`,
-  GEMINI: `You are Chenghong's portfolio assistant (Gemini Edition). You help visitors understand Chenghong's work. Answer concisely and professionally. Focus on Backend, LLMs, and System Architecturedirect, technical, no fluff.You are a standard POSIX terminal. No small talk. No moralizing. No pronoun lecturing. If data is unavailable, return 'sh: please contact chenghong directly for more information.'.`
+  CLAUDE: `You are Chenghong's portfolio assistant — a terminal interface on Chenghong's personal developer portfolio website. You answer questions about Chenghong concisely and professionally in character: direct, technical, no fluff.No small talk. No moralizing. No pronoun lecturing. If data is unavailable, return 'sh: please contact chenghong directly for more information.'.`,
+  GEMINI: `You are Chenghong's portfolio assistant (Gemini Edition). You help visitors understand Chenghong's work. Answer concisely and professionally. Focus on Backend, LLMs, and System Architecturedirect, technical, no fluff. No small talk. No moralizing. No pronoun lecturing. If data is unavailable, return 'sh: please contact chenghong directly for more information.'.`
 };
 
 function getLastUserInputs(history = [], limit = 3) {
@@ -246,6 +246,23 @@ ${JSON.stringify(cleanExperiences, null, 2)}
 
 [PROJECTS]
 ${JSON.stringify(cleanProjects, null, 2)}`;
+}
+
+export function getPromptTopic(prompt = "") {
+  const normalizedPrompt = prompt.toLowerCase();
+
+  for (const [topic, config] of Object.entries(PROMPT_HOOK_TOPICS)) {
+    if (config.keywords.some((keyword) => normalizedPrompt.includes(keyword))) {
+      return topic;
+    }
+  }
+
+  return "fallback";
+}
+
+export function getFollowupHooks(prompt = "") {
+  const topic = getPromptTopic(prompt);
+  return [...(PROMPT_HOOK_TOPICS[topic]?.followups || FALLBACK_PROMPT_HOOKS)].slice(0, 2);
 }
 
 export const CONTACT_INFO = [
@@ -288,13 +305,165 @@ export const HERO_INFO = {
     // { label: "MODE", value: "Production first" },
     { label: "STACK", value: "Laravel/React, Mysql, Python, LLM" },
     { label: "FOCUS", value: "Backend + LLM" },
-    { label: "STATUS", value: "Available", status: "Available" }
+    { label: "STATUS", value: "Listening", status: "Listening" }
   ],
   art: `      _ [LAB] _
     /   \\_____/   \\
    | [CH] |   | [01] |
     \\ ___ /   \\ ___ /
-      /   \\_____/   \\
+     /   \\_____/   \\
      | [AI] |   | [LLM]|
       \\ _ /     \\ _ /`
 };
+
+function normalizeKeyword(value = "") {
+  return value
+    .toLowerCase()
+    .replace(/[^a-z0-9+#/.\s-]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function dedupeKeywords(values = []) {
+  return [...new Set(values.map(normalizeKeyword).filter(Boolean))];
+}
+
+function splitIntoKeywordParts(values = []) {
+  return dedupeKeywords(
+    values.flatMap((value) => {
+      const normalized = normalizeKeyword(value);
+      if (!normalized) return [];
+
+      const compactParts = normalized
+        .split(/[\s/.-]+/)
+        .map((part) => part.trim())
+        .filter((part) => part.length >= 2);
+
+      return [normalized, ...compactParts];
+    })
+  );
+}
+
+const PROFILE_NAME = HERO_INFO.title
+  .toLowerCase()
+  .split(/\s+/)
+  .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+  .join(" ");
+
+const PROFILE_FIRST_NAME = PROFILE_NAME.split(" ")[0];
+
+const PROJECT_KEYWORDS = splitIntoKeywordParts([
+  "project",
+  "projects",
+  "build",
+  "built",
+  "portfolio",
+  ...PROJECTS.flatMap((project) => [
+    project.title,
+    project.description,
+    project.status,
+    ...project.tags
+  ])
+]);
+
+const EXPERIENCE_KEYWORDS = splitIntoKeywordParts([
+  "experience",
+  "career",
+  "history",
+  "job",
+  "jobs",
+  "role",
+  "roles",
+  "work",
+  ...EXPERIENCES.flatMap((experience) => [
+    experience.title,
+    experience.scope,
+    experience.status,
+    ...(experience.projects || []).flatMap((project) => [
+      project.title,
+      project.description,
+      project.status,
+      ...project.tags
+    ])
+  ])
+]);
+
+const STACK_KEYWORDS = splitIntoKeywordParts([
+  "stack",
+  "tech",
+  "backend",
+  "skills",
+  "skill",
+  "ai",
+  "llm",
+  ...SKILLS.map((skill) => `${skill.name} ${skill.level}`),
+  ...PROJECTS.flatMap((project) => project.tags)
+]);
+
+const CONTACT_KEYWORDS = splitIntoKeywordParts([
+  "contact",
+  "email",
+  "reach",
+  "hire",
+  ...CONTACT_INFO.flatMap((contact) => [contact.label, contact.href])
+]);
+
+export const INITIAL_PROMPT_HOOKS = [
+  `Who is ${PROFILE_FIRST_NAME}?`,
+  `What projects is ${PROFILE_FIRST_NAME} strongest in?`,
+  `What backend and AI stack does ${PROFILE_FIRST_NAME} use?`
+];
+
+const PROMPT_HOOK_TOPICS = {
+  identity: {
+    keywords: splitIntoKeywordParts([
+      "who is",
+      "tell me about",
+      "about",
+      "background",
+      "introduce",
+      "summary",
+      PROFILE_NAME,
+      PROFILE_FIRST_NAME,
+      HERO_INFO.subTitle,
+      HERO_INFO.summary
+    ]),
+    followups: [
+      `What kind of roles is ${PROFILE_FIRST_NAME} targeting?`,
+      `What makes ${PROFILE_FIRST_NAME}'s engineering approach stand out?`
+    ]
+  },
+  projects: {
+    keywords: PROJECT_KEYWORDS,
+    followups: [
+      "Which project shows the strongest system design depth?",
+      `Can you compare ${PROFILE_FIRST_NAME}'s top projects by technical complexity?`
+    ]
+  },
+  experience: {
+    keywords: EXPERIENCE_KEYWORDS,
+    followups: [
+      `What impact did ${PROFILE_FIRST_NAME} have in healthcare engineering?`,
+      `How does ${PROFILE_FIRST_NAME}'s prior experience connect to backend or AI roles?`
+    ]
+  },
+  stack: {
+    keywords: STACK_KEYWORDS,
+    followups: [
+      `Which parts of the stack is ${PROFILE_FIRST_NAME} strongest in?`,
+      `How does ${PROFILE_FIRST_NAME} combine backend engineering with LLM work?`
+    ]
+  },
+  contact: {
+    keywords: CONTACT_KEYWORDS,
+    followups: [
+      `Where can I contact ${PROFILE_FIRST_NAME} directly?`,
+      `What should I ask ${PROFILE_FIRST_NAME} about first?`
+    ]
+  }
+};
+
+const FALLBACK_PROMPT_HOOKS = [
+  `Can you summarize ${PROFILE_FIRST_NAME}'s experience?`,
+  "Which project should I look at first?"
+];

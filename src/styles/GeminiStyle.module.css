@@ -647,6 +647,49 @@
   margin-bottom: 8px;
 }
 
+.promptHookGroup {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 12px 0 8px;
+}
+
+.promptHook {
+  appearance: none;
+  border: 2px solid var(--win-black);
+  border-top-color: var(--win-white);
+  border-left-color: var(--win-white);
+  background: #d4d0c8;
+  color: #111;
+  padding: 6px 10px;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 11px;
+  line-height: 1.4;
+  text-align: left;
+  cursor: pointer;
+  box-shadow: inset 1px 1px 0 rgba(255, 255, 255, 0.55);
+}
+
+.promptHook:hover:not(:disabled),
+.promptHook:focus-visible:not(:disabled) {
+  background: #ece9d8;
+  outline: 1px dotted #111;
+  outline-offset: 2px;
+}
+
+.promptHook:active:not(:disabled) {
+  border-top-color: var(--win-black);
+  border-left-color: var(--win-black);
+  border-right-color: var(--win-white);
+  border-bottom-color: var(--win-white);
+  box-shadow: inset -1px -1px 0 rgba(255, 255, 255, 0.55);
+}
+
+.promptHook:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
 .pageFooter {
   display: flex;
   justify-content: space-between;
@@ -812,6 +855,10 @@
 
   .pageFooter {
     font-size: 11px;
+  }
+
+  .promptHook {
+    width: 100%;
   }
 }
 

@@ -13,7 +13,9 @@ import {
   TERMINALS,
   CONTACT_INFO,
   HERO_INFO,
-  SKILLS
+  SKILLS,
+  INITIAL_PROMPT_HOOKS,
+  getFollowupHooks
 } from '../lib/sharedfunctions';
 
 const PAGE_ID = 'gemini-style';
@@ -110,6 +112,7 @@ export default function Home() {
   const [input, setInput] = useState("");
   const [isThinking, setIsThinking] = useState(false);
   const [time, setTime] = useState("");
+  const [visibleHooks, setVisibleHooks] = useState(INITIAL_PROMPT_HOOKS);
   const terminalBodyRef = useRef(null);
 
   // Wrap trackActivity for convenience
@@ -150,41 +153,75 @@ export default function Home() {
     }
   }, [history]);
 
-  const handleSubmit = async (e) => {
-    if (e.key === "Enter" && input.trim() && !isThinking) {
-      const userMsg = input.trim();
-      if (userMsg.length > PROMPT_CHAR_LIMIT) {
-        setHistory((prev) => [...prev, { role: "assistant", content: `ERROR: Prompt limit is ${PROMPT_CHAR_LIMIT} characters.` }]);
-        return;
-      }
-      setInput("");
-      const updatedHistory = [...history, { role: "user", content: userMsg }];
-      setHistory(updatedHistory);
-      setIsThinking(true);
-      track("chat_submit", "gemini_terminal");
+  const submitPrompt = async (rawPrompt, source = "typed", hookType = null) => {
+    const userMsg = rawPrompt.trim();
+    if (!userMsg || isThinking) return;
 
-      try {
-        const token = await getToken();
-        const response = await fetch("/api/chat-gemini", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            system: buildSystemPrompt(SYSTEM_PROMPTS.GEMINI, updatedHistory),
-            messages: [{ role: 'user', content: userMsg }],
-            turnstile_token: token,
-          }),
-        });
-        const data = await response.json();
-        const aiMsg = data.content?.[0]?.text || data.reply || "COMMAND_NOT_FOUND";
-        setHistory((prev) => [...prev, { role: "assistant", content: aiMsg }]);
-        trackInteraction(userMsg, "gemini-1.5-flash", aiMsg);
-      } catch (err) {
-        setHistory((prev) => [...prev, { role: "assistant", content: `ERROR: ${err.message}` }]);
-      } finally {
-        setIsThinking(false);
-      }
+    if (userMsg.length > PROMPT_CHAR_LIMIT) {
+      setHistory((prev) => [...prev, { role: "assistant", content: `ERROR: Prompt limit is ${PROMPT_CHAR_LIMIT} characters.` }]);
+      setVisibleHooks(getFollowupHooks(userMsg));
+      return;
+    }
+
+    setInput("");
+    const updatedHistory = [...history, { role: "user", content: userMsg }];
+    setHistory(updatedHistory);
+    setIsThinking(true);
+
+    if (source === "hook") {
+      track("hook_click", "gemini_terminal", { hook_type: hookType, prompt_text: userMsg });
+    } else {
+      track("chat_submit", "gemini_terminal");
+    }
+
+    try {
+      const token = await getToken();
+      const response = await fetch("/api/chat-gemini", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          system: buildSystemPrompt(SYSTEM_PROMPTS.GEMINI, updatedHistory),
+          messages: [{ role: 'user', content: userMsg }],
+          turnstile_token: token,
+        }),
+      });
+      const data = await response.json();
+      const aiMsg = data.content?.[0]?.text || data.reply || "COMMAND_NOT_FOUND";
+      setHistory((prev) => [...prev, { role: "assistant", content: aiMsg }]);
+      trackInteraction(userMsg, "gemini-1.5-flash", aiMsg);
+    } catch (err) {
+      setHistory((prev) => [...prev, { role: "assistant", content: `ERROR: ${err.message}` }]);
+    } finally {
+      setVisibleHooks(getFollowupHooks(userMsg));
+      setIsThinking(false);
     }
   };
+
+  const handleSubmit = async (e) => {
+    if (e.key === "Enter") {
+      await submitPrompt(input, "typed");
+    }
+  };
+
+  const handleHookClick = async (prompt, hookType = "followup_hook") => {
+    await submitPrompt(prompt, "hook", hookType);
+  };
+
+  const renderHooks = (hookType) => (
+    <div className={styles.promptHookGroup}>
+      {visibleHooks.map((hook) => (
+        <button
+          key={hook}
+          type="button"
+          className={styles.promptHook}
+          disabled={isThinking}
+          onClick={() => handleHookClick(hook, hookType)}
+        >
+          {hook}
+        </button>
+      ))}
+    </div>
+  );
 
   const scrollTo = (id) => {
     const el = document.getElementById(id);
@@ -315,6 +352,7 @@ export default function Home() {
                     {msg.role === "user" ? `> ${msg.content}` : msg.content}
                   </div>
                 ))}
+                {renderHooks(history.length === 0 ? "initial_hook" : "followup_hook")}
                 {isThinking && <div className="animate-pulse">THINKING...</div>}
               </div>
               <div className={styles.terminalInputArea}>
