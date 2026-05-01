@@ -111,6 +111,7 @@ export default function Home() {
   const [history, setHistory] = useState([]);
   const [input, setInput] = useState("");
   const [isThinking, setIsThinking] = useState(false);
+  const [isNeuralLinkMaximized, setIsNeuralLinkMaximized] = useState(false);
   const [time, setTime] = useState("");
   const [visibleHooks, setVisibleHooks] = useState(INITIAL_PROMPT_HOOKS);
   const terminalBodyRef = useRef(null);
@@ -152,6 +153,21 @@ export default function Home() {
       terminalBodyRef.current.scrollTop = terminalBodyRef.current.scrollHeight;
     }
   }, [history]);
+
+  useEffect(() => {
+    if (!isNeuralLinkMaximized) return undefined;
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
+
+    const handleKeyDown = (event) => {
+      if (event.key === "Escape") {
+        setIsNeuralLinkMaximized(false);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isNeuralLinkMaximized]);
 
   const submitPrompt = async (rawPrompt, source = "typed", hookType = null) => {
     const userMsg = rawPrompt.trim();
@@ -337,9 +353,22 @@ export default function Home() {
           {/* Neural Link Terminal */}
           <section className={styles.sectionBlock} id="sec_neural_link">
             <SectionHeader num="04" label="Neural Link" />
-            <div className={`${styles.terminalWindow} win95-inset`}>
+            <div
+              className={`${styles.terminalWindow} ${isNeuralLinkMaximized ? styles.terminalWindowMaximized : ""} win95-inset`}
+            >
               <div className={styles.win95Header} style={{ marginBottom: 0 }}>
                 <span>📡 REMOTE_NEURAL_LINK.EXE (GEMINI_DIRECT)</span>
+                <div className={styles.win95Controls}>
+                  <button
+                    type="button"
+                    className={styles.win95Btn}
+                    aria-label={isNeuralLinkMaximized ? "Restore Neural Link window" : "Maximize Neural Link window"}
+                    title={isNeuralLinkMaximized ? "Restore" : "Maximize"}
+                    onClick={() => setIsNeuralLinkMaximized((prev) => !prev)}
+                  >
+                    <span className={isNeuralLinkMaximized ? styles.iconMin : styles.iconMax} />
+                  </button>
+                </div>
               </div>
               <div className={styles.terminalBody} ref={terminalBodyRef}>
                 <div className={styles.terminalLineAi}>[SYSTEM]: NEURAL LINK ESTABLISHED. <b className="text-yellow-500">ASK ME ANYTHING ABOUT PROJECTS. </b> POWERED BY GEMINI PRO.</div>
