@@ -40,6 +40,7 @@ export default function ClaudeStyle() {
   const [inputValue, setInputValue] = useState('');
   const [isThinking, setIsThinking] = useState(false);
   const [isEasterEggOpen, setIsEasterEggOpen] = useState(false);
+  const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
   const [visibleHooks, setVisibleHooks] = useState(INITIAL_PROMPT_HOOKS);
   const termBodyRef = useRef(null);
   const termInputRef = useRef(null);
@@ -115,6 +116,19 @@ export default function ClaudeStyle() {
 
     return () => {
       window.removeEventListener('scroll', handlePageScroll);
+    };
+  }, []);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth > 768) {
+        setIsMobileNavOpen(false);
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
     };
   }, []);
 
@@ -316,14 +330,42 @@ export default function ClaudeStyle() {
       </Head>
 
       <nav className={styles.nav}>
-        <a href="#" className={styles.navLogo} onClick={() => track("nav_click", "logo")}>Chenghong Meng</a>
-        <ul className={styles.navLinks}>
-          <li><a href="#about" onClick={() => track("nav_click", "about")}>About</a></li>
-          <li><a href="#experience" onClick={() => track("nav_click", "experience")}>Experience</a></li>
-          <li><a href="#work" onClick={() => track("nav_click", "work")}>Projects</a></li>
-          <li><a href="#process" onClick={() => track("nav_click", "process")}>Attitude</a></li>
-          <li><a href="#contact" onClick={() => track("nav_click", "contact")}>Contact</a></li>
-        </ul>
+        <div className={styles.navActions}>
+          <ul className={`${styles.navLinks} ${isMobileNavOpen ? styles.navLinksOpen : ''}`}>
+            <li><a href="#about" onClick={() => { setIsMobileNavOpen(false); track("nav_click", "about"); }}>About</a></li>
+            <li><a href="#experience" onClick={() => { setIsMobileNavOpen(false); track("nav_click", "experience"); }}>Experience</a></li>
+            <li><a href="#work" onClick={() => { setIsMobileNavOpen(false); track("nav_click", "work"); }}>Projects</a></li>
+            <li><a href="#process" onClick={() => { setIsMobileNavOpen(false); track("nav_click", "process"); }}>Attitude</a></li>
+            <li><a href="#contact" onClick={() => { setIsMobileNavOpen(false); track("nav_click", "contact"); }}>Contact</a></li>
+          </ul>
+          <div className={styles.navActions}>
+            <button
+              type="button"
+              className={styles.navMenuToggle}
+              aria-label="Toggle routes"
+              title="Toggle routes"
+              onClick={() => setIsMobileNavOpen((prev) => !prev)}
+            >
+              <span></span>
+              <span></span>
+              <span></span>
+            </button>
+
+          </div>
+        </div>
+         <div className={styles.navActions}>
+           <a href="#" className={styles.navLogo} onClick={() => track("nav_click", "logo")}>Chenghong Meng</a>
+          <a
+            href="/gemini-style"
+            className={styles.themeSwitch}
+            onClick={() => track("nav_click", "switch_to_gemini")}
+            aria-label="Switch to Gemini style"
+            title="Switch to Gemini style"
+          >
+            <span aria-hidden="true">G</span>
+          </a>
+         
+        </div>
       </nav>
 
       <div className={styles.statusBar}>

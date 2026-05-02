@@ -50,6 +50,38 @@
   backdrop-filter: blur(2px);
 }
 
+.themeSwitch {
+  position: fixed;
+  bottom: 44px;
+  right: 16px;
+  z-index: 1002;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: var(--win-bg);
+  border-top: 2px solid var(--win-white);
+  border-left: 2px solid var(--win-white);
+  border-right: 2px solid var(--win-black);
+  border-bottom: 2px solid var(--win-black);
+  color: var(--win-blue);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0;
+  box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.32);
+  border-radius: 50%;
+}
+
+.themeSwitch:active {
+  border-top-color: var(--win-black);
+  border-left-color: var(--win-black);
+  border-right-color: var(--win-white);
+  border-bottom-color: var(--win-white);
+  transform: translate(1px, 1px);
+}
+
 .pageGrid {
   max-width: 1180px;
   margin: 0 auto;
@@ -501,8 +533,7 @@ button.win95Btn {
 }
 
 .expScope:hover {
-  background-color: var(--win-bg-dark);
-  color: var(--win-white);
+  background-color: #f2f2f2;
 }
 
 .expProjectsList {
@@ -870,6 +901,7 @@ button.win95Btn {
   height: 24px;
   cursor: pointer;
   user-select: none;
+  font-family: inherit;
 }
 
 .win95StartBtn img {
@@ -893,6 +925,10 @@ button.win95Btn {
   scrollbar-width: none;
 }
 
+.taskbarTabsOpen {
+  display: flex;
+}
+
 .taskbarTab {
   min-width: 80px;
   max-width: 160px;
@@ -911,6 +947,7 @@ button.win95Btn {
   height: 24px;
   cursor: pointer;
   user-select: none;
+  font-family: inherit;
 }
 
 .taskbarTray {
@@ -979,6 +1016,14 @@ button.win95Btn {
 }
 
 @media (max-width: 720px) {
+  .themeSwitch {
+    bottom: 42px;
+    right: 10px;
+    width: 28px;
+    height: 28px;
+    font-size: 12px;
+  }
+
   .pageShell {
     padding: 14px 10px 24px;
   }
@@ -1033,8 +1078,8 @@ button.win95Btn {
   }
 
   .win95ChatBubble {
-    right: 16px;
-    bottom: calc(12vh + 32px);
+    right: 14px;
+    bottom: 84px;
     width: 60px;
     height: 60px;
   }
@@ -1042,6 +1087,38 @@ button.win95Btn {
   .win95ChatBubbleInner {
     width: 40px;
     height: 40px;
+  }
+
+  .taskbarDivider {
+    display: none;
+  }
+
+  .taskbarTabs {
+    position: absolute;
+    left: 2px;
+    bottom: calc(100% + 4px);
+    width: min(150px, calc(100vw - 20px));
+    display: none;
+    flex-direction: column;
+    gap: 2px;
+    padding: 4px;
+    background: var(--win-bg);
+    border-top: 2px solid var(--win-white);
+    border-left: 2px solid var(--win-white);
+    border-right: 2px solid var(--win-black);
+    border-bottom: 2px solid var(--win-black);
+    overflow: visible;
+  }
+
+  .taskbarTabsOpen {
+    display: flex;
+  }
+
+  .taskbarTab {
+    max-width: none;
+    width: 100%;
+    justify-content: flex-start;
+    height: 28px;
   }
 }
 

@@ -112,6 +112,7 @@ export default function Home() {
   const [input, setInput] = useState("");
   const [isThinking, setIsThinking] = useState(false);
   const [isNeuralLinkMaximized, setIsNeuralLinkMaximized] = useState(false);
+  const [isMobileStartOpen, setIsMobileStartOpen] = useState(false);
   const [time, setTime] = useState("");
   const [visibleHooks, setVisibleHooks] = useState(INITIAL_PROMPT_HOOKS);
   const terminalBodyRef = useRef(null);
@@ -168,6 +169,17 @@ export default function Home() {
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [isNeuralLinkMaximized]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth > 720) {
+        setIsMobileStartOpen(false);
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const submitPrompt = async (rawPrompt, source = "typed", hookType = null) => {
     const userMsg = rawPrompt.trim();
@@ -245,6 +257,26 @@ export default function Home() {
       el.scrollIntoView({ behavior: "smooth" });
       track("nav_click", id);
     }
+    setIsMobileStartOpen(false);
+  };
+
+  const taskbarRoutes = [
+    { id: "top", label: "IDENTITY_V95.SYS" },
+    { id: "sec_projects", label: "Projects.exe" },
+    { id: "sec_experience", label: "Experience.log" },
+    { id: "sec_neural_link", label: "NeuralLink.com" },
+    { id: "sec_how_i_work", label: "HowIWork.log" },
+    { id: "sec_skills", label: "Skills.dll" },
+    { id: "sec_contact", label: "Contact.sys" },
+  ];
+
+  const handleStartButtonClick = () => {
+   
+    if (window.innerWidth <= 720) {
+      setIsMobileStartOpen((prev) => !prev);
+      return;
+    }
+     scrollTo("top");
   };
 
   return (
@@ -259,6 +291,7 @@ export default function Home() {
           content="Win95-style portfolio for Chenghong Meng, focused on backend systems, React, and LLM tooling."
         />
       </Head>
+
       <div className={styles.pageShell} id="top">
         <main className={styles.pageGrid}>
           <WindowFrame id="hero_window" title="IDENTITY_V95.SYS" className={styles.heroWindow}>
@@ -482,34 +515,35 @@ export default function Home() {
 
       {/* Win95 Taskbar */}
       <div className={styles.win95Taskbar}>
-        <div className={styles.win95StartBtn} onClick={() => scrollTo("top")}>
+        <button type="button" className={styles.win95StartBtn} onClick={handleStartButtonClick}>
           <img src="/assets/gemini_icon.png" alt="Gemini" />
           <span>Start</span>
-        </div>
+        </button>
         <div className={styles.taskbarDivider} />
-        <div className={styles.taskbarTabs}>
-          <div className={styles.taskbarTab} onClick={() => scrollTo("sec_projects")}>
-            Projects.exe
-          </div>
-          <div className={styles.taskbarTab} onClick={() => scrollTo("sec_experience")}>
-            Experience.log
-          </div>
-          <div className={styles.taskbarTab} onClick={() => scrollTo("sec_neural_link")}>
-            NeuralLink.com
-          </div>
-          <div className={styles.taskbarTab} onClick={() => scrollTo("sec_how_i_work")}>
-            HowIWork.log
-          </div>
-          <div className={styles.taskbarTab} onClick={() => scrollTo("sec_skills")}>
-            Skills.dll
-          </div>
-          <div className={styles.taskbarTab} onClick={() => scrollTo("sec_contact")}>
-            Contact.sys
-          </div>
+        <div className={`${styles.taskbarTabs} ${isMobileStartOpen ? styles.taskbarTabsOpen : ""}`}>
+          {taskbarRoutes.map((route) => (
+            <button
+              key={route.id}
+              type="button"
+              className={styles.taskbarTab}
+              onClick={() => scrollTo(route.id)}
+            >
+              {route.label}
+            </button>
+          ))}
         </div>
         <div className={styles.taskbarTray}>
           <img src="/assets/gemini_icon.png" alt="" style={{ width: 14, height: 14, filter: "grayscale(100%) brightness(0)" }} />
           <span>{time}</span>
+          <a
+            href="/claude-style"
+            className={styles.themeSwitch}
+            onClick={() => track("nav_click", "switch_to_claude")}
+            aria-label="Switch to Claude style"
+            title="Switch to Claude style"
+          >
+            <span aria-hidden="true">C</span>
+          </a>
         </div>
       </div>
     </div>

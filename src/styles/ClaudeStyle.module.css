@@ -41,6 +41,66 @@
   z-index: 1000;
 }
 
+.themeSwitch {
+  position: static;
+  width: 38px;
+  height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid rgba(255, 255, 255, 0.16);
+  background: rgba(10, 10, 10, 0.88);
+  color: var(--win-blue-light);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.28);
+  transition: color 0.18s ease, border-color 0.18s ease, transform 0.18s ease, background 0.18s ease;
+  border-radius: 999px;
+}
+
+.navActions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+  text-align: right;
+}
+
+.navMenuToggle {
+  display: none;
+  width: 38px;
+  height: 38px;
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(10, 10, 10, 0.88);
+  border-radius: 6px;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 4px;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.28);
+}
+
+.navMenuToggle span {
+  width: 14px;
+  height: 1px;
+  background: var(--yellow);
+  display: block;
+}
+
+.themeSwitch:hover,
+.themeSwitch:focus-visible {
+  color: var(--white);
+  border-color: rgba(245, 168, 0, 0.6);
+  background: rgba(24, 24, 24, 0.96);
+  transform: translateY(-1px);
+  outline: none;
+}
+
 /* NAV */
 .nav {
   position: fixed;
@@ -51,7 +111,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px 60px;
+  padding: 10px 10px 10px 10px;
   background: rgba(10, 10, 10, 0.766);
   backdrop-filter: blur(8px);
   border-bottom: 1px solid var(--border);
@@ -1226,8 +1286,37 @@
 }
 
 @media(max-width:768px) {
-  .nav { padding: 16px 24px; }
-  .navLinks { display: none; }
+  .themeSwitch {
+    width: 34px;
+    height: 34px;
+    font-size: 12px;
+  }
+
+  .nav { padding: 16px 6px 16px 6px}
+  .navActions {
+    gap: 8px;
+  }
+  .navMenuToggle {
+    display: inline-flex;
+  }
+  .navLinks {
+    display: none;
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 5px;
+    width: min(150px, calc(100vw - 48px));
+    padding: 12px;
+    background: rgba(10, 10, 10, 0.94);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 10px;
+    flex-direction: column;
+    gap: 12px;
+    box-shadow: 0 14px 30px rgba(0, 0, 0, 0.35);
+  }
+  .navLinksOpen {
+    display: flex;
+    text-align: left;
+  }
   .hero { padding: 140px 24px 80px; align-items: center; text-align: center; }
   .winGhost { display: none; }
   .terminalTrigger {
