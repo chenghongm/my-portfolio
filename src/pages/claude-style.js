@@ -654,7 +654,7 @@ export default function ClaudeStyle() {
               <p>LLAMA_3_PERSONALITY_SYNC_COMPLETE</p>
               <p>TARGET_LOCKED: <span style={{ color: '#00ff88' }}>NEXT_OPPORTUNITY</span></p>
               <p style={{ marginTop: '16px', color: 'rgba(254, 254, 254, 0.899)', fontSize: '14px', letterSpacing: '2px' }}>
-                😎 You found it. Now hire me, or ...Email me for more info.
+                😎 You found it. Now hire me, or Email me for more info, thanks!
               </p>
             </div>
             <div style={{ padding: '12px 20px', borderTop: '1px solid rgba(255, 255, 255, 0.08)', display: 'flex', justifyContent: 'flex-end' }}>

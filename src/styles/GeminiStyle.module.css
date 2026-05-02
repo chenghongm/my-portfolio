@@ -1040,6 +1040,7 @@ button.win95Btn {
 .workCard:hover {
   transform: scale(1.03);
   box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.18);
+  background-color: #ebe9e9;
 }
 
 

@@ -717,6 +717,10 @@
   margin-bottom: 16px;
 }
 
+.expProjDesc:hover {
+  color: var(--white);
+}
+
 /* PROCESS */
 .process {
   background: var(--bg2);
