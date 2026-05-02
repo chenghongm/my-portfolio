@@ -492,10 +492,17 @@
   width: 0;
   background: var(--yellow-dim);
   transition: width 0.4s ease;
+  pointer-events: none;
+  z-index: 0;
 }
 
 .projectItem:hover::before {
   width: 100%;
+}
+
+.projectItem > * {
+  position: relative;
+  z-index: 1;
 }
 
 .projNum {
@@ -522,6 +529,10 @@
   margin-bottom: 20px;
 }
 
+.projDesc:hover {
+  color: var(--white);
+}
+
 .projTags {
   display: flex;
   flex-wrap: wrap;
@@ -535,6 +546,38 @@
   border: 1px solid var(--dim2);
   background-color: var(--bg);
   padding: 3px 10px;
+}
+
+.projLinkRow {
+  margin-top: 16px;
+}
+
+.projLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border: 1px solid rgba(245, 168, 0, 0.35);
+  background: rgba(245, 168, 0, 0.08);
+  color: rgba(255, 245, 204, 0.95);
+  text-decoration: none;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition: background 0.18s ease, border-color 0.18s ease, transform 0.18s ease;
+}
+
+.projLink:hover {
+  background: rgba(245, 168, 0, 0.16);
+  border-color: rgba(245, 168, 0, 0.7);
+  transform: translateY(-1px);
+}
+
+.projLinkPrivate {
+  cursor: default;
+  color: rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.14);
 }
 
 .projSide {

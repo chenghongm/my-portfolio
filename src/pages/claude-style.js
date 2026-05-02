@@ -132,7 +132,7 @@ export default function ClaudeStyle() {
     setIsTerminalOpen(false);
     setIsTerminalCollapsed(true);
     setIsTerminalMaximized(false);
-   
+
     track("collapse_terminal", "claude_terminal");
   };
 
@@ -152,13 +152,13 @@ export default function ClaudeStyle() {
   };
 
   const handleCollapseButtonClick = (event, buttonType) => {
-    
+
     event.stopPropagation();
     collapseTerminal();
   };
 
   const handleMaximizeButtonClick = (event, buttonType) => {
-   
+
     event.stopPropagation();
     toggleTerminalMaximized();
   };
@@ -277,6 +277,34 @@ export default function ClaudeStyle() {
     </div>
   );
 
+  const renderProjectRepoLink = (proj) => {
+    const hasPublicRepo = proj.github && proj.github !== '#';
+
+    if (!hasPublicRepo) {
+      return (
+        <span className={`${styles.projLink} ${styles.projLinkPrivate}`} title="Private Repository">
+          Private Repository
+        </span>
+      );
+    }
+
+    return (
+      <a
+        href={proj.github}
+        title="View on GitHub"
+        target="_blank"
+        rel="noreferrer"
+        onClick={(e) => {
+          e.stopPropagation();
+          track("click", `${proj.id}_link`);
+        }}
+        className={styles.projLink}
+      >
+        View on GitHub
+      </a>
+    );
+  };
+
   return (
     <div className={styles.container}>
       <Script src="https://challenges.cloudflare.com/turnstile/v0/api.js" strategy="afterInteractive" />
@@ -357,7 +385,7 @@ export default function ClaudeStyle() {
                 </div>
                 <div style={{ marginTop: '10px' }}>
                   <span style={{ display: 'inline-block', width: '8px', height: '14px', background: '#F5A800', animation: 'blink 1s step-end infinite' }}></span>
-                <div className={styles.askMeAnything}>ASK_ME_ANYTHING_READY</div>
+                  <div className={styles.askMeAnything}>ASK_ME_ANYTHING_READY</div>
                 </div>
               </div>
             </div>
@@ -440,8 +468,12 @@ export default function ClaudeStyle() {
               <div className={styles.expHeader}>
                 <h3 className={styles.expTitle}>{exp.title}</h3>
                 <span className={styles.expDate}>{exp.dateRange}</span>
+
               </div>
               <p className={styles.expScope}>{exp.scope}</p>
+              <div className={styles.projTags} style={{ marginTop: '10px', marginBottom: '10px' }}>
+                {exp.tags?.map(tag => <span key={tag} className={styles.projTag}>{tag}</span>)}
+              </div>
               {exp.projects && exp.projects.length > 0 && (
                 <div className={styles.expProjects}>
                   {exp.projects.map(p => (
@@ -470,7 +502,7 @@ export default function ClaudeStyle() {
         {PROJECTS.map((proj) => (
           <div key={proj.id} id={proj.id} className={`${styles.projectItem} ${styles.reveal}`} onClick={() => track("click", proj.id)}>
             <span className={styles.projNum}>{proj.num}</span>
-            <div>
+            <div className={styles.projContent}>
               <h3 className={styles.projTitle}>{proj.title}</h3>
               <p className={styles.projDesc}>{proj.description}</p>
               <div className={styles.projTags}>
@@ -480,6 +512,9 @@ export default function ClaudeStyle() {
             <div className={styles.projSide}>
               <div className={styles.projStatus}>{proj.status}</div>
               <div className={styles.projYear}>{proj.year}</div>
+              <div className={styles.projLinkRow}>
+                {renderProjectRepoLink(proj)}
+              </div>
             </div>
           </div>
         ))}

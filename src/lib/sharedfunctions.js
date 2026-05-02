@@ -78,7 +78,8 @@ export const PROJECTS = [
     description: 'Designed an AI Orchestration Layer managing the full LLM workflow — data preparation, prompt construction, model routing (local vs API), output parsing, and validation guardrails, versioning and with human-in-the-loop — projecting ~33% reduction in clinician documentation time per reporting cycle.',
     tags: ['LLM', 'AI Orchestration', 'Post-processing', 'Versioning', 'Human-in-the-Loop'],
     status: 'Architected',
-    year: '2026'
+    year: '2026-03',
+    github: '#'
   },
   {
     id: 'proj_llm_pipeline',
@@ -88,7 +89,8 @@ export const PROJECTS = [
     description: 'End-to-end pipeline: export conversation data from multiple AI platforms, score, filter, clean, desensitize, convert, and fine-tune. Architecture insight: scoring before desensitization prevents placeholder leakage. Working adapter: local_claude_final2.',
     tags: ['Python', 'MLX', 'Llama 3 8B', 'Claude API', 'Fine-tuning'],
     status: 'Working on',
-    year: '2026'
+    year: '2025-12 to present',
+    github: '#'
   },
   {
     id: 'proj_workbench',
@@ -98,7 +100,8 @@ export const PROJECTS = [
     description: 'Browser extension injecting branch-marking UI into Claude, Gemini, ChatGPT, and Grok simultaneously, enabling precise branch marking, collapsing, and navigation across hundreds of messages. Platform-specific adapters handle DOM differences across four distinct interfaces.',
     tags: ['Chrome Extension', 'JavaScript', 'Multi-platform', 'DOM'],
     status: 'Published on GitHub',
-    year: '2026'
+    year: '2025-12 to present',
+    github: 'https://github.com/chenghongm/agi-anti-drowning-tool'
   },
   {
     id: 'proj_scorer',
@@ -108,7 +111,8 @@ export const PROJECTS = [
     description: 'Two-stage classification: Claude API (Haiku) for topic judgment, GPT for format summarization. Each model used where it outperforms the other. Designed to run before data desensitization to prevent placeholder contamination in training sets.',
     tags: ['Claude API', 'GPT', 'Pipeline Design', 'Python'],
     status: 'Active',
-    year: '2026'
+    year: '2026-03 to present',
+    github: '#'
   }
 ];
 
@@ -122,7 +126,7 @@ export const TERMINALS = {
     title: "REMOTE_NEURAL_LINK.EXE (GEMINI_DIRECT)",
     desc: "A vibrant terminal interface inspired by Google's Gemini Pro, showcasing a bright color palette, dynamic elements, and a futuristic design that emphasizes clarity and user engagement.",
     alert: "⚠️ This is NOT A REAL TERMINAL. It is AI interface designed to answer questions about Chenghong's portfolio. AI may hallucinate. For critical info, please refer to the actual portfolio content or contact directly. Logs are stored for alignment purposes. DO NOT share sensitive information."
-  } 
+  }
 }
 
 export const EXPERIENCES = [
@@ -136,7 +140,7 @@ export const EXPERIENCES = [
       {
         id: 'exp_proj_2',
         title: 'Event and Reminder Management System',
-        description: 'Designed and developed and event management system to send timely reminders for important dates and events, allowing admin flexibly grouping up different categories employees based on their roles and locations to customize reminder preferences and ensuring high attendance and engagement. Implemented with queue-based architecture for scalability and reliability',
+        description: 'Designed and developed event management system to send timely reminders for important dates and events, allowing admin flexibly grouping up different categories employees based on their roles and locations to customize reminder preferences and ensuring high attendance and engagement. Implemented with queue-based architecture for scalability and reliability',
         tags: ['Event Management', 'Reminder System', 'User Preferences', 'Queue Architecture'],
         status: 'Deployed on dev and pending production deployment',
         year: '2026'
@@ -167,16 +171,19 @@ export const EXPERIENCES = [
         year: '2024'
       }
 
-    ]
+    ],
+    tags: ['Scheduling', 'Resource Coordination', 'Progress Tracking', 'PTO Management']
   },
   {
     id: 'exp_2',
     title: 'Software Engineer | Crypto Trading Platform | New York, NY',
     dateRange: '2021-05 - 2022-01',
     status: 'Completed',
-    scope: 'Managed user center and developed KYC verification flow for a cryptocurrency trading platform supporting 68k+ users',
-    projects:[]
-    
+    scope: 'Managed user center and developed KYC verification flow for a cryptocurrency trading platform supporting 68k+ users, ensuring secure and compliant onboarding while maintaining a seamless user experience.',
+    projects: [],
+    tags: ['User Management', 'KYC Verification', 'Security', 'Compliance'],
+
+
   }
 ];
 export const WORK_CARDS = [
@@ -225,8 +232,8 @@ export function buildSystemPrompt(basePrompt, history = []) {
 
   const userHistoryBlock = userHistoryInputs.length
     ? `\n\n[USER HISTORY INPUT]\n${userHistoryInputs
-        .map((input, index) => `${index + 1}. ${input}`)
-        .join('\n')}`
+      .map((input, index) => `${index + 1}. ${input}`)
+      .join('\n')}`
     : '';
 
   return `${basePrompt}${userHistoryBlock}
