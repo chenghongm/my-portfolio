@@ -612,6 +612,7 @@ button.win95Btn {
   height: calc(100dvh - 56px);
   margin-top: 0;
   z-index: 999;
+  max-width: none;
 }
 
 .terminalBody {
@@ -722,6 +723,90 @@ button.win95Btn {
   color: rgba(255, 255, 255, 0.82);
   font-size: 12px;
   letter-spacing: 0.04em;
+}
+
+.win95ChatBubble {
+  position: fixed;
+  right: 24px;
+  bottom: calc(10vh + 32px);
+  width: 68px;
+  height: 68px;
+  padding: 0;
+  background: var(--win-bg);
+  border-top: 2px solid var(--win-white);
+  border-left: 2px solid var(--win-white);
+  border-right: 2px solid var(--win-black);
+  border-bottom: 2px solid var(--win-black);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 980;
+  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.35);
+}
+
+.win95ChatBubble:active {
+  border-top-color: var(--win-black);
+  border-left-color: var(--win-black);
+  border-right-color: var(--win-white);
+  border-bottom-color: var(--win-white);
+  transform: translate(1px, 1px);
+  box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.28);
+}
+
+.win95ChatBubbleInner {
+  width: 46px;
+  height: 46px;
+  border-top: 2px solid #808080;
+  border-left: 2px solid #808080;
+  border-right: 2px solid var(--win-white);
+  border-bottom: 2px solid var(--win-white);
+  border-radius: 50%;
+  background: #d4d0c8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.win95ChatBubbleIcon {
+  position: relative;
+  width: 24px;
+  height: 18px;
+  background: var(--win-blue);
+  border-top: 2px solid #7aa7ff;
+  border-left: 2px solid #7aa7ff;
+  border-right: 2px solid #001f5a;
+  border-bottom: 2px solid #001f5a;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.win95ChatBubbleIcon::after {
+  content: "";
+  position: absolute;
+  left: 4px;
+  bottom: -6px;
+  width: 8px;
+  height: 8px;
+  background: var(--win-blue);
+  border-right: 2px solid #001f5a;
+  border-bottom: 2px solid #001f5a;
+  transform: skewX(-28deg);
+}
+
+.win95ChatBubbleDots {
+  display: flex;
+  gap: 3px;
+}
+
+.win95ChatBubbleDots span {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--win-white);
 }
 
 /* Windows 95 Taskbar */
@@ -885,14 +970,31 @@ button.win95Btn {
   }
 
   .terminalWindowMaximized {
-    top: 8px;
-    left: 8px;
-    width: calc(100vw - 16px);
-    height: calc(100dvh - 44px);
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100vw;
+    height: calc(100dvh - 32px);
+    margin: 0;
+    z-index: 1001;
+    border-left: 0;
+    border-right: 0;
   }
 
   .terminalWindowMaximized .terminalBody {
-    height: calc(100dvh - 122px);
+    height: calc(100dvh - 110px);
+  }
+
+  .win95ChatBubble {
+    right: 16px;
+    bottom: calc(12vh + 32px);
+    width: 60px;
+    height: 60px;
+  }
+
+  .win95ChatBubbleInner {
+    width: 40px;
+    height: 40px;
   }
 }
 

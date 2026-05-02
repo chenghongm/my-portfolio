@@ -318,33 +318,36 @@ export default function Home() {
             <div className={styles.experienceGrid}>
               {EXPERIENCES.map((exp) => (
                 <WindowFrame key={exp.id} title={`EXP://${exp.id}.LOG`} id={exp.id}>
-                   <div className={styles.expContent}>
-                      <div className={styles.expTop}>
-                        <div>
-                          <h3 className={styles.expTitle}>{exp.title}</h3>
-                          <div className={styles.expStatus}>{exp.status}</div>
-                        </div>
-                        <span className={styles.expDate}>{exp.dateRange}</span>
+                  <div className={styles.expContent}>
+                    <div className={styles.expTop}>
+                      <div>
+                        <h3 className={styles.expTitle}>{exp.title}</h3>
+                        <div className={styles.expStatus}>{exp.status}</div>
                       </div>
-                      <p className={styles.expScope}>{exp.scope}</p>
-                      {exp.projects && exp.projects.length > 0 && (
-                        <div className={styles.expProjectsList}>
-                          {exp.projects.map(p => (
-                            <div key={p.id} id={p.id} className={styles.expProjItem} onClick={(e) => { e.stopPropagation(); track("click", p.id); }}>
-                               <strong className={styles.expProjTitle}>{p.title}</strong>
-                               {p.status && <p className={styles.expProjStatus}>{p.status}</p>}
-                               {p.year && <p className={styles.expProjYear}>{p.year}</p>}
-                               <p className={styles.expProjDesc}>{p.description}</p>
-                               <div className={styles.expProjTags}>
-                                  {p.tags.map(tag => (
-                                    <span key={tag} className={styles.expProjTag}>{tag}</span>
-                                  ))}
-                               </div>
+                      <span className={styles.expDate}>{exp.dateRange}</span>
+                    </div>
+                    <p className={styles.expScope}>{exp.scope}</p>
+                    <div className={styles.expProjTags}>
+                      {exp.tags.map(tag => <span key={tag} className={styles.expProjTag}>{tag}</span>)}
+                    </div>
+                    {exp.projects && exp.projects.length > 0 && (
+                      <div className={styles.expProjectsList}>
+                        {exp.projects.map(p => (
+                          <div key={p.id} id={p.id} className={styles.expProjItem} onClick={(e) => { e.stopPropagation(); track("click", p.id); }}>
+                            <strong className={styles.expProjTitle}>{p.title}</strong>
+                            {p.status && <p className={styles.expProjStatus}>{p.status}</p>}
+                            {p.year && <p className={styles.expProjYear}>{p.year}</p>}
+                            <p className={styles.expProjDesc}>{p.description}</p>
+                            <div className={styles.expProjTags}>
+                              {p.tags.map(tag => (
+                                <span key={tag} className={styles.expProjTag}>{tag}</span>
+                              ))}
                             </div>
-                          ))}
-                        </div>
-                      )}
-                   </div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
                 </WindowFrame>
               ))}
             </div>
@@ -454,6 +457,26 @@ export default function Home() {
           <span>2026</span>
         </footer>
       </div>
+
+      {!isNeuralLinkMaximized && (
+        <button
+          type="button"
+          className={styles.win95ChatBubble}
+          onClick={() => scrollTo("sec_neural_link")}
+          aria-label="Open Neural Link"
+          title="Open Neural Link"
+        >
+          <span className={styles.win95ChatBubbleInner}>
+            <span className={styles.win95ChatBubbleIcon} aria-hidden="true">
+              <span className={styles.win95ChatBubbleDots}>
+                <span />
+                <span />
+                <span />
+              </span>
+            </span>
+          </span>
+        </button>
+      )}
 
       {/* Win95 Taskbar */}
       <div className={styles.win95Taskbar}>
