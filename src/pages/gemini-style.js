@@ -486,8 +486,7 @@ export default function Home() {
         </main>
 
         <footer className={styles.pageFooter}>
-          <span>Chenghong Meng — Full-Stack Developer - San Francisco, CA</span>
-          <span>2026</span>
+          <span>Chenghong Meng — Full-Stack Developer - San Francisco, CA - @2026</span>
         </footer>
       </div>
 
