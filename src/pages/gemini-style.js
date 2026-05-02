@@ -466,12 +466,14 @@ export default function Home() {
           aria-label="Open Neural Link"
           title="Open Neural Link"
         >
-          <span className={styles.win95ChatBubbleInner}>
-            <span className={styles.win95ChatBubbleIcon} aria-hidden="true">
-              <span className={styles.win95ChatBubbleDots}>
-                <span />
-                <span />
-                <span />
+          <span className={styles.win95ChatBubbleSpinner}>
+            <span className={styles.win95ChatBubbleInner}>
+              <span className={styles.win95ChatBubbleIcon} aria-hidden="true">
+                <span className={styles.win95ChatBubbleDots}>
+                  <span />
+                  <span />
+                  <span />
+                </span>
               </span>
             </span>
           </span>
