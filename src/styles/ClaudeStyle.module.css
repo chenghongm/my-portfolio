@@ -833,19 +833,73 @@
   animation: termIn 0.25s ease;
 }
 
-.collapsedWindow {
+.askMeAnything {
+  color: var(--win-accent);
+  animation: askMeWave 1.8s ease-in-out infinite;
+  display: inline-block;
+  transform-origin: left center;
+}
+
+.collapsedBubble {
   position: fixed;
-  top: 80px;
-  right: 60px;
-  width: 360px;
-  height: auto;
+  right: 32px;
+  bottom: calc(10vh + 28px);
+  width: 64px;
+  height: 64px;
   z-index: 320;
   cursor: pointer;
-  background: #1a1a1a;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 12px;
-  box-shadow: 0 32px 80px rgba(0, 0, 0, 0.9);
-  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 50%;
+  background: linear-gradient(180deg, #2a2a2a 0%, #161616 100%);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+}
+
+.collapsedBubble:hover,
+.collapsedBubble:focus-visible {
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 24px 50px rgba(0, 0, 0, 0.55);
+  border-color: rgba(245, 168, 0, 0.55);
+  outline: none;
+}
+
+.collapsedBubbleIcon {
+  position: relative;
+  width: 34px;
+  height: 26px;
+  border-radius: 14px;
+  background: var(--yellow);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: dance 0.6s infinite alternate;
+}
+
+.collapsedBubbleIcon::after {
+  content: '';
+  position: absolute;
+  right: 5px;
+  bottom: -5px;
+  width: 11px;
+  height: 11px;
+  background: var(--yellow);
+  clip-path: polygon(0 0, 100% 0, 100% 100%);
+  transform: rotate(18deg);
+}
+
+.collapsedBubbleDots {
+  display: flex;
+  gap: 4px;
+}
+
+.collapsedBubbleDots span {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: rgba(255, 248, 248, 0.92);
 }
 
 .maximized .terminalWindow {
@@ -859,6 +913,26 @@
 @keyframes termIn {
   from { opacity: 0; transform: scale(0.96) }
   to { opacity: 1; transform: scale(1) }
+}
+
+@keyframes askMeWave {
+  0%,
+  100% {
+    transform: translateX(0) rotate(0deg) scale(1);
+    opacity: 0.88;
+  }
+  20% {
+    transform: translateX(2px) rotate(1.2deg) scale(1.02);
+    opacity: 1;
+  }
+  50% {
+    transform: translateX(5px) rotate(0deg) scale(0.8);
+    opacity: 1;
+  }
+  80% {
+    transform: translateX(2px) rotate(-1.2deg) scale(1.02);
+    opacity: 0.96;
+  }
 }
 
 .termTitlebar {
@@ -1096,7 +1170,7 @@
 }
 
 .terminalTrigger {
-  position: fixed;
+  position: absolute;
   top: 80px;
   right: 60px;
   width: 360px;
@@ -1120,10 +1194,11 @@
   .heroTerminalHeader {
     justify-content: center;
   }
-  .collapsedWindow {
-    top: 24px;
-    right: 24px;
-    width: min(100vw - 48px, 360px);
+  .collapsedBubble {
+    right: 20px;
+    bottom: calc(12vh + 28px);
+    width: 58px;
+    height: 58px;
   }
   .heroMeta {
     grid-template-columns: 1fr;

@@ -33,7 +33,7 @@ export default function ClaudeStyle() {
 
   const [time, setTime] = useState('');
   const [isTerminalOpen, setIsTerminalOpen] = useState(false);
-  const [isTerminalCollapsed, setIsTerminalCollapsed] = useState(true);
+  const [isTerminalCollapsed, setIsTerminalCollapsed] = useState(false);
   const [isTerminalMaximized, setIsTerminalMaximized] = useState(false);
   const [terminalHistory, setTerminalHistory] = useState([]);
   const [chatHistory, setChatHistory] = useState([]);
@@ -94,6 +94,29 @@ export default function ClaudeStyle() {
       termBodyRef.current.scrollTop = termBodyRef.current.scrollHeight;
     }
   }, [terminalHistory, isThinking]);
+
+  useEffect(() => {
+    const handlePageScroll = () => {
+      const scrollTop = window.scrollY;
+      const viewportHeight = window.innerHeight;
+      const documentHeight = document.documentElement.scrollHeight;
+      const distanceToBottom = documentHeight - (scrollTop + viewportHeight);
+      const collapseThreshold = viewportHeight * 0.1;
+
+      if (distanceToBottom <= collapseThreshold) {
+        setIsTerminalOpen(false);
+        setIsTerminalCollapsed(true);
+        setIsTerminalMaximized(false);
+      }
+    };
+
+    window.addEventListener('scroll', handlePageScroll, { passive: true });
+    handlePageScroll();
+
+    return () => {
+      window.removeEventListener('scroll', handlePageScroll);
+    };
+  }, []);
 
   const openTerminal = () => {
     setIsTerminalOpen(true);
@@ -227,6 +250,7 @@ export default function ClaudeStyle() {
     if (!isTerminalOpen) {
       setIsTerminalOpen(true);
     }
+    setIsTerminalCollapsed(false);
     if (terminalHistory.length === 0) {
       setTerminalHistory(INITIAL_TERMINAL_LINES);
     }
@@ -327,13 +351,13 @@ export default function ClaudeStyle() {
               </div>
               <div style={{ padding: '16px', fontSize: '12px', lineHeight: '2', color: 'rgba(245,168,0,0.8)' }}>
                 <div>{'// click anywhere to open terminal'}</div>
-                <div>ASK_ME_ANYTHING_READY</div>
                 <div>CONTEXT: projects · stack · experience</div>
                 <div className={styles.triggerHookWrap}>
                   {renderHooks(chatHistory.length === 0 ? 'initial_hook' : 'followup_hook', true)}
                 </div>
                 <div style={{ marginTop: '10px' }}>
                   <span style={{ display: 'inline-block', width: '8px', height: '14px', background: '#F5A800', animation: 'blink 1s step-end infinite' }}></span>
+                <div className={styles.askMeAnything}>ASK_ME_ANYTHING_READY</div>
                 </div>
               </div>
             </div>
@@ -566,31 +590,20 @@ export default function ClaudeStyle() {
       )}
 
       {isTerminalCollapsed && (
-        <div className={styles.collapsedWindow} onClick={expandCollapsedTerminal}>
-          <div className={styles.termTitlebar}>
-            <div style={{ display: 'flex', gap: '7px' }}>
-              <button
-                className={`${styles.macBtn} ${styles.red} ${styles.macBtnLarge}`}
-                onClick={handleCollapseButtonClick}
-                aria-label="Close"
-                data-tooltip="Close"
-              ></button>
-              <button
-                className={`${styles.macBtn} ${styles.yellow} ${styles.macBtnLarge}`}
-                onClick={handleCollapseButtonClick}
-                aria-label="Minimize"
-                data-tooltip="Minimize"
-              ></button>
-              <button
-                className={`${styles.macBtn} ${styles.green}`}
-                onClick={handleMaximizeButtonClick}
-                aria-label={isTerminalMaximized ? "Restore" : "Maximize"}
-                data-tooltip={isTerminalMaximized ? "Restore" : "Maximize"}
-              ></button>
-            </div>
-            <span className={styles.termTitleText}>chenghong_terminal.sh</span>
-          </div>
-        </div>
+        <button
+          type="button"
+          className={styles.collapsedBubble}
+          onClick={expandCollapsedTerminal}
+          aria-label="Open terminal chat"
+        >
+          <span className={styles.collapsedBubbleIcon} aria-hidden="true">
+            <span className={styles.collapsedBubbleDots}>
+              <span></span>
+              <span></span>
+              <span></span>
+            </span>
+          </span>
+        </button>
       )}
 
       {/* Easter Egg Popup */}
