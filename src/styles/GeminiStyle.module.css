@@ -140,6 +140,9 @@ button.win95Btn {
 .win95Body.compact {
   padding: 18px 20px 20px;
 }
+.win95Body.compact:hover {
+  background-color: #ffffff;
+}
 
 .heroLayout {
   display: grid;
@@ -383,6 +386,10 @@ button.win95Btn {
   line-height: 1.65;
 }
 
+.projectDesc:hover {
+  color: var(--win-blue-light);
+}
+
 .projectTags {
   display: flex;
   flex-wrap: wrap;
@@ -493,6 +500,11 @@ button.win95Btn {
   border-bottom: 2px solid var(--win-white);
 }
 
+.expScope:hover {
+  background-color: var(--win-bg-dark);
+  color: var(--win-white);
+}
+
 .expProjectsList {
   display: grid;
   gap: 12px;
@@ -546,6 +558,10 @@ button.win95Btn {
 
 .expProjItem:hover {
   background-color: var(--win-bg-dark);
+}
+
+.expProjDesc:hover {
+  color: var(--win-white);
 }
 
 
