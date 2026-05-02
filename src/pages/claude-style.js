@@ -109,7 +109,7 @@ export default function ClaudeStyle() {
     setIsTerminalOpen(false);
     setIsTerminalCollapsed(true);
     setIsTerminalMaximized(false);
-    console.log("Terminal collapsed. State - Open:", isTerminalOpen, "Collapsed:", isTerminalCollapsed);
+   
     track("collapse_terminal", "claude_terminal");
   };
 
@@ -129,13 +129,13 @@ export default function ClaudeStyle() {
   };
 
   const handleCollapseButtonClick = (event, buttonType) => {
-    console.log("Collapse button clicked. Current state - Open:", isTerminalOpen, "Collapsed:", isTerminalCollapsed, "Button type:", buttonType);
+    
     event.stopPropagation();
     collapseTerminal();
   };
 
   const handleMaximizeButtonClick = (event, buttonType) => {
-    console.log("Maximize button clicked. Current state - Open:", isTerminalOpen, "Collapsed:", isTerminalCollapsed, "Button type:", buttonType);
+   
     event.stopPropagation();
     toggleTerminalMaximized();
   };
