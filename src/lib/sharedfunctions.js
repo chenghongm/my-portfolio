@@ -77,7 +77,7 @@ export const PROJECTS = [
     title: 'AI-assistant QPR (Quarterly Progress Report) System Upgrade',
     description: 'Designed an AI Orchestration Layer managing the full LLM workflow — data preparation, prompt construction, model routing (local vs API), output parsing, and validation guardrails, versioning and with human-in-the-loop — projecting ~33% reduction in clinician documentation time per reporting cycle.',
     tags: ['LLM', 'AI Orchestration', 'Post-processing', 'Versioning', 'Human-in-the-Loop'],
-    status: 'Architectured',
+    status: 'Architected',
     year: '2026'
   },
   {
@@ -134,17 +134,9 @@ export const EXPERIENCES = [
     scope: 'Designed and developed internal systems for session scheduling, wellness digitalization, goal progress tracking, batch reporting,and compliance workflows across multiple roles and campuses.',
     projects: [
       {
-        id: 'exp_proj_1',
-        title: 'AI-assisted Quarterly Progress Report System',
-        description: 'Architected an AI Orchestration Layer managing the full LLM workflow — data preparation, prompt construction, model routing (local vs API), output parsing, and validation guardrails, versioning and with human-in-the-loop — projecting ~33% reduction in clinician documentation time per reporting cycle.',
-        tags: ['LLM', 'AI Orchestration', 'Post-processing', 'Versioning', 'Human-in-the-Loop'],
-        status: 'Architectured',
-        year: '2026'
-      },
-      {
         id: 'exp_proj_2',
         title: 'Event and Reminder Management System',
-        description: 'Designed and developed and event management system to send timely reminders for important dates and events, allowing admin flexiblely grouping up different categories employees based on their roles and locations to customize reminder preferences and ensuring high attendance and engagement. Implemented with queue-based architecture for scalability and reliability',
+        description: 'Designed and developed and event management system to send timely reminders for important dates and events, allowing admin flexibly grouping up different categories employees based on their roles and locations to customize reminder preferences and ensuring high attendance and engagement. Implemented with queue-based architecture for scalability and reliability',
         tags: ['Event Management', 'Reminder System', 'User Preferences', 'Queue Architecture'],
         status: 'Deployed on dev and pending production deployment',
         year: '2026'

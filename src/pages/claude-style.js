@@ -2,12 +2,12 @@ import { useEffect, useState, useRef } from 'react';
 import Head from 'next/head';
 import Script from "next/script";
 import styles from '@/styles/ClaudeStyle.module.css';
-import { 
-  trackActivity, 
-  trackInteraction, 
-  PROJECTS, 
+import {
+  trackActivity,
+  trackInteraction,
+  PROJECTS,
   EXPERIENCES,
-  WORK_CARDS, 
+  WORK_CARDS,
   SYSTEM_PROMPTS,
   buildSystemPrompt,
   TERMINALS,
@@ -33,7 +33,7 @@ export default function ClaudeStyle() {
 
   const [time, setTime] = useState('');
   const [isTerminalOpen, setIsTerminalOpen] = useState(false);
-  const [isTerminalCollapsed, setIsTerminalCollapsed] = useState(false);
+  const [isTerminalCollapsed, setIsTerminalCollapsed] = useState(true);
   const [isTerminalMaximized, setIsTerminalMaximized] = useState(false);
   const [terminalHistory, setTerminalHistory] = useState([]);
   const [chatHistory, setChatHistory] = useState([]);
@@ -121,10 +121,8 @@ export default function ClaudeStyle() {
   };
 
   const toggleTerminalMaximized = () => {
-    if (isTerminalCollapsed) {
-      setIsTerminalOpen(true);
-      setIsTerminalCollapsed(false);
-    }
+    setIsTerminalOpen(true);
+    setIsTerminalCollapsed(false);
     setIsTerminalMaximized((prev) => !prev);
     track("toggle_maximize_terminal", "claude_terminal", { next_state: !isTerminalMaximized ? "maximized" : "windowed" });
     setTimeout(() => termInputRef.current?.focus(), 100);
@@ -137,6 +135,7 @@ export default function ClaudeStyle() {
   };
 
   const handleMaximizeButtonClick = (event, buttonType) => {
+    console.log("Maximize button clicked. Current state - Open:", isTerminalOpen, "Collapsed:", isTerminalCollapsed, "Button type:", buttonType);
     event.stopPropagation();
     toggleTerminalMaximized();
   };
@@ -323,7 +322,7 @@ export default function ClaudeStyle() {
               <div style={{ background: '#2d2d2d', padding: '14px', display: 'flex', gap: '8px', alignItems: 'center' }}>
                 <div className={`${styles.macBtn} ${styles.red}`} onClick={(e) => handleCollapseButtonClick(e, 'close')}></div>
                 <div className={`${styles.macBtn} ${styles.yellow}`} onClick={(e) => handleCollapseButtonClick(e, 'minimize')}></div>
-                <div className={`${styles.macBtn} ${styles.green}`} onClick={(e) => handleMaximizeButtonClick(e)}></div>
+                <div className={`${styles.macBtn} ${styles.green}`} onClick={(e) => handleMaximizeButtonClick(e, 'maximize')}></div>
                 <span style={{ fontSize: '14px', letterSpacing: '2px', color: 'white' }}>chenghong_terminal.sh</span>
               </div>
               <div style={{ padding: '16px', fontSize: '12px', lineHeight: '2', color: 'rgba(245,168,0,0.8)' }}>
@@ -484,10 +483,10 @@ export default function ClaudeStyle() {
         <h2 className={`${styles.contactHeading} ${styles.reveal}`}>Let&apos;s build<br /><span>something.</span></h2>
         <div className={`${styles.contactGrid} ${styles.reveal}`}>
           {CONTACT_INFO.map((info) => (
-            <a 
-              key={info.id} 
-              href={info.href} 
-              className={styles.contactLink} 
+            <a
+              key={info.id}
+              href={info.href}
+              className={styles.contactLink}
               target={info.href.startsWith('http') ? "_blank" : undefined}
               onClick={() => track("click", `${info.id}_claude`)}
             >
@@ -569,26 +568,26 @@ export default function ClaudeStyle() {
       {isTerminalCollapsed && (
         <div className={styles.collapsedWindow} onClick={expandCollapsedTerminal}>
           <div className={styles.termTitlebar}>
-              <div style={{ display: 'flex', gap: '7px' }}>
-                <button
-                  className={`${styles.macBtn} ${styles.red} ${styles.macBtnLarge}`}
-                  onClick={handleCollapseButtonClick}
-                  aria-label="Close"
-                  data-tooltip="Close"
-                ></button>
-                <button
-                  className={`${styles.macBtn} ${styles.yellow} ${styles.macBtnLarge}`}
-                  onClick={handleCollapseButtonClick}
-                  aria-label="Minimize"
-                  data-tooltip="Minimize"
-                ></button>
-                <button
-                  className={`${styles.macBtn} ${styles.green}`}
-                  onClick={handleMaximizeButtonClick}
-                  aria-label={isTerminalMaximized ? "Restore" : "Maximize"}
-                  data-tooltip={isTerminalMaximized ? "Restore" : "Maximize"}
-                ></button>
-              </div>
+            <div style={{ display: 'flex', gap: '7px' }}>
+              <button
+                className={`${styles.macBtn} ${styles.red} ${styles.macBtnLarge}`}
+                onClick={handleCollapseButtonClick}
+                aria-label="Close"
+                data-tooltip="Close"
+              ></button>
+              <button
+                className={`${styles.macBtn} ${styles.yellow} ${styles.macBtnLarge}`}
+                onClick={handleCollapseButtonClick}
+                aria-label="Minimize"
+                data-tooltip="Minimize"
+              ></button>
+              <button
+                className={`${styles.macBtn} ${styles.green}`}
+                onClick={handleMaximizeButtonClick}
+                aria-label={isTerminalMaximized ? "Restore" : "Maximize"}
+                data-tooltip={isTerminalMaximized ? "Restore" : "Maximize"}
+              ></button>
+            </div>
             <span className={styles.termTitleText}>chenghong_terminal.sh</span>
           </div>
         </div>
