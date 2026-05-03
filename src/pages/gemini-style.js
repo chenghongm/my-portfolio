@@ -410,7 +410,7 @@ export default function Home() {
                 <div className={styles.terminalLineAi}>[SYSTEM]: NEURAL LINK ESTABLISHED. <b className="text-yellow-500">ASK ME ANYTHING ABOUT PROJECTS. </b> POWERED BY GEMINI PRO.</div>
                 <div className="text-[10px] font-mono mt-2">
                   <p className="text-yellow-500 "><b>NOTE:</b> {TERMINALS.GEMINI.alert}</p>
-                  <p className="text-yellow-500 "><b>LIMIT:</b> Ask one prompt at a time, up to {PROMPT_CHAR_LIMIT} characters.</p>
+                  {/* <p className="text-yellow-500 "><b>LIMIT:</b> Ask one prompt at a time, up to {PROMPT_CHAR_LIMIT} characters.</p> */}
                 </div>
                 {history.map((msg, i) => (
                   <div key={i} className={msg.role === "user" ? styles.terminalLineUser : styles.terminalLineAi}>

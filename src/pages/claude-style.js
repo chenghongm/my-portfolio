@@ -23,7 +23,7 @@ export default function ClaudeStyle() {
   const MODEL_NAME = 'claude-sonnet-4-5';
   const PROMPT_CHAR_LIMIT = 300;
   const INITIAL_TERMINAL_LINES = [
-    { type: 'system', text: "// type your question and press Enter" },
+    // { type: 'system', text: "// type your question and press Enter" },
     { type: 'empty', text: "" },
     { type: 'prompt', text: "~/portfolio $ _" }
   ];
@@ -42,9 +42,15 @@ export default function ClaudeStyle() {
   const [isEasterEggOpen, setIsEasterEggOpen] = useState(false);
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
   const [visibleHooks, setVisibleHooks] = useState(INITIAL_PROMPT_HOOKS);
+  
   const termBodyRef = useRef(null);
   const termInputRef = useRef(null);
+  
+  // Ref to track if the user has manually scrolled up
+  const userScrolledRef = useRef(false);
 
+  // Track if terminal was intentionally opened by user to prevent scroll-auto-collapse
+  const isManuallyOpenedRef = useRef(false);
 
   // ✅ Invisible 模式正确写法（先 render，再 execute）
   const getToken = () => {
@@ -90,21 +96,72 @@ export default function ClaudeStyle() {
     };
   }, []);
 
+  // Handle Terminal Scroll Tracking
   useEffect(() => {
-    if (termBodyRef.current) {
-      termBodyRef.current.scrollTop = termBodyRef.current.scrollHeight;
+    const handleTerminalScroll = () => {
+      if (!termBodyRef.current) return;
+      
+      const { scrollTop, scrollHeight, clientHeight } = termBodyRef.current;
+      // If we are significantly above the bottom, consider it a user scroll
+      const isAtBottom = scrollHeight - scrollTop <= clientHeight + 30;
+      
+      if (!isAtBottom) {
+        userScrolledRef.current = true;
+      }
+    };
+
+    const termBody = termBodyRef.current;
+    if (termBody) {
+      termBody.addEventListener('scroll', handleTerminalScroll);
+    }
+
+    return () => {
+      if (termBody) {
+        termBody.removeEventListener('scroll', handleTerminalScroll);
+      }
+    };
+  }, [isTerminalOpen]);
+
+  // Handle Auto-Scrolling Behavior
+  useEffect(() => {
+    if (termBodyRef.current && !userScrolledRef.current) {
+      const promptElements = termBodyRef.current.querySelectorAll(`.${styles.termLinePrompt}`);
+      // Find the most recent actual prompt (not the trailing empty one if we aren't thinking)
+      let targetPrompt = null;
+      
+      if (isThinking && promptElements.length > 0) {
+          // If thinking, the last prompt is the one we want to stick to the top
+          targetPrompt = promptElements[promptElements.length - 1];
+      } else if (!isThinking && promptElements.length > 1) {
+          // If done, the second to last prompt is the user's question, the last is the empty `_`
+          targetPrompt = promptElements[promptElements.length - 2];
+      }
+
+      if (targetPrompt) {
+        // Scroll so the prompt is at the top with a tiny bit of padding
+        termBodyRef.current.scrollTo({
+          top: Math.max(0, targetPrompt.offsetTop - 10),
+          behavior: 'smooth'
+        });
+      } else {
+        // Fallback to bottom
+        termBodyRef.current.scrollTop = termBodyRef.current.scrollHeight;
+      }
     }
   }, [terminalHistory, isThinking]);
 
   useEffect(() => {
     const handlePageScroll = () => {
       const scrollTop = window.scrollY;
-      const viewportHeight = window.innerHeight;
-      const documentHeight = document.documentElement.scrollHeight;
-      const distanceToBottom = documentHeight - (scrollTop + viewportHeight);
-      const collapseThreshold = viewportHeight * 0.1;
+      
+      if (scrollTop < 200) {
+        // Reset manual open flag when returning to top
+        isManuallyOpenedRef.current = false;
+        return;
+      }
 
-      if (distanceToBottom <= collapseThreshold) {
+      // Only auto-collapse if we scroll past 200 AND it wasn't manually opened
+      if (scrollTop > 200 && !isTerminalCollapsed && !isTerminalMaximized && !isManuallyOpenedRef.current) {
         setIsTerminalOpen(false);
         setIsTerminalCollapsed(true);
         setIsTerminalMaximized(false);
@@ -112,12 +169,12 @@ export default function ClaudeStyle() {
     };
 
     window.addEventListener('scroll', handlePageScroll, { passive: true });
-    handlePageScroll();
+    // Don't auto-run on mount to prevent instant collapse if refreshing halfway down
 
     return () => {
       window.removeEventListener('scroll', handlePageScroll);
     };
-  }, []);
+  }, [isTerminalCollapsed, isTerminalMaximized]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -133,6 +190,8 @@ export default function ClaudeStyle() {
   }, []);
 
   const openTerminal = () => {
+    isManuallyOpenedRef.current = true;
+    userScrolledRef.current = false;
     setIsTerminalOpen(true);
     setIsTerminalCollapsed(false);
     track("open_terminal", "claude_terminal");
@@ -146,11 +205,14 @@ export default function ClaudeStyle() {
     setIsTerminalOpen(false);
     setIsTerminalCollapsed(true);
     setIsTerminalMaximized(false);
+    isManuallyOpenedRef.current = false;
 
     track("collapse_terminal", "claude_terminal");
   };
 
   const expandCollapsedTerminal = () => {
+    isManuallyOpenedRef.current = true;
+    userScrolledRef.current = false;
     setIsTerminalOpen(true);
     setIsTerminalCollapsed(false);
     track("expand_terminal", "claude_terminal");
@@ -158,6 +220,8 @@ export default function ClaudeStyle() {
   };
 
   const toggleTerminalMaximized = () => {
+    isManuallyOpenedRef.current = true;
+    userScrolledRef.current = false;
     setIsTerminalOpen(true);
     setIsTerminalCollapsed(false);
     setIsTerminalMaximized((prev) => !prev);
@@ -180,6 +244,8 @@ export default function ClaudeStyle() {
   const submitPrompt = async (rawPrompt, source = 'typed', hookType = null) => {
     const userText = rawPrompt.trim();
     if (!userText || isThinking) return;
+    
+    userScrolledRef.current = false;
 
     if (userText.length > PROMPT_CHAR_LIMIT) {
       setTerminalHistory(prev => {
@@ -262,6 +328,7 @@ export default function ClaudeStyle() {
   const handleHookClick = async (prompt, hookType = 'followup_hook') => {
     if (isThinking) return;
     if (!isTerminalOpen) {
+      isManuallyOpenedRef.current = true;
       setIsTerminalOpen(true);
     }
     setIsTerminalCollapsed(false);
@@ -633,7 +700,7 @@ export default function ClaudeStyle() {
             </div>
             <div className={`${styles.termMeta} p-2`}>
               <p className='text-yellow-500 text-xs'><b>NOTE:</b> {TERMINALS.CLAUDE.alert}</p>
-              <p className='text-yellow-500 text-xs'><b>LIMIT:</b> Ask one prompt at a time, up to {PROMPT_CHAR_LIMIT} characters.</p>
+              {/* <p className='text-yellow-500 text-xs'><b>LIMIT:</b> Ask one prompt at a time, up to {PROMPT_CHAR_LIMIT} characters.</p> */}
             </div>
             <div className={styles.termBody} ref={termBodyRef}>
               {terminalHistory.map((line, i) => (

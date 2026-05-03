@@ -120,12 +120,12 @@ export const TERMINALS = {
   CLAUDE: {
     title: "CHENGHONG_TERMINAL.sh (CLAUDE_SONNET_4-5)",
     desc: "A sleek, modern terminal interface inspired by Anthropic's Claude, featuring a dark aesthetic, spacious layout, and subtle animations for an immersive user experience.",
-    alert: "⚠️ This is NOT A REAL TERMINAL. It is AI interface designed to answer questions about Chenghong's portfolio. AI may hallucinate. For critical info, please refer to the actual portfolio content or contact directly. Logs are stored for alignment purposes. DO NOT share sensitive information."
+    alert: "⚠️ This is NOT A REAL TERMINAL. It is Chenghong's portfolio AI assistant. AI may hallucinate and make mistakes. Logs are stored for alignment purposes. DO NOT share sensitive information."
   },
   GEMINI: {
     title: "REMOTE_NEURAL_LINK.EXE (GEMINI_DIRECT)",
     desc: "A vibrant terminal interface inspired by Google's Gemini Pro, showcasing a bright color palette, dynamic elements, and a futuristic design that emphasizes clarity and user engagement.",
-    alert: "⚠️ This is NOT A REAL TERMINAL. It is AI interface designed to answer questions about Chenghong's portfolio. AI may hallucinate. For critical info, please refer to the actual portfolio content or contact directly. Logs are stored for alignment purposes. DO NOT share sensitive information."
+    alert: "⚠️ This is NOT A REAL TERMINAL. It is Chenghong's portfolio AI assistant. AI may hallucinate and make mistakes. Logs are stored for alignment purposes. DO NOT share sensitive information."
   }
 }
 

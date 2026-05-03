@@ -1012,10 +1012,10 @@
 
 .maximized .terminalWindow {
   width: 100vw;
-  height: 100vh;
+  height: 92vh;
   border-radius: 0;
   max-width: 100vw;
-  max-height: 100vh;
+  max-height: 92vh;
 }
 
 @keyframes termIn {
@@ -1163,10 +1163,10 @@
   background: rgba(245, 168, 0, 0.08);
   color: rgba(255, 245, 204, 0.95);
   border-radius: 999px;
-  padding: 8px 12px;
+  padding: 3px 8px;
   font-family: 'Space Mono', monospace;
-  font-size: 11px;
-  line-height: 1.5;
+  font-size: 10px;
+  line-height: 1.4;
   letter-spacing: 0.04em;
   text-align: left;
   cursor: pointer;
@@ -1373,8 +1373,13 @@
   }
 
   .promptHook {
-    width: 100%;
+    /* width: 100%; */
     border-radius: 12px;
+  }
+
+  .maximized .terminalWindow {
+    height: 92vh;
+    max-height: 92vh;
   }
 
   /* Experience Mobile */
