@@ -116,6 +116,7 @@ export default function Home() {
   const [time, setTime] = useState("");
   const [visibleHooks, setVisibleHooks] = useState(INITIAL_PROMPT_HOOKS);
   const terminalBodyRef = useRef(null);
+  const userScrolledRef = useRef(false);
 
   // Wrap trackActivity for convenience
   const track = (event, sectionId, extra) => trackActivity(PAGE_ID, event, sectionId, extra);
@@ -149,11 +150,55 @@ export default function Home() {
     return () => clearInterval(timer);
   }, []);
 
+  // Handle Terminal Scroll Tracking
   useEffect(() => {
-    if (terminalBodyRef.current) {
-      terminalBodyRef.current.scrollTop = terminalBodyRef.current.scrollHeight;
+    const handleTerminalScroll = () => {
+      if (!terminalBodyRef.current) return;
+      
+      const { scrollTop, scrollHeight, clientHeight } = terminalBodyRef.current;
+      // If we are significantly above the bottom, consider it a user scroll
+      const isAtBottom = scrollHeight - scrollTop <= clientHeight + 30;
+      
+      if (!isAtBottom) {
+        userScrolledRef.current = true;
+      }
+    };
+
+    const termBody = terminalBodyRef.current;
+    if (termBody) {
+      termBody.addEventListener('scroll', handleTerminalScroll);
     }
-  }, [history]);
+
+    return () => {
+      if (termBody) {
+        termBody.removeEventListener('scroll', handleTerminalScroll);
+      }
+    };
+  }, []);
+
+  // Handle Auto-Scrolling Behavior
+  useEffect(() => {
+    if (terminalBodyRef.current && !userScrolledRef.current) {
+      const promptElements = terminalBodyRef.current.querySelectorAll(`.${styles.terminalLineUser}`);
+      
+      let targetPrompt = null;
+      if (promptElements.length > 0) {
+        // Find the most recent prompt
+        targetPrompt = promptElements[promptElements.length - 1];
+      }
+
+      if (targetPrompt) {
+        // Scroll so the prompt is at the top with a tiny bit of padding
+        terminalBodyRef.current.scrollTo({
+          top: Math.max(0, targetPrompt.offsetTop - 10),
+          behavior: 'smooth'
+        });
+      } else {
+        // Fallback to bottom
+        terminalBodyRef.current.scrollTop = terminalBodyRef.current.scrollHeight;
+      }
+    }
+  }, [history, isThinking]);
 
   useEffect(() => {
     if (!isNeuralLinkMaximized) return undefined;
@@ -184,6 +229,8 @@ export default function Home() {
   const submitPrompt = async (rawPrompt, source = "typed", hookType = null) => {
     const userMsg = rawPrompt.trim();
     if (!userMsg || isThinking) return;
+
+    userScrolledRef.current = false;
 
     if (userMsg.length > PROMPT_CHAR_LIMIT) {
       setHistory((prev) => [...prev, { role: "assistant", content: `ERROR: Prompt limit is ${PROMPT_CHAR_LIMIT} characters.` }]);
