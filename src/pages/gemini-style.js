@@ -10,6 +10,7 @@ import {
   WORK_CARDS,
   SYSTEM_PROMPTS,
   buildSystemPrompt,
+  JOB_SEARCH_IFRAMES,
   TERMINALS,
   CONTACT_INFO,
   HERO_INFO,
@@ -115,6 +116,10 @@ export default function Home() {
   const [isMobileStartOpen, setIsMobileStartOpen] = useState(false);
   const [time, setTime] = useState("");
   const [visibleHooks, setVisibleHooks] = useState(INITIAL_PROMPT_HOOKS);
+  const [activeJobTab, setActiveJobTab] = useState(0);
+  const [jobSearchIframes, setJobSearchIframes] = useState(JOB_SEARCH_IFRAMES);
+
+
   const terminalBodyRef = useRef(null);
   const userScrolledRef = useRef(false);
 
@@ -312,6 +317,7 @@ export default function Home() {
     { id: "sec_projects", label: "Projects.exe" },
     { id: "sec_experience", label: "Experience.log" },
     { id: "sec_neural_link", label: "NeuralLink.com" },
+    { id: "sec_job_search", label: "JobSearch.xls" },
     { id: "sec_how_i_work", label: "HowIWork.log" },
     { id: "sec_skills", label: "Skills.dll" },
     { id: "sec_contact", label: "Contact.sys" },
@@ -486,8 +492,37 @@ export default function Home() {
             </div>
           </section>
 
+          <section className={styles.sectionBlock} id="sec_job_search">
+            <SectionHeader num="05" label="Daily Activity" />
+            <h2 className={styles.sectionHeading}>
+              Job Search
+              <br />
+              Results.
+            </h2>
+            <div className={styles.tabGroup}>
+              {jobSearchIframes.map((iframe, index) => (
+                <button
+                  key={index}
+                  className={`${styles.tabButton} ${activeJobTab === index ? styles.tabActive : ""}`}
+                  onClick={() => { setActiveJobTab(index); track("click", `job_tab_${index}`); }}
+                >
+                  {iframe.title}
+                </button>
+              ))}
+            </div>
+            <div className={styles.iframeContainer}>
+              <iframe 
+                src={jobSearchIframes[activeJobTab].src} 
+                width="100%" 
+                height="500"
+                frameBorder="0"
+                title={jobSearchIframes[activeJobTab].title}
+              ></iframe>
+            </div>
+          </section>
+
           <section className={styles.sectionBlock} id="sec_how_i_work">
-            <SectionHeader num="05" label="How I work" />
+            <SectionHeader num="06" label="How I work" />
             <div className={styles.workGrid}>
               {WORK_CARDS.map((card) => (
                 <article key={card.id} id={card.id} className={styles.workCard} onClick={() => track("click", card.id)}>
@@ -500,7 +535,7 @@ export default function Home() {
           </section>
 
           <section className={styles.sectionBlock} id="sec_skills">
-            <SectionHeader num="06" label="Technical Skills" />
+            <SectionHeader num="07" label="Technical Skills" />
             <WindowFrame title="SYSTEM://CORE_CAPABILITIES.DLL" compact>
               <div className={styles.skillGrid}>
                 {SKILLS.map((skill, index) => (
@@ -522,7 +557,7 @@ export default function Home() {
           </section>
 
           <section className={styles.sectionBlock} id="sec_contact">
-            <SectionHeader num="07" label="Contact" />
+            <SectionHeader num="08" label="Contact" />
             <h2 className={styles.contactHeading}>
               Let&apos;s build
               <br />

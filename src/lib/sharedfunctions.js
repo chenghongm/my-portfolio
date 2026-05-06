@@ -113,6 +113,17 @@ export const PROJECTS = [
     status: 'Active',
     year: '2026-03 to present',
     github: '#'
+  },
+  {
+    id: 'proj_job_search_assistant',
+    num: '05',
+    windowTitle: "APP://JOB_SEARCH_ASSISTANT.EXE",
+    title: 'Job Search Assistant',
+    description: 'AI-powered job search assistant that helps users find relevant job opportunities based on their skills, experience, and preferences. The assistant provides personalized recommendations and streamlines the job application process.',
+    tags: ['Job Search', 'AI Recommendations', 'Personalization'],
+    status: 'In Progress',
+    year: '2026-04 to present',
+    github: 'https://github.com/chenghongm/daily-job-search'
   }
 ];
 
@@ -205,6 +216,13 @@ export const WORK_CARDS = [
     title: 'Ship, then refine.',
     description: 'Production first, polish second. Things that run matter more than things that look good in dev.'
   }
+];
+
+export const JOB_SEARCH_IFRAMES = [
+  { title: "Search 1", src: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRvJvuyEIuyMW25-tul1cB_Mz2OtTYA6M9lskyg2nehCXE5aAubJ9_ZxagfPDkWIMf5Gzrf6aEQrYZs/pubhtml?gid=2037851839&single=true" },
+  { title: "Search 2", src: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRvJvuyEIuyMW25-tul1cB_Mz2OtTYA6M9lskyg2nehCXE5aAubJ9_ZxagfPDkWIMf5Gzrf6aEQrYZs/pubhtml?gid=2079579709&single=true" },
+  { title: "Search 3", src: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRvJvuyEIuyMW25-tul1cB_Mz2OtTYA6M9lskyg2nehCXE5aAubJ9_ZxagfPDkWIMf5Gzrf6aEQrYZs/pubhtml?gid=1079318399&single=true" },
+  { title: "Search 4", src: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRvJvuyEIuyMW25-tul1cB_Mz2OtTYA6M9lskyg2nehCXE5aAubJ9_ZxagfPDkWIMf5Gzrf6aEQrYZs/pubhtml?gid=1556984224&single=true" },
 ];
 
 export const SYSTEM_PROMPTS = {

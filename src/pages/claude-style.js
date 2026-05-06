@@ -10,6 +10,7 @@ import {
   WORK_CARDS,
   SYSTEM_PROMPTS,
   buildSystemPrompt,
+  JOB_SEARCH_IFRAMES,
   TERMINALS,
   CONTACT_INFO,
   HERO_INFO,
@@ -42,6 +43,9 @@ export default function ClaudeStyle() {
   const [isEasterEggOpen, setIsEasterEggOpen] = useState(false);
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
   const [visibleHooks, setVisibleHooks] = useState(INITIAL_PROMPT_HOOKS);
+  const [activeJobTab, setActiveJobTab] = useState(0);
+  const [jobSearchIframes, setJobSearchIframes] = useState(JOB_SEARCH_IFRAMES);
+
   
   const termBodyRef = useRef(null);
   const termInputRef = useRef(null);
@@ -402,6 +406,7 @@ export default function ClaudeStyle() {
             <li><a href="#about" onClick={() => { setIsMobileNavOpen(false); track("nav_click", "about"); }}>About</a></li>
             <li><a href="#experience" onClick={() => { setIsMobileNavOpen(false); track("nav_click", "experience"); }}>Experience</a></li>
             <li><a href="#work" onClick={() => { setIsMobileNavOpen(false); track("nav_click", "work"); }}>Projects</a></li>
+            <li><a href="#job-search" onClick={() => { setIsMobileNavOpen(false); track("nav_click", "job-search"); }}>Job Search</a></li>
             <li><a href="#process" onClick={() => { setIsMobileNavOpen(false); track("nav_click", "process"); }}>Attitude</a></li>
             <li><a href="#contact" onClick={() => { setIsMobileNavOpen(false); track("nav_click", "contact"); }}>Contact</a></li>
           </ul>
@@ -644,9 +649,37 @@ export default function ClaudeStyle() {
         </div>
       </section>
 
+      <section id="job-search" className={styles.section}>
+        <div className={`${styles.sectionHeader} ${styles.reveal}`}>
+          <span className={styles.sectionNum}>05</span><span className={styles.sectionLine}></span><span className={styles.sectionLabel}>Daily Activity</span>
+        </div>
+        <h2 className={`${styles.sectionHeading} ${styles.reveal}`}>Job Search<br />Results.</h2>
+        
+        <div className={`${styles.tabGroup} ${styles.reveal}`}>
+          {jobSearchIframes.map((iframe, index) => (
+            <button
+              key={index}
+              className={`${styles.tabButton} ${activeJobTab === index ? styles.tabActive : ''}`}
+              onClick={() => { setActiveJobTab(index); track("click", `job_tab_${index}`); }}
+            >
+              {iframe.title}
+            </button>
+          ))}
+        </div>
+
+        <div className={`${styles.iframeContainer} ${styles.reveal}`}>
+          <iframe 
+            src={jobSearchIframes[activeJobTab].src} 
+            width="100%" 
+            height="500"
+            title={jobSearchIframes[activeJobTab].title}
+          ></iframe>
+        </div>
+      </section>
+
       <section id="contact" className={styles.section}>
         <div className={`${styles.sectionHeader} ${styles.reveal}`}>
-          <span className={styles.sectionNum}>05</span><span className={styles.sectionLine}></span><span className={styles.sectionLabel}>Contact</span>
+          <span className={styles.sectionNum}>06</span><span className={styles.sectionLine}></span><span className={styles.sectionLabel}>Contact</span>
         </div>
         <h2 className={`${styles.contactHeading} ${styles.reveal}`}>Let&apos;s build<br /><span>something.</span></h2>
         <div className={`${styles.contactGrid} ${styles.reveal}`}>
