@@ -434,7 +434,9 @@ export default function ClaudeStyle() {
             aria-label="Switch to Gemini style"
             title="Switch to Gemini style"
           >
-            <span aria-hidden="true">G</span>
+            <span className={styles.themeSwitchIcon} aria-hidden="true">
+              <img src="/assets/gemini_icon.png" alt="" />
+            </span>
           </a>
          
         </div>
@@ -654,6 +656,10 @@ export default function ClaudeStyle() {
           <span className={styles.sectionNum}>05</span><span className={styles.sectionLine}></span><span className={styles.sectionLabel}>Daily Activity</span>
         </div>
         <h2 className={`${styles.sectionHeading} ${styles.reveal}`}>Job Search<br />Results.</h2>
+
+        <small className={`${styles.sectionSubheading} ${styles.reveal}`}>
+            Data from top job search platforms, updated daily via automated scraping and LLM parsing pipelines. The main purpose of this comparison is to demonstrate LLM has their own unique "personality" in how they gradient and score a job relevance, and has its own tech bias and ranking algorithms, so by leveraging multiple sources and LLMs, job seekers can get a more holistic view of the market and uncover hidden gems that may not appear on traditional job boards. :)
+        </small>
         
         <div className={`${styles.tabGroup} ${styles.reveal}`}>
           {jobSearchIframes.map((iframe, index) => (

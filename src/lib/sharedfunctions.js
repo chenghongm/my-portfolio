@@ -219,10 +219,10 @@ export const WORK_CARDS = [
 ];
 
 export const JOB_SEARCH_IFRAMES = [
-  { title: "Search 1", src: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRvJvuyEIuyMW25-tul1cB_Mz2OtTYA6M9lskyg2nehCXE5aAubJ9_ZxagfPDkWIMf5Gzrf6aEQrYZs/pubhtml?gid=2037851839&single=true" },
-  { title: "Search 2", src: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRvJvuyEIuyMW25-tul1cB_Mz2OtTYA6M9lskyg2nehCXE5aAubJ9_ZxagfPDkWIMf5Gzrf6aEQrYZs/pubhtml?gid=2079579709&single=true" },
-  { title: "Search 3", src: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRvJvuyEIuyMW25-tul1cB_Mz2OtTYA6M9lskyg2nehCXE5aAubJ9_ZxagfPDkWIMf5Gzrf6aEQrYZs/pubhtml?gid=1079318399&single=true" },
-  { title: "Search 4", src: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRvJvuyEIuyMW25-tul1cB_Mz2OtTYA6M9lskyg2nehCXE5aAubJ9_ZxagfPDkWIMf5Gzrf6aEQrYZs/pubhtml?gid=1556984224&single=true" },
+  { title: "Claude", src: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRvJvuyEIuyMW25-tul1cB_Mz2OtTYA6M9lskyg2nehCXE5aAubJ9_ZxagfPDkWIMf5Gzrf6aEQrYZs/pubhtml?gid=2037851839&single=true" },
+  { title: "Gemini", src: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRvJvuyEIuyMW25-tul1cB_Mz2OtTYA6M9lskyg2nehCXE5aAubJ9_ZxagfPDkWIMf5Gzrf6aEQrYZs/pubhtml?gid=2079579709&single=true" },
+  { title: "ChatGPT", src: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRvJvuyEIuyMW25-tul1cB_Mz2OtTYA6M9lskyg2nehCXE5aAubJ9_ZxagfPDkWIMf5Gzrf6aEQrYZs/pubhtml?gid=1079318399&single=true" },
+  { title: "Vote", src: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRvJvuyEIuyMW25-tul1cB_Mz2OtTYA6M9lskyg2nehCXE5aAubJ9_ZxagfPDkWIMf5Gzrf6aEQrYZs/pubhtml?gid=1556984224&single=true" },
 ];
 
 export const SYSTEM_PROMPTS = {

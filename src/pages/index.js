@@ -31,7 +31,7 @@ export default function Landing() {
             </div>
             <div className="absolute inset-0 flex items-center justify-center opacity-40 group-hover:opacity-100 transition-opacity duration-500">
               <Image
-                src="/assets/claude_icon.png"
+                src="/assets/claude-ai-logo.svg"
                 alt="Claude Icon"
                 width={80}
                 height={80}

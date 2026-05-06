@@ -55,7 +55,36 @@ function WindowFrame({ title, children, id, className = "", compact = false }) {
 }
 
 function ProjectCard({ project }) {
-  const isWide = project.num === "01" || project.num === "04";
+  const isWide = project.num === "01";
+
+  const renderProjectRepoLink = (proj) => {
+    const hasPublicRepo = proj.github && proj.github !== '#';
+
+    if (!hasPublicRepo) {
+      return (
+        <span className={`${styles.projLink} ${styles.projLinkPrivate}`} title="Private Repository">
+          Private Repository
+        </span>
+      );
+    }
+
+    return (
+      <a
+        href={proj.github}
+        title="View on GitHub"
+        target="_blank"
+        rel="noreferrer"
+        onClick={(e) => {
+          e.stopPropagation();
+          trackActivity(PAGE_ID, "click", `${proj.id}_link`);
+        }}
+        className={styles.projLink}
+      >
+        View on GitHub
+      </a>
+    );
+  };
+
   return (
     <WindowFrame
       id={project.id}
@@ -72,6 +101,9 @@ function ProjectCard({ project }) {
           <div className={styles.projectSide}>
             <div className={styles.projectStatus}>{project.status}</div>
             <div className={styles.projectYear}>{project.year}</div>
+            <div className={styles.projLinkRow}>
+              {renderProjectRepoLink(project)}
+            </div>
           </div>
         </div>
         <p className={styles.projectDesc}>{project.description}</p>
@@ -159,11 +191,11 @@ export default function Home() {
   useEffect(() => {
     const handleTerminalScroll = () => {
       if (!terminalBodyRef.current) return;
-      
+
       const { scrollTop, scrollHeight, clientHeight } = terminalBodyRef.current;
       // If we are significantly above the bottom, consider it a user scroll
       const isAtBottom = scrollHeight - scrollTop <= clientHeight + 30;
-      
+
       if (!isAtBottom) {
         userScrolledRef.current = true;
       }
@@ -185,7 +217,7 @@ export default function Home() {
   useEffect(() => {
     if (terminalBodyRef.current && !userScrolledRef.current) {
       const promptElements = terminalBodyRef.current.querySelectorAll(`.${styles.terminalLineUser}`);
-      
+
       let targetPrompt = null;
       if (promptElements.length > 0) {
         // Find the most recent prompt
@@ -324,12 +356,12 @@ export default function Home() {
   ];
 
   const handleStartButtonClick = () => {
-   
+
     if (window.innerWidth <= 720) {
       setIsMobileStartOpen((prev) => !prev);
       return;
     }
-     scrollTo("top");
+    scrollTo("top");
   };
 
   return (
@@ -499,6 +531,10 @@ export default function Home() {
               <br />
               Results.
             </h2>
+
+            <small className={`text-white/70 italic ${styles.sectionSubheading} ${styles.reveal}`}>
+              Data from top job search platforms, updated daily via automated scraping and LLM parsing pipelines. The main purpose of this comparison is to demonstrate LLM has their own unique "personality" in how they gradient and score a job relevance, and has its own tech bias and ranking algorithms, so by leveraging multiple sources and LLMs, job seekers can get a more holistic view of the market and uncover hidden gems that may not appear on traditional job boards. :)
+            </small>
             <div className={styles.tabGroup}>
               {jobSearchIframes.map((iframe, index) => (
                 <button
@@ -511,9 +547,9 @@ export default function Home() {
               ))}
             </div>
             <div className={styles.iframeContainer}>
-              <iframe 
-                src={jobSearchIframes[activeJobTab].src} 
-                width="100%" 
+              <iframe
+                src={jobSearchIframes[activeJobTab].src}
+                width="100%"
                 height="500"
                 frameBorder="0"
                 title={jobSearchIframes[activeJobTab].title}
@@ -623,7 +659,9 @@ export default function Home() {
             aria-label="Switch to Claude style"
             title="Switch to Claude style"
           >
-            <span aria-hidden="true">C</span>
+            <span className={styles.themeSwitchIcon} aria-hidden="true">
+              <img src="/assets/claude-ai-logo.svg" alt="" />
+            </span>
           </a>
         </div>
       </div>
