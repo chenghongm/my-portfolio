@@ -60,21 +60,21 @@
   justify-content: center;
   width: 32px;
   height: 32px;
-  background: var(--win-bg);
-  border-top: 2px solid var(--win-white);
-  border-left: 2px solid var(--win-white);
-  border-right: 2px solid var(--win-black);
-  border-bottom: 2px solid var(--win-black);
+  border: 3px solid transparent;
+  background:
+    var(--win-bg) padding-box,
+    conic-gradient(from 0deg, #2196f3 0deg 180deg, #ff8c00 180deg 360deg) border-box;
   color: var(--win-blue);
   text-decoration: none;
   font-size: 14px;
   font-weight: 700;
   letter-spacing: 0;
-  box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.32);
+  box-shadow: 4px 0 8px rgba(33, 150, 243, 0.7), -4px 0 8px rgba(255, 140, 0, 0.7);
   border-radius: 50%;
 }
 
 .themeSwitchIcon {
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -84,11 +84,21 @@
   transform-origin: center;
 }
 
-.themeSwitchIcon img {
-  display: block;
+.themeSwitchHalfLeft,
+.themeSwitchHalfRight {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: contain;
+}
+
+.themeSwitchHalfLeft {
+  clip-path: inset(0 50% 0 0);
+}
+
+.themeSwitchHalfRight {
+  clip-path: inset(0 0 0 50%);
 }
 
 .themeSwitch:hover .themeSwitchIcon,

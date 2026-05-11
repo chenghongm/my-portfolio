@@ -48,8 +48,10 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border: 2px solid rgba(255, 255, 255, 0.16);
-  background: rgba(10, 10, 10, 0.88);
+  border: 2px solid transparent;
+  background:
+    rgba(10, 10, 10, 0.88) padding-box,
+    conic-gradient(from 0deg, #1084d0 0deg 180deg, #F5A800 180deg 360deg) border-box;
   color: var(--win-blue-light);
   text-decoration: none;
   font-size: 14px;
@@ -57,11 +59,12 @@
   letter-spacing: 0;
   backdrop-filter: blur(8px);
   box-shadow: 0 10px 24px rgba(0, 0, 0, 0.28);
-  transition: color 0.18s ease, border-color 0.18s ease, transform 0.18s ease, background 0.18s ease;
+  transition: color 0.18s ease, transform 0.18s ease, opacity 0.18s ease;
   border-radius: 999px;
 }
 
 .themeSwitchIcon {
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -71,11 +74,21 @@
   transform-origin: center;
 }
 
-.themeSwitchIcon img {
-  display: block;
+.themeSwitchHalfLeft,
+.themeSwitchHalfRight {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: contain;
+}
+
+.themeSwitchHalfLeft {
+  clip-path: inset(0 50% 0 0);
+}
+
+.themeSwitchHalfRight {
+  clip-path: inset(0 0 0 50%);
 }
 
 .navActions {
@@ -112,8 +125,9 @@
 .themeSwitch:hover,
 .themeSwitch:focus-visible {
   color: var(--white);
-  border-color: rgba(245, 168, 0, 0.6);
-  background: rgba(24, 24, 24, 0.96);
+  background:
+    rgba(24, 24, 24, 0.96) padding-box,
+    conic-gradient(from 0deg, #1084d0 0deg 180deg, #F5A800 180deg 360deg) border-box;
   transform: translateY(-1px);
   outline: none;
 }

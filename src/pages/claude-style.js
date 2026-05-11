@@ -445,7 +445,8 @@ export default function ClaudeStyle() {
             title="Switch to Gemini style"
           >
             <span className={styles.themeSwitchIcon} aria-hidden="true">
-              <img src="/assets/gemini_icon.png" alt="" />
+              <img className={styles.themeSwitchHalfLeft} src="/assets/claude-ai-logo.svg" alt="" />
+              <img className={styles.themeSwitchHalfRight} src="/assets/gemini_icon.png" alt="" />
             </span>
           </a>
          
