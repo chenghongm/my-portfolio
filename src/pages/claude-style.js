@@ -198,6 +198,10 @@ export default function ClaudeStyle() {
     userScrolledRef.current = false;
     setIsTerminalOpen(true);
     setIsTerminalCollapsed(false);
+    // On small screens, directly open maximized
+    if (typeof window !== 'undefined' && window.innerWidth < 768) {
+      setIsTerminalMaximized(true);
+    }
     track("open_terminal", "claude_terminal");
     if (terminalHistory.length === 0) {
       setTerminalHistory(INITIAL_TERMINAL_LINES);
@@ -219,6 +223,9 @@ export default function ClaudeStyle() {
     userScrolledRef.current = false;
     setIsTerminalOpen(true);
     setIsTerminalCollapsed(false);
+    if (typeof window !== 'undefined' && window.innerWidth < 768) {
+      setIsTerminalMaximized(true);
+    }
     track("expand_terminal", "claude_terminal");
     setTimeout(() => termInputRef.current?.focus(), 100);
   };
@@ -334,6 +341,9 @@ export default function ClaudeStyle() {
     if (!isTerminalOpen) {
       isManuallyOpenedRef.current = true;
       setIsTerminalOpen(true);
+      if (typeof window !== 'undefined' && window.innerWidth < 768) {
+        setIsTerminalMaximized(true);
+      }
     }
     setIsTerminalCollapsed(false);
     if (terminalHistory.length === 0) {
@@ -766,7 +776,16 @@ export default function ClaudeStyle() {
                 placeholder="ask me anything..."
                 maxLength={PROMPT_CHAR_LIMIT}
               />
-              <span className={styles.termSendHint}>{inputValue.length}/{PROMPT_CHAR_LIMIT} · ↵ send</span>
+              <span className={styles.termCharCount}>{inputValue.length}/{PROMPT_CHAR_LIMIT}</span>
+              <button
+                type="button"
+                className={styles.termSendBtn}
+                onClick={() => submitPrompt(inputValue, 'typed')}
+                disabled={!inputValue.trim() || isThinking}
+                aria-label="Send prompt"
+              >
+                SEND
+              </button>
             </div>
           </div>
         </div>

@@ -1169,7 +1169,7 @@
 
 .termLine {
   font-size: 14px;
-  line-height: 1.9;
+  line-height: 1.5;
   margin-bottom: 2px;
   white-space: pre-wrap;
   word-break: break-word;
@@ -1178,7 +1178,7 @@
 .termLineSystem { color: var(--dim2); }
 .termLinePrompt { color: var(--green); }
 .termLineUserInput { color: var(--white); }
-.termLineResponse { color: rgba(245, 168, 0, 0.9); }
+.termLineResponse { color: #ffffff; }
 .termLineResponseerror { color: #ff8f8f; }
 .termLineResponseError { color: #ff8f8f; }
 
@@ -1280,12 +1280,38 @@
   caret-color: var(--yellow);
 }
 
-.termSendHint {
+.termCharCount {
   color: rgba(255, 255, 255, 0.45);
   font-family: 'Space Mono', monospace;
   font-size: 11px;
   white-space: nowrap;
   flex-shrink: 0;
+}
+
+.termSendBtn {
+  background: rgba(245, 168, 0, 0.12);
+  border: 1px solid rgba(245, 168, 0, 0.4);
+  color: var(--yellow);
+  padding: 4px 10px;
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  border-radius: 4px;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: all 0.15s ease;
+}
+
+.termSendBtn:hover:not(:disabled) {
+  background: rgba(245, 168, 0, 0.2);
+  border-color: rgba(245, 168, 0, 0.7);
+  transform: translateY(-1px);
+}
+
+.termSendBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 /* MAC POPUP */
