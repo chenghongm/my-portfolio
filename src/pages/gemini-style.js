@@ -533,6 +533,14 @@ export default function Home() {
                   maxLength={PROMPT_CHAR_LIMIT}
                 />
                 <span className={styles.terminalLimitHint}>{input.length}/{PROMPT_CHAR_LIMIT}</span>
+                <button
+                  type="button"
+                  className={styles.terminalSendBtn}
+                  disabled={!input.trim() || isThinking}
+                  onClick={() => submitPrompt(input, 'typed')}
+                >
+                  SEND
+                </button>
               </div>
             </div>
           </section>
