@@ -550,6 +550,7 @@ export default function ClaudeStyle() {
             <p className={styles.aboutBody}>Full-stack engineer with a background in Biochemistry and 5+ years building production systems, specializing in LLM orchestration and compliance-grade workflows — seeking to apply domain knowledge in medical AI, drug discovery platforms, or healthcare management systems.</p>
             <p className={styles.aboutBody}>Currently deep into <strong style={{ color: '#F5A800' }}>AI tooling</strong>: local LLM fine-tuning pipelines, browser extensions, and the intersection where backend systems meet language models.</p>
             <div className={styles.logBlock}>
+              <div className={styles.logLine}><span className={styles.ts}>2026-05</span><span>continue: <strong style={{ color: '#F5A800' }}>building</strong> · daily job search eval tool</span></div>
               <div className={styles.logLine}><span className={styles.ts}>2026-04</span><span>status: <strong style={{ color: '#F5A800' }}>building</strong> · open to opportunities</span></div>
               <div className={styles.logLine}><span className={styles.ts}>2026-03</span><span>continuing <strong style={{ color: '#F5A800' }}>LLM training pipeline</strong> · MLX + Llama 3</span></div>
               <div className={styles.logLine}><span className={styles.ts}>2026-02</span><span>published <strong style={{ color: '#F5A800' }}>chrome extension</strong> · 4 platforms</span></div>
