@@ -145,6 +145,7 @@ export default function Home() {
   const [input, setInput] = useState("");
   const [isThinking, setIsThinking] = useState(false);
   const [isNeuralLinkMaximized, setIsNeuralLinkMaximized] = useState(false);
+  const [isNeuralSectionVisible, setIsNeuralSectionVisible] = useState(false);
   const [isMobileStartOpen, setIsMobileStartOpen] = useState(false);
   const [time, setTime] = useState("");
   const [visibleHooks, setVisibleHooks] = useState(INITIAL_PROMPT_HOOKS);
@@ -211,6 +212,18 @@ export default function Home() {
         termBody.removeEventListener('scroll', handleTerminalScroll);
       }
     };
+  }, []);
+
+  // Hide chat bubble when neural_link section is visible
+  useEffect(() => {
+    const section = document.getElementById('sec_neural_link');
+    if (!section) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setIsNeuralSectionVisible(entry.isIntersecting),
+      { threshold: 0.1 }
+    );
+    observer.observe(section);
+    return () => observer.disconnect();
   }, []);
 
   // Handle Auto-Scrolling Behavior
@@ -608,7 +621,7 @@ export default function Home() {
         </footer>
       </div>
 
-      {!isNeuralLinkMaximized && (
+      {!isNeuralLinkMaximized && !isNeuralSectionVisible && (
         <button
           type="button"
           className={styles.win95ChatBubble}

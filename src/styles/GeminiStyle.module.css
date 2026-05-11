@@ -1111,8 +1111,13 @@ button.win95Btn {
     border-right: 0;
   }
 
+  .terminalBody {
+    min-height: 75vh;
+  }
+
   .terminalWindowMaximized .terminalBody {
     height: calc(100dvh - 110px);
+    min-height: 0;
   }
 
   .win95ChatBubble {
