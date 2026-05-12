@@ -52,7 +52,7 @@
 
 .themeSwitch {
   position: fixed;
-  bottom: 44px;
+  top:50%;
   right: 16px;
   z-index: 1002;
   display: inline-flex;
