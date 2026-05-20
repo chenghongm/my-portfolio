@@ -15,6 +15,7 @@ import {
   CONTACT_INFO,
   HERO_INFO,
   SKILLS,
+  BEHAVIOR_QUESTIONS,
   INITIAL_PROMPT_HOOKS,
   getFollowupHooks
 } from '../lib/sharedfunctions';
@@ -364,6 +365,7 @@ export default function Home() {
     { id: "sec_neural_link", label: "NeuralLink.com" },
     { id: "sec_job_search", label: "JobSearch.xls" },
     { id: "sec_how_i_work", label: "HowIWork.log" },
+    { id: "sec_behavior_qa", label: "BehaviorQnA.txt" },
     { id: "sec_skills", label: "Skills.dll" },
     { id: "sec_contact", label: "Contact.sys" },
   ];
@@ -613,8 +615,31 @@ export default function Home() {
             </WindowFrame>
           </section>
 
+          <section className={styles.sectionBlock} id="sec_behavior_qa">
+            <SectionHeader num="08" label="Q&A" />
+            <h2 className={styles.sectionHeading}>
+              Behavioral
+              <br />
+              Q&amp;A.
+            </h2>
+            <div className={styles.experienceGrid}>
+              {BEHAVIOR_QUESTIONS.map((item) => (
+                <WindowFrame key={item.id} title={`BQ://${item.id}.TXT`} id={item.id}>
+                  <div className={styles.expContent}>
+                    <div className={styles.expTop}>
+                      <div>
+                        <h3 className={styles.expTitle}>{item.question}</h3>
+                      </div>
+                    </div>
+                    <p className={styles.expScope}>{item.answer}</p>
+                  </div>
+                </WindowFrame>
+              ))}
+            </div>
+          </section>
+
           <section className={styles.sectionBlock} id="sec_contact">
-            <SectionHeader num="08" label="Contact" />
+            <SectionHeader num="09" label="Contact" />
             <h2 className={styles.contactHeading}>
               Let&apos;s build
               <br />

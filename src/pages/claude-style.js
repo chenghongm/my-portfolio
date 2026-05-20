@@ -15,6 +15,7 @@ import {
   CONTACT_INFO,
   HERO_INFO,
   SKILLS,
+  BEHAVIOR_QUESTIONS,
   INITIAL_PROMPT_HOOKS,
   getFollowupHooks
 } from '../lib/sharedfunctions';
@@ -45,8 +46,21 @@ export default function ClaudeStyle() {
   const [visibleHooks, setVisibleHooks] = useState(INITIAL_PROMPT_HOOKS);
   const [activeJobTab, setActiveJobTab] = useState(0);
   const [jobSearchIframes, setJobSearchIframes] = useState(JOB_SEARCH_IFRAMES);
+  const [openBehaviorQuestionId, setOpenBehaviorQuestionId] = useState(BEHAVIOR_QUESTIONS[0]?.id ?? null);
 
   
+  const scrollToSection = (id) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+
+    const navOffset = 88;
+    const targetTop = el.getBoundingClientRect().top + window.scrollY - navOffset;
+
+    window.scrollTo({ top: Math.max(0, targetTop), behavior: 'smooth' });
+    setIsMobileNavOpen(false);
+    track('nav_click', id);
+  };
+
   const termBodyRef = useRef(null);
   const termInputRef = useRef(null);
   
@@ -413,12 +427,13 @@ export default function ClaudeStyle() {
       <nav className={styles.nav}>
         <div className={styles.navActions}>
           <ul className={`${styles.navLinks} ${isMobileNavOpen ? styles.navLinksOpen : ''}`}>
-            <li><a href="#about" onClick={() => { setIsMobileNavOpen(false); track("nav_click", "about"); }}>About</a></li>
-            <li><a href="#experience" onClick={() => { setIsMobileNavOpen(false); track("nav_click", "experience"); }}>Experience</a></li>
-            <li><a href="#work" onClick={() => { setIsMobileNavOpen(false); track("nav_click", "work"); }}>Projects</a></li>
-            <li><a href="#job-search" onClick={() => { setIsMobileNavOpen(false); track("nav_click", "job-search"); }}>Job Search</a></li>
-            <li><a href="#process" onClick={() => { setIsMobileNavOpen(false); track("nav_click", "process"); }}>Attitude</a></li>
-            <li><a href="#contact" onClick={() => { setIsMobileNavOpen(false); track("nav_click", "contact"); }}>Contact</a></li>
+            <li><a href="#about" onClick={(e) => { e.preventDefault(); scrollToSection('about'); }}>About</a></li>
+            <li><a href="#experience" onClick={(e) => { e.preventDefault(); scrollToSection('experience'); }}>Experience</a></li>
+            <li><a href="#work" onClick={(e) => { e.preventDefault(); scrollToSection('work'); }}>Projects</a></li>
+            <li><a href="#job-search" onClick={(e) => { e.preventDefault(); scrollToSection('job-search'); }}>Job Search</a></li>
+            <li><a href="#process" onClick={(e) => { e.preventDefault(); scrollToSection('process'); }}>Attitude</a></li>
+            <li><a href="#behavior-qa" onClick={(e) => { e.preventDefault(); scrollToSection('behavior-qa'); }}>Q&amp;A</a></li>
+            <li><a href="#contact" onClick={(e) => { e.preventDefault(); scrollToSection('contact'); }}>Contact</a></li>
           </ul>
           <div className={styles.navActions}>
             <button
@@ -436,7 +451,7 @@ export default function ClaudeStyle() {
           </div>
         </div>
          <div className={styles.navActions}>
-           <a href="#" className={styles.navLogo} onClick={() => track("nav_click", "logo")}>Chenghong Meng</a>
+           <a href="#" className={styles.navLogo} onClick={(e) => { e.preventDefault(); scrollToSection("about"); }}>Chenghong Meng</a>
           <a
             href="/gemini-style"
             className={styles.themeSwitch}
@@ -603,7 +618,7 @@ export default function ClaudeStyle() {
                 {exp.tags?.map(tag => <span key={tag} className={styles.projTag}>{tag}</span>)}
               </div>
               {exp.projects && exp.projects.length > 0 && (
-                <div className={styles.expProjects}>
+                <div className={styles.behaviorQaGrid}>
                   {exp.projects.map(p => (
                     <div key={p.id} id={p.id} className={styles.expProjCard} onClick={(e) => { e.stopPropagation(); track("click", p.id); }}>
                       <h4 className={styles.expProjTitle}>{p.title}</h4>
@@ -695,9 +710,48 @@ export default function ClaudeStyle() {
         </div>
       </section>
 
+      <section id="behavior-qa" className={styles.section}>
+        <div className={`${styles.sectionHeader} ${styles.reveal}`}>
+          <span className={styles.sectionNum}>06</span><span className={styles.sectionLine}></span><span className={styles.sectionLabel}>Q&A</span>
+        </div>
+        <h2 className={`${styles.sectionHeading} ${styles.reveal}`}>Behavioral<br />Q&amp;A.</h2>
+        <div className={styles.behaviorQaGrid}>
+          {BEHAVIOR_QUESTIONS.map((item) => {
+            const isOpen = openBehaviorQuestionId === item.id;
+
+            return (
+              <div
+                key={item.id}
+                id={item.id}
+                className={`${styles.behaviorQaItem} ${isOpen ? styles.behaviorQaItemOpen : ''}`}
+              >
+                <button
+                  type="button"
+                  className={styles.behaviorQaTrigger}
+                  aria-expanded={isOpen}
+                  aria-controls={`${item.id}-answer`}
+                  onClick={() => {
+                    setOpenBehaviorQuestionId((prev) => prev === item.id ? null : item.id);
+                    track("click", item.id, { state: isOpen ? "collapsed" : "expanded" });
+                  }}
+                >
+                  <span className={styles.behaviorQaQuestion}>{item.question}</span>
+                  <span className={`${styles.behaviorQaIcon} ${isOpen ? styles.behaviorQaIconOpen : ''}`} aria-hidden="true">+</span>
+                </button>
+                {isOpen && (
+                  <div id={`${item.id}-answer`} className={styles.behaviorQaAnswerWrap}>
+                    <p className={styles.behaviorQaAnswer}>{item.answer}</p>
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      </section>
+
       <section id="contact" className={styles.section}>
         <div className={`${styles.sectionHeader} ${styles.reveal}`}>
-          <span className={styles.sectionNum}>06</span><span className={styles.sectionLine}></span><span className={styles.sectionLabel}>Contact</span>
+          <span className={styles.sectionNum}>07</span><span className={styles.sectionLine}></span><span className={styles.sectionLabel}>Contact</span>
         </div>
         <h2 className={`${styles.contactHeading} ${styles.reveal}`}>Let&apos;s build<br /><span>something.</span></h2>
         <div className={`${styles.contactGrid} ${styles.reveal}`}>

@@ -282,6 +282,64 @@ export function getFollowupHooks(prompt = "") {
   return [...(PROMPT_HOOK_TOPICS[topic]?.followups || FALLBACK_PROMPT_HOOKS)].slice(0, 2);
 }
 
+
+export const BEHAVIOR_QUESTIONS = [
+  {
+    id: "bq_intro",
+    question: "Tell me about yourself.",
+    answer:
+      "I am a full-stack developer with 5+ years of experience, mainly focused on backend systems: schema design, data integrity, versioning, query optimization, caching, async tasks, load balancing, and pagination. I also care about frontend performance, especially lazy loading, virtualization, debouncing, and throttling. Before engineering, I spent 6 years in medical research, which is why I remain especially interested in life science and healthcare domains. I tend to break complex problems into manageable parts, identify dependencies early, and help teams move with clearer technical direction."
+  },
+  {
+    id: "bq_led_project",
+    question: "Describe a project you led end to end. What was the problem, how did you break the work down, and what was your specific impact?",
+    answer:
+      "I led a PTO system replacement where HR had been managing everything in Excel. The core issue was that requests, actual usage, refunds, UTO deductions, and carry-over logic were all mixed together, so HR had to reconcile edge cases manually. I modeled the system as an immutable transaction ledger instead of a mutable balance field. That design made audit trails native, separated request and consumption events cleanly, and turned refunds, UTO deductions, and carry-over into predictable transaction flows. I also built admin tooling for backfilling and verification against attendance records. The result was that manual reconciliation largely disappeared and discrepancies became traceable to a source transaction immediately."
+  },
+  {
+    id: "bq_ambiguous_plan",
+    question: "Describe a time you took an ambiguous problem and turned it into a clear technical plan. How did you decide on milestones, tradeoffs, and execution steps?",
+    answer:
+      'A manager told me, "we want to use AI," but there was no actual spec. I started by mapping the reporting workflow and the available data, then reframed the problem from "build a chatbot" into a structured data-to-text pipeline. I broke execution into stages: data normalization, prompt construction, model invocation, and output validation. The main tradeoff was local versus cloud model routing, so I designed a routing layer that defaulted to local models for predictable structured inputs and used cloud models for harder cases. Guardrails and human review were added before any output could affect an official report. That design projected about a 33% reduction in clinician documentation time and stayed model-agnostic for future upgrades.'
+  },
+  {
+    id: "bq_backend_owned",
+    question: "What backend or service-oriented systems have you owned in production? What kinds of design, implementation, and operational responsibilities did you have?",
+    answer:
+      "I have owned a scheduling engine, a quarterly compliance reporting system, and a PTO tracking system in production. The strongest example is the scheduling engine: I gathered requirements directly from stakeholders, designed the data model from scratch, and built the system across schema, backend services, and admin-facing views. The main design challenge was separating recurring weekly sessions from daily actuals that needed to change in real time. Operationally, the system was deployed on AWS ECS through GitHub Actions with staging on merge, controlled production promotion, and CloudWatch-based monitoring and alerts."
+  },
+  {
+    id: "bq_incomplete_info",
+    question: "Describe a time you had to make a strong technical decision with incomplete information. How did you approach it, and what was the outcome?",
+    answer:
+      "About six months into a role, I inherited a broken quarterly reporting system after the lead developer left, with no documentation or handoff. The visible problems were data integrity issues, race conditions, and incorrect ER mappings. I had to decide whether to patch symptoms or refactor more aggressively. I chose to rebuild the data model foundations instead of layering fixes on top, because patching would have increased complexity without removing the root cause. The refactor stabilized the system in production, eliminated recurring integrity issues, and later made it possible to build reliable AI orchestration on top of clean input data."
+  },
+  {
+    id: "bq_cross_functional",
+    question: "Give an example of how you have worked with Product or other cross-functional partners to move a project forward when priorities or requirements were not fully defined.",
+    answer:
+      'I replaced an operations scheduling process that had been running in a shared Excel sheet with no real spec or wireframes. Different stakeholders had conflicting mental models of what "the schedule" meant, so I ran separate conversations with admins, clinicians, and paras first, then validated edge cases iteratively as the model took shape. The critical design decision was splitting recurring weekly structure from daily actual changes such as attendance, PTO, and coverage. That let me confirm business rules progressively instead of forcing a premature schema. The outcome was a live scheduling system that replaced the spreadsheet and surfaced conflicts automatically.'
+  },
+  {
+    id: "bq_debugging",
+    question: "Describe a production issue or operational problem you were personally involved in debugging. What was your role, and how did you handle it?",
+    answer:
+      "I investigated a severe frontend performance problem in a React and Laravel application where users saw browser freezing, typing lag, and unstable autosave, especially with many long-lived tabs open. At first it looked like an API or autosave issue, but profiling showed the root cause was widespread unnecessary re-renders from unstable object and array references. I stabilized prop references, memoized derived data where needed, and reduced cascading state updates. That brought down CPU usage, improved typing latency, and made autosave behavior stable again. The main lesson was to debug past the visible symptom and find the underlying system behavior."
+  },
+  {
+    id: "bq_team_role",
+    question: "What kind of role do you usually play on a team when work needs structure and momentum?",
+    answer:
+      "I usually take the structuring role. When work is ambiguous or fragmented, I start decomposing the problem, identifying dependencies, and clarifying execution order so the team can move without getting stuck in uncertainty. I do not try to dominate discussion for its own sake, but I naturally step in when technical direction is fuzzy or momentum slows down. A lot of my value comes from connecting architecture, debugging, and implementation detail into a workable path forward."
+  },
+  {
+    id: "bq_unfamiliar_systems",
+    question: "How do you approach unfamiliar technology or systems?",
+    answer:
+      "I start from the source: find the entry points, trace the data flow, and identify the interface contracts before worrying about surface syntax. One example was a SaaS platform with thin documentation and a proprietary DSL that had already consumed significant budget before I joined. I treated it like any unfamiliar system, read the source code directly, traced where custom logic could be injected, and then implemented the required workflow with plain JavaScript at the right hook points. The project shipped in two weeks without paid support. My general view is that unfamiliar systems are usually not inherently hard; the bottleneck is disciplined reading and decomposition."
+  }
+];
+
 export const CONTACT_INFO = [
   {
     id: "contact_email",
