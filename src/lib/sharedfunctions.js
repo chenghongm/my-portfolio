@@ -288,7 +288,7 @@ export const BEHAVIOR_QUESTIONS = [
     id: "bq_intro",
     question: "Tell me about yourself.",
     answer:
-      "I am a full-stack developer with 5+ years of experience, mainly focused on backend systems: schema design, data integrity, versioning, query optimization, caching, async tasks, load balancing, and pagination. I also care about frontend performance, especially lazy loading, virtualization, debouncing, and throttling. Before engineering, I spent 6 years in medical research, which is why I remain especially interested in life science and healthcare domains. I tend to break complex problems into manageable parts, identify dependencies early, and help teams move with clearer technical direction."
+      "I am a full-stack developer with 5+ years of experience, mainly focused on backend systems: schema design, data integrity, versioning, query optimization, caching, async tasks, load balancing, and pagination. I also care about frontend performance, especially lazy loading, virtualization, debouncing, and throttling. Before engineering, I spent 6 years in medical research, which is why I remain especially interested in life science and healthcare domains. My curiosity and ability to break down complex issues into manageable parts help me achieve tasks across various subjects and industries"
   },
   {
     id: "bq_led_project",
@@ -300,7 +300,7 @@ export const BEHAVIOR_QUESTIONS = [
     id: "bq_ambiguous_plan",
     question: "Describe a time you took an ambiguous problem and turned it into a clear technical plan. How did you decide on milestones, tradeoffs, and execution steps?",
     answer:
-      'A manager told me, "we want to use AI," but there was no actual spec. I started by mapping the reporting workflow and the available data, then reframed the problem from "build a chatbot" into a structured data-to-text pipeline. I broke execution into stages: data normalization, prompt construction, model invocation, and output validation. The main tradeoff was local versus cloud model routing, so I designed a routing layer that defaulted to local models for predictable structured inputs and used cloud models for harder cases. Guardrails and human review were added before any output could affect an official report. That design projected about a 33% reduction in clinician documentation time and stayed model-agnostic for future upgrades.'
+      'we were told, "we want to use AI," but there was no actual spec. I started by mapping the reporting workflow and the available data, then reframed the problem from "build a chatbot" into a structured data-to-text pipeline. I broke execution into stages: data normalization, prompt construction, model invocation, and output validation. The main tradeoff was local versus cloud model routing, so I designed a routing layer that defaulted to local models for predictable structured inputs and used cloud models for harder cases. Guardrails and human review were added before any output could affect an official report. That design projected about a 33% reduction in clinician documentation time and stayed model-agnostic for future upgrades.'
   },
   {
     id: "bq_backend_owned",
