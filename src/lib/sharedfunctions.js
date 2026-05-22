@@ -337,6 +337,12 @@ export const BEHAVIOR_QUESTIONS = [
     question: "How do you approach unfamiliar technology or systems?",
     answer:
       "I start from the source: find the entry points, trace the data flow, and identify the interface contracts before worrying about surface syntax. One example was a SaaS platform with thin documentation and a proprietary DSL that had already consumed significant budget before I joined. I treated it like any unfamiliar system, read the source code directly, traced where custom logic could be injected, and then implemented the required workflow with plain JavaScript at the right hook points. The project shipped in two weeks without paid support. My general view is that unfamiliar systems are usually not inherently hard; the bottleneck is disciplined reading and decomposition."
+  },
+  {
+    id: "bq_commun_with_domain_experts",
+    question: "How do you work with non-engineering stakeholders or domain experts?",
+    answer:
+      "In my last role, we were revamping the session note system for the vision service. Neither my lead nor I had domain expertise in vision therapy, so before our first meeting I asked the stakeholder — a senior education admin — to provide a written template and outline in advance. We also recorded every session.In the first review, she denied having said something she'd clearly stated earlier, and complained we still didn't understand her requirements after multiple discussions. We pulled up the recording. She later sent an apology email.But the bigger insight wasn't about winning that dispute. The real problem was that we were trying to translate domain knowledge we didn't have — and we didn't need to. The right solution wasn't better communication, it was removing the dependency entirely.So I built a self-service endpoint and interface: a generalized note template system where she and other edu admins could directly configure, adjust, and publish note pools for their own domains without going through engineering. \n\n My general principle: As an Engineer, when work with domain expert, the more important is not fully understand the domain knowledge as expert, but I do need to understand the class of problem well enough , and capable to abstract a class of problem to give domain experts direct control. That eliminates an entire category of miscommunication at the source."
   }
 ];
 
