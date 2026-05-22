@@ -312,7 +312,7 @@ export const BEHAVIOR_QUESTIONS = [
     id: "bq_incomplete_info",
     question: "Describe a time you had to make a strong technical decision with incomplete information. How did you approach it, and what was the outcome?",
     answer:
-      "About six months into a role, I inherited a broken quarterly reporting system after the lead developer left, with no documentation or handoff. The visible problems were data integrity issues, race conditions, and incorrect ER mappings. I had to decide whether to patch symptoms or refactor more aggressively. I chose to rebuild the data model foundations instead of layering fixes on top, because patching would have increased complexity without removing the root cause. The refactor stabilized the system in production, eliminated recurring integrity issues, and later made it possible to build reliable AI orchestration on top of clean input data."
+      "About six months into a role, I inherited a broken quarterly reporting system after the lead developer left, with no documentation or handoff. The visible problems were data integrity issues, concurrent write conflicts, and incorrect ER mappings. I had to decide whether to patch symptoms or refactor more aggressively. I chose to rebuild the data model foundations instead of layering fixes on top, because patching would have increased complexity without removing the root cause. The refactor stabilized the system in production, eliminated recurring integrity issues, and later made it possible to build reliable AI orchestration on top of clean input data."
   },
   {
     id: "bq_cross_functional",
