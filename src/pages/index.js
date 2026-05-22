@@ -3,7 +3,7 @@ import Head from 'next/head';
 import Image from 'next/image';
 import Script from 'next/script';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { initConsoleEasterEgg } from '../lib/sharedfunctions';
+import { initConsoleEasterEgg, trackActivity } from '../lib/sharedfunctions';
 
 const OPEN_DURATION_MS = 520;
 const CLOSE_DURATION_MS = 340;
@@ -121,6 +121,8 @@ export default function Landing() {
       return;
     }
 
+    trackActivity('landing', 'replay', 'intro_video', { sound: prefersSound });
+
     startVideoSequence({
       allowSound: prefersSound,
       immediatePlayback: prefersSound,
@@ -130,6 +132,8 @@ export default function Landing() {
   const handleSoundToggle = () => {
     const nextPrefersSound = !prefersSound;
     setPrefersSound(nextPrefersSound);
+
+    trackActivity('landing', 'sound_toggle', 'intro_video', { sound: nextPrefersSound });
 
     const video = videoRef.current;
 
