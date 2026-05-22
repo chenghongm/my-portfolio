@@ -239,9 +239,10 @@ export default function Landing() {
             aria-label={prefersSound ? 'Mute video playback' : 'Unmute video playback'}
             onClick={handleSoundToggle}
             className={[
-              'absolute right-3 top-3 z-10 flex h-10 w-10 items-center justify-center rounded-full border border-white/15 bg-black/70 text-white/80 shadow-[0_0_20px_rgba(0,0,0,0.35)] backdrop-blur-sm',
+              'absolute z-10 flex h-10 w-10 items-center justify-center rounded-full border border-white/15 bg-black/70 text-white/80 shadow-[0_0_20px_rgba(0,0,0,0.35)] backdrop-blur-sm',
               'transition-all duration-300 ease-out hover:scale-105 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60',
-              isExpanded || isClosed ? 'opacity-100' : 'pointer-events-none opacity-0',
+              'right-2 top-1/2 -translate-y-1/2 md:right-3 md:top-3 md:translate-y-0',
+              isExpanded ? 'opacity-100' : 'pointer-events-none opacity-0',
             ].join(' ')}
           >
             <VolumeIcon muted={!prefersSound} />
