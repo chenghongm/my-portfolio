@@ -146,7 +146,8 @@ export const EXPERIENCES = [
     title: 'Full-Stack Developer | HealthCare Industry | New York, NY',
     dateRange: '2022-03 - 2026-04',
     status: 'Completed',
-    scope: 'Designed and developed internal systems for session scheduling, wellness digitalization, goal progress tracking, batch reporting,and compliance workflows across multiple roles and campuses.',
+    scope: 'Designed and developed internal systems for session scheduling, wellness digitalization, goal progress tracking, batch reporting,and compliance workflows across multiple roles and campuses.6200+ contributions from May 2022 on GitHub ',
+    github: 'https://github.com/mch-ibrain',
     projects: [
       {
         id: 'exp_proj_2',
@@ -191,6 +192,7 @@ export const EXPERIENCES = [
     dateRange: '2021-05 - 2022-01',
     status: 'Completed',
     scope: 'Managed user center and developed KYC verification flow for a cryptocurrency trading platform supporting 68k+ users, ensuring secure and compliant onboarding while maintaining a seamless user experience.',
+    github: '#',
     projects: [],
     tags: ['User Management', 'KYC Verification', 'Security', 'Compliance'],
 

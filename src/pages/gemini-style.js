@@ -457,7 +457,21 @@ export default function Home() {
                         <h3 className={styles.expTitle}>{exp.title}</h3>
                         <div className={styles.expStatus}>{exp.status}</div>
                       </div>
-                      <span className={styles.expDate}>{exp.dateRange}</span>
+                      <div className={styles.expTopRight}>
+                        <span className={styles.expDate}>{exp.dateRange}</span>
+                        {exp.github && exp.github !== '#' && (
+                          <a
+                            href={exp.github}
+                            title="View on GitHub"
+                            target="_blank"
+                            rel="noreferrer"
+                            onClick={(e) => { e.stopPropagation(); track('click', `${exp.id}_link`); }}
+                            className={styles.projLink}
+                          >
+                            View on GitHub
+                          </a>
+                        )}
+                      </div>
                     </div>
                     <p className={styles.expScope}>{exp.scope}</p>
                     <div className={styles.expProjTags}>

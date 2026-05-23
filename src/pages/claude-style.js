@@ -611,11 +611,25 @@ export default function ClaudeStyle() {
               <div className={styles.expHeader}>
                 <h3 className={styles.expTitle}>{exp.title}</h3>
                 <span className={styles.expDate}>{exp.dateRange}</span>
-
+                
               </div>
-              <p className={styles.expScope}>{exp.scope}</p>
+              <p className={styles.expScope}>{exp.scope}
+                 {exp.github && exp.github !== '#' && (
+                  <a
+                    href={exp.github}
+                    title="View on GitHub"
+                    target="_blank"
+                    rel="noreferrer"
+                    onClick={(e) => { e.stopPropagation(); track('click', `${exp.id}_link`); }}
+                    className={styles.projLink}
+                  >
+                    (github.com/mch-ibrain)
+                  </a>
+                )}
+              </p>
               <div className={styles.projTags} style={{ marginTop: '10px', marginBottom: '10px' }}>
                 {exp.tags?.map(tag => <span key={tag} className={styles.projTag}>{tag}</span>)}
+               
               </div>
               {exp.projects && exp.projects.length > 0 && (
                 <div className={styles.behaviorQaGrid}>

@@ -539,6 +539,14 @@ button.win95Btn {
   padding-bottom: 8px;
 }
 
+.expTopRight {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
 .expTitle {
   margin: 0;
   font-size: 1.1rem;
