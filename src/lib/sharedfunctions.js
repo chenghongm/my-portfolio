@@ -351,8 +351,8 @@ export const BEHAVIOR_QUESTIONS = [
 export const CONTACT_INFO = [
   {
     id: "contact_email",
-    label: "mengchh01@gmail.com",
-    href: "mailto:mengchh01@gmail.com",
+    label: "cmeng@chm1.pro",
+    href: "mailto:cmeng@chm1.pro",
     icon: null,
   },
   {
