@@ -359,13 +359,19 @@ export const CONTACT_INFO = [
     id: "contact_email",
     label: "cmeng@chm1.pro",
     href: "mailto:cmeng@chm1.pro",
-    icon: null,
+    icon: '✉️',
   },
   {
     id: "contact_github",
     label: "GitHub",
     href: "https://github.com/chenghongm",
     icon: "⌥",
+  },
+  {
+    id: "dev_io",
+    label: "Dev.to",
+    href: "https://dev.to/chenghongm",
+    icon: "</>",
   },
   {
     id: "contact_linkedin",
