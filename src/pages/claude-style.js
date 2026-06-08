@@ -17,7 +17,8 @@ import {
   SKILLS,
   BEHAVIOR_QUESTIONS,
   INITIAL_PROMPT_HOOKS,
-  getFollowupHooks
+  getFollowupHooks,
+  ACTIVITY_LOG
 } from '../lib/sharedfunctions';
 
 export default function ClaudeStyle() {
@@ -565,12 +566,22 @@ export default function ClaudeStyle() {
             <p className={styles.aboutBody}>Full-stack engineer with a background in Biochemistry and 5+ years building production systems, specializing in LLM orchestration and compliance-grade workflows — seeking to apply domain knowledge in medical AI, drug discovery platforms, or healthcare management systems.</p>
             <p className={styles.aboutBody}>Currently deep into <strong style={{ color: '#F5A800' }}>AI tooling</strong>: local LLM fine-tuning pipelines, browser extensions, and the intersection where backend systems meet language models.</p>
             <div className={styles.logBlock}>
-              <div className={styles.logLine}><span className={styles.ts}>2026-06</span><span>Snowflake Dev Day: <strong style={{ color: '#F5A800' }}> <a href="https://dev.to/chenghongm" target="_blank" rel="noopener noreferrer">Tech Blogs</a> </strong> · </span></div>
-              <div className={styles.logLine}><span className={styles.ts}>2026-05</span><span>continue: <strong style={{ color: '#F5A800' }}>building</strong> · daily job search eval tool</span></div>
-              <div className={styles.logLine}><span className={styles.ts}>2026-04</span><span>status: <strong style={{ color: '#F5A800' }}>building</strong> · open to opportunities</span></div>
-              <div className={styles.logLine}><span className={styles.ts}>2026-03</span><span>continuing <strong style={{ color: '#F5A800' }}>LLM training pipeline</strong> · MLX + Llama 3</span></div>
-              <div className={styles.logLine}><span className={styles.ts}>2026-02</span><span>published <strong style={{ color: '#F5A800' }}>chrome extension</strong> · 4 platforms</span></div>
-              <div className={styles.logLine}><span className={styles.ts}>2026-01</span><span>debug timezone logic · production fix</span></div>
+              {ACTIVITY_LOG.map((entry, i) => (
+                <div key={i} className={styles.logLine}>
+                  <span className={styles.ts}>{entry.date}</span>
+                  <span>
+                    {entry.prefix}
+                    {entry.highlight && (
+                      <strong style={{ color: '#F5A800' }}>
+                        {entry.href
+                          ? <a href={entry.href} target="_blank" rel="noopener noreferrer">{entry.highlight}</a>
+                          : entry.highlight}
+                      </strong>
+                    )}
+                    {entry.suffix}
+                  </span>
+                </div>
+              ))}
             </div>
           </div>
           <div className={`${styles.aboutRight} ${styles.reveal}`}>

@@ -143,7 +143,7 @@ export const TERMINALS = {
 export const EXPERIENCES = [
   {
     id: 'exp_1',
-    title: 'Full-Stack Developer | HealthCare Industry | New York, NY',
+    title: 'Full-Stack Developer | Therapy Industry | New York, NY',
     dateRange: '2022-03 - 2026-04',
     status: 'Completed',
     scope: 'Designed and developed internal systems for session scheduling, wellness digitalization, goal progress tracking, batch reporting,and compliance workflows across multiple roles and campuses.6200+ contributions from May 2022 on GitHub ',
@@ -296,7 +296,7 @@ export const BEHAVIOR_QUESTIONS = [
     id: "bq_led_project",
     question: "Describe a project you led end to end. What was the problem, how did you break the work down, and what was your specific impact?",
     answer:
-      "In my last job, HR was managing PTO entirely in Excel. The core pain point: PTO requests and actual consumption were never separated — when employees requested time off but didn't take it, HR had to manually refund balances. UTO deductions from payroll were tracked separately. Carry-over calculations were manual. Every edge case landed on HR's desk.When I got this assignment, I modeled it as a ledger system — every PTO event as an immutable transaction rather than a mutable balance field. That single design decision solved multiple problems at once: audit trail came for free, request vs. consumption became two separate transaction types, refunds and UTO deductions were just negative entries, carry-over was a scheduled reconciliation job.Then I built department admin tooling on top — allowing admins to backfill records by cross-referencing remote and attendance logs.At the end, HR stopped doing manual reconciliation. Refunds, UTO deductions, and carry-overs became automated. Audit trail meant any discrepancy could be traced to the source transaction instantly."
+      "In my last job, HR was managing PTO entirely in Excel. The core pain point: PTO requests and actual consumption were separated in different sheet without state linked up— when employees requested time off but didn't take it, HR had to manually refund balances by digging through logs. UTO deductions from payroll were tracked separately. Carry-over calculations were manual. Every edge case landed on HR's desk.When I got this assignment, I modeled it as a ledger system — every PTO event as an immutable transaction rather than a mutable balance field. That single design decision solved multiple problems at once: audit trail came for free, request vs. consumption became two separate transaction types, refunds and UTO deductions were just negative entries, carry-over was a scheduled reconciliation job.Then I built department admin tooling on top — allowing admins to backfill records by cross-referencing remote and attendance logs.At the end, HR stopped doing manual reconciliation. Refunds, UTO deductions, and carry-overs became automated. Audit trail meant any discrepancy could be traced to the source transaction instantly."
   },
   {
     id: "bq_ambiguous_plan",
@@ -379,6 +379,15 @@ export const CONTACT_INFO = [
     href: "https://www.linkedin.com/in/chenghong-m-6ab022103",
     icon: "→",
   }
+];
+
+export const ACTIVITY_LOG = [
+  { date: '2026-06', prefix: 'Snowflake Dev Day: ', highlight: 'Tech Blogs', href: 'https://dev.to/chenghongm', suffix: ' · ' },
+  { date: '2026-05', prefix: 'continue: ', highlight: 'building', href: null, suffix: ' · daily job search eval tool' },
+  { date: '2026-04', prefix: 'status: ', highlight: 'building', href: null, suffix: ' · open to opportunities' },
+  { date: '2026-03', prefix: 'continuing ', highlight: 'LLM training pipeline', href: null, suffix: ' · MLX + Llama 3' },
+  { date: '2026-02', prefix: 'published ', highlight: 'chrome extension', href: null, suffix: ' · 4 platforms' },
+  { date: '2026-01', prefix: 'debug timezone logic · production fix', highlight: null, href: null, suffix: null },
 ];
 
 export const SKILLS = [

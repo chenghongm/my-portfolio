@@ -382,6 +382,38 @@ button.win95Btn {
   font-size: clamp(2rem, 4vw, 3.6rem);
 }
 
+.aboutBody {
+  margin: 0 0 10px;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--win-text);
+}
+
+.logBlock {
+  background: #fff;
+  border-top: 2px solid var(--win-black);
+  border-left: 2px solid var(--win-black);
+  border-right: 2px solid var(--win-white);
+  border-bottom: 2px solid var(--win-white);
+  padding: 12px 16px;
+  margin-top: 16px;
+}
+
+.logLine {
+  font-size: 12px;
+  line-height: 1.9;
+  color: var(--win-text);
+  display: flex;
+  gap: 12px;
+  font-family: monospace;
+}
+
+.logTs {
+  color: var(--win-green);
+  flex-shrink: 0;
+  font-weight: 700;
+}
+
 .projectsGrid {
   display: grid;
   gap: 16px;

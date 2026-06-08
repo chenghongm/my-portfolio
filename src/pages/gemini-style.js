@@ -17,7 +17,8 @@ import {
   SKILLS,
   BEHAVIOR_QUESTIONS,
   INITIAL_PROMPT_HOOKS,
-  getFollowupHooks
+  getFollowupHooks,
+  ACTIVITY_LOG
 } from '../lib/sharedfunctions';
 
 const PAGE_ID = 'gemini-style';
@@ -360,6 +361,7 @@ export default function Home() {
 
   const taskbarRoutes = [
     { id: "top", label: "IDENTITY_V95.SYS" },
+    { id: "sec_about", label: "About.log" },
     { id: "sec_projects", label: "Projects.exe" },
     { id: "sec_experience", label: "Experience.log" },
     { id: "sec_neural_link", label: "NeuralLink.com" },
@@ -426,6 +428,35 @@ export default function Home() {
               </div>
             </div>
           </WindowFrame>
+
+          <section className={styles.sectionBlock} id="sec_about">
+            <SectionHeader num="01" label="About" />
+            <h2 className={styles.sectionHeading}>
+              Who<br />I am.
+            </h2>
+            <WindowFrame title="ABOUT.LOG" id="sec_about_window">
+              <p className={styles.aboutBody}>Full-stack engineer with a background in Biochemistry and 5+ years building production systems, specializing in LLM orchestration and compliance-grade workflows — seeking to apply domain knowledge in medical AI, drug discovery platforms, or healthcare management systems.</p>
+              <p className={styles.aboutBody}>Currently deep into <strong style={{ color: '#F5A800' }}>AI tooling</strong>: local LLM fine-tuning pipelines, browser extensions, and the intersection where backend systems meet language models.</p>
+              <div className={styles.logBlock}>
+                {ACTIVITY_LOG.map((entry, i) => (
+                  <div key={i} className={styles.logLine}>
+                    <span className={styles.logTs}>{entry.date}</span>
+                    <span>
+                      {entry.prefix}
+                      {entry.highlight && (
+                        <strong style={{ color: '#F5A800' }}>
+                          {entry.href
+                            ? <a href={entry.href} target="_blank" rel="noopener noreferrer" onClick={(e) => { e.stopPropagation(); track('click', 'about_blog_link'); }}>{entry.highlight}</a>
+                            : entry.highlight}
+                        </strong>
+                      )}
+                      {entry.suffix}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </WindowFrame>
+          </section>
 
           <section className={styles.sectionBlock} id="sec_projects">
             <SectionHeader num="02" label="Projects" />
