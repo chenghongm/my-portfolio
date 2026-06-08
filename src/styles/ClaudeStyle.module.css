@@ -968,7 +968,6 @@
   display: flex;
   gap: 0;
   border: 1px solid var(--border);
-  max-width: 600px;
 }
 
 .contactLink {

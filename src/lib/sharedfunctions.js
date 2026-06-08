@@ -17,7 +17,7 @@ export function initConsoleEasterEgg() {
     );
 
     console.log(
-      "%cHey, you found this. That means you're curious — mengchh01@gmail.com, Open to interesting problems..",
+      "%cHey, you found this keep changing. That means you're curious — cmeng@chm1.pro, Open to interesting problems..",
       "color: #aaaaaa; font-style: italic; font-size: 12px;"
     );
 
