@@ -566,7 +566,7 @@ export default function ClaudeStyle() {
             <p className={styles.aboutBody}>Full-stack engineer with a background in Biochemistry and 5+ years building production systems, specializing in LLM orchestration and compliance-grade workflows — seeking to apply domain knowledge in medical AI, drug discovery platforms, or healthcare management systems.</p>
             <p className={styles.aboutBody}>Currently deep into <strong style={{ color: '#F5A800' }}>AI tooling</strong>: local LLM fine-tuning pipelines, browser extensions, and the intersection where backend systems meet language models.</p>
             <div className={styles.logBlock}>
-              {ACTIVITY_LOG.map((entry, i) => (
+              {ACTIVITY_LOG.slice(0, 5).map((entry, i) => (
                 <div key={i} className={styles.logLine}>
                   <span className={styles.ts}>{entry.date}</span>
                   <span>

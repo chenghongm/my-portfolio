@@ -382,6 +382,7 @@ export const CONTACT_INFO = [
 ];
 
 export const ACTIVITY_LOG = [
+  { date: '2026-07', prefix: 'Apart Sprint: Secret Loyalties', highlight: 'Hackathon', href: 'https://github.com/chenghongm/secret-loyalties-track2', suffix: ' · ' },
   { date: '2026-06', prefix: 'Snowflake Dev Day: ', highlight: 'Tech Blogs', href: 'https://dev.to/chenghongm', suffix: ' · ' },
   { date: '2026-05', prefix: 'continue: ', highlight: 'building', href: null, suffix: ' · daily job search eval tool' },
   { date: '2026-04', prefix: 'status: ', highlight: 'building', href: null, suffix: ' · open to opportunities' },
