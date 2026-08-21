@@ -121,9 +121,20 @@ export const PROJECTS = [
     title: 'Job Search Assistant',
     description: 'AI-powered job search assistant that helps users find relevant job opportunities based on their skills, experience, and preferences. The assistant provides personalized recommendations and streamlines the job application process.',
     tags: ['Job Search', 'AI Recommendations', 'Personalization'],
-    status: 'In Progress',
+    status: 'Done',
     year: '2026-04 to present',
     github: 'https://github.com/chenghongm/daily-job-search'
+  },
+  {
+    id: 'proj_job_digital_mind_test',
+    num: '05',
+    windowTitle: "EVAL://DIGITAL_MIND_TEST.EXE",
+    title: 'Stance Stability Evaluation Pipeline',
+    description: "Pipeline for measuring whether a language model's expressed positions hold up after argumentative pressure is removed — built for a weekend AI research sprint",
+    tags: ['LLM', 'Evaluation', 'Stance Stability', 'Argumentative Pressure'],
+    status: 'Done',
+    year: '2026-08',
+    github: 'https://github.com/chenghongm/digital-mind-sprint'
   }
 ];
 
@@ -149,6 +160,15 @@ export const EXPERIENCES = [
     scope: 'Designed and developed internal systems for session scheduling, wellness digitalization, goal progress tracking, batch reporting,and compliance workflows across multiple roles and campuses.6200+ contributions from May 2022 on GitHub ',
     github: 'https://github.com/mch-ibrain',
     projects: [
+      {
+        id: 'exp_proj_2',
+        title: 'Event and Reminder Management System',
+        description: 'Designed and developed event management system to send timely reminders for important dates and events, allowing admin flexibly grouping up different categories employees based on their roles and locations to customize reminder preferences and ensuring high attendance and engagement. Implemented with queue-based architecture for scalability and reliability',
+        tags: ['Event Management', 'Reminder System', 'User Preferences', 'Queue Architecture'],
+        status: 'Deployed on dev and pending production deployment',
+        year: '2026'
+
+      },
       {
         id: 'exp_proj_2',
         title: 'Event and Reminder Management System',
@@ -350,7 +370,7 @@ export const BEHAVIOR_QUESTIONS = [
     id: "bq_performance_optimization",
     question: "Tell me about a performance optimization you worked on",
     answer:
-     "In my previous role, we had a scheduled job that generated approximately 2,000 session records at a time. The job read recurring schedule data from a parent table and created corresponding records in child tables for the upcoming week.Initially, the entire process took around 12–15 seconds, which was longer than expected and created noticeable load during execution.I was responsible for identifying the bottlenecks and improving the overall performance of the job.I conducted code review and discovered a classic N+1 query issue. Laravel Eloquent was lazily loading related models inside a loop, which resulted in hundreds of unnecessary database queries.To address this, I replaced the lazy loading pattern with eager loading using with(), allowing the related data to be retrieved in a single query.After implementing that change, the execution time dropped from roughly 12–15 seconds to 7–8 seconds.I then investigated the remaining bottleneck and found that the bulk insert process was creating significant memory pressure and I/O spikes because a large number of records were being held in memory before writing to the database.To solve this, I introduced chunking and processed the data in smaller batches, which reduced memory consumption and smoothed out the database writes.After both optimizations, the job execution time was reduced from approximately 12–15 seconds to 3–5 seconds, representing more than a 60% improvement.More importantly, the job became much more stable and predictable under production load"
+      "In my previous role, we had a scheduled job that generated approximately 2,000 session records at a time. The job read recurring schedule data from a parent table and created corresponding records in child tables for the upcoming week.Initially, the entire process took around 12–15 seconds, which was longer than expected and created noticeable load during execution.I was responsible for identifying the bottlenecks and improving the overall performance of the job.I conducted code review and discovered a classic N+1 query issue. Laravel Eloquent was lazily loading related models inside a loop, which resulted in hundreds of unnecessary database queries.To address this, I replaced the lazy loading pattern with eager loading using with(), allowing the related data to be retrieved in a single query.After implementing that change, the execution time dropped from roughly 12–15 seconds to 7–8 seconds.I then investigated the remaining bottleneck and found that the bulk insert process was creating significant memory pressure and I/O spikes because a large number of records were being held in memory before writing to the database.To solve this, I introduced chunking and processed the data in smaller batches, which reduced memory consumption and smoothed out the database writes.After both optimizations, the job execution time was reduced from approximately 12–15 seconds to 3–5 seconds, representing more than a 60% improvement.More importantly, the job became much more stable and predictable under production load"
   }
 ];
 
@@ -382,6 +402,7 @@ export const CONTACT_INFO = [
 ];
 
 export const ACTIVITY_LOG = [
+  { date: '2026-08', prefix: 'Apart Sprint: ', highlight: 'Digital Mind Hackathon', href: 'https://github.com/chenghongm/digital-mind-sprint', suffix: ' · ' },
   { date: '2026-07', prefix: 'Apart Sprint: ', highlight: 'Secret Loyalties Hackathon', href: 'https://github.com/chenghongm/secret-loyalties-track2', suffix: ' · ' },
   { date: '2026-06', prefix: 'Snowflake Dev Day: ', highlight: 'Tech Blogs', href: 'https://dev.to/chenghongm', suffix: ' · ' },
   { date: '2026-05', prefix: 'continue: ', highlight: 'building', href: null, suffix: ' · daily job search eval tool' },
