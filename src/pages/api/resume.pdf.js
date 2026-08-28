@@ -1,8 +1,7 @@
 import puppeteer from 'puppeteer';
 import puppeteerCore from 'puppeteer-core';
-import { createRequire } from 'node:module';
 
-const nodeRequire = createRequire(import.meta.url);
+let chromiumPathPromise;
 
 export const config = {
   api: {
@@ -21,19 +20,27 @@ function getOrigin(request) {
   return `${protocol}://${host}`;
 }
 
-async function launchBrowser() {
-  // Production must not rely on Puppeteer's build-machine cache. Only local
-  // development on a non-Linux machine uses the Chrome downloaded by Puppeteer.
-  const useServerlessChromium = process.env.NODE_ENV === 'production' || process.platform === 'linux';
+async function getChromiumPath(origin) {
+  if (!chromiumPathPromise) {
+    chromiumPathPromise = import('@sparticuz/chromium-min')
+      .then(({ default: chromium }) => chromium.executablePath(`${origin}/chromium-pack.tar`))
+      .catch((error) => {
+        chromiumPathPromise = undefined;
+        throw error;
+      });
+  }
 
-  if (useServerlessChromium) {
-    const chromium = nodeRequire('@sparticuz/chromium').default;
-    chromium.setGraphicsMode = false;
+  return chromiumPathPromise;
+}
+
+async function launchBrowser(origin) {
+  if (process.env.VERCEL) {
+    const chromium = (await import('@sparticuz/chromium-min')).default;
 
     return puppeteerCore.launch({
       args: chromium.args,
-      executablePath: await chromium.executablePath(),
-      headless: 'shell',
+      executablePath: await getChromiumPath(origin),
+      headless: true,
     });
   }
 
@@ -52,12 +59,13 @@ export default async function handler(request, response) {
   let browser;
 
   try {
-    browser = await launchBrowser();
+    const origin = getOrigin(request);
+    browser = await launchBrowser(origin);
 
     const page = await browser.newPage();
     await page.setViewport({ width: 816, height: 1056, deviceScaleFactor: 1 });
     await page.emulateMediaType('screen');
-    await page.goto(`${getOrigin(request)}/resume?pdf=1`, { waitUntil: 'networkidle0' });
+    await page.goto(`${origin}/resume?pdf=1`, { waitUntil: 'networkidle0' });
     await page.waitForSelector('[data-pdf-ready="true"]');
 
     const pdf = await page.pdf({

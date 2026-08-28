@@ -3,9 +3,7 @@ const nextConfig = {
   /* config options here */
   reactCompiler: true,
   reactStrictMode: true,
-  outputFileTracingIncludes: {
-    '/api/resume.pdf': ['./node_modules/@sparticuz/chromium/bin/**/*'],
-  },
+  serverExternalPackages: ['@sparticuz/chromium-min', 'puppeteer-core'],
   async rewrites() {
     return [
       {
