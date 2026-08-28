@@ -22,9 +22,11 @@ function getOrigin(request) {
 }
 
 async function launchBrowser() {
-  // Deployment runs on Linux, where Puppeteer's browser cache is not persisted.
-  // @sparticuz/chromium supplies an executable that is packaged with the function.
-  if (process.platform === 'linux') {
+  // Production must not rely on Puppeteer's build-machine cache. Only local
+  // development on a non-Linux machine uses the Chrome downloaded by Puppeteer.
+  const useServerlessChromium = process.env.NODE_ENV === 'production' || process.platform === 'linux';
+
+  if (useServerlessChromium) {
     const chromium = nodeRequire('@sparticuz/chromium').default;
     chromium.setGraphicsMode = false;
 
