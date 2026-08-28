@@ -19,7 +19,6 @@
 
 # production
 /build
-/public/chromium-pack.tar
 
 # misc
 .DS_Store

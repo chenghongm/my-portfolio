@@ -1,6 +1,6 @@
 import Head from 'next/head';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { useEffect, useRef } from 'react';
 import { CONTACT_INFO, EXPERIENCES, HERO_INFO, PROJECTS, SKILLS } from '../lib/sharedfunctions';
 import styles from '../styles/Resume.module.css';
 
@@ -12,7 +12,20 @@ function externalHref(contact) {
 
 export default function Resume() {
   const router = useRouter();
-  const isPdfDocument = router.query.pdf === '1';
+  const hasRequestedPrint = useRef(false);
+
+  useEffect(() => {
+    if (!router.isReady || router.query.print !== '1' || hasRequestedPrint.current) return;
+
+    hasRequestedPrint.current = true;
+    const printResume = () => window.print();
+
+    if (document.fonts?.ready) {
+      document.fonts.ready.then(printResume);
+    } else {
+      printResume();
+    }
+  }, [router.isReady, router.query.print]);
 
   return (
     <>
@@ -21,12 +34,7 @@ export default function Resume() {
         <meta name="description" content="Resume for Chenghong Meng, Full-Stack Developer." />
       </Head>
 
-      <main className={`${styles.page} ${isPdfDocument ? styles.pdfPage : ''}`} data-pdf-ready={isPdfDocument || undefined}>
-        <div className={styles.toolbar}>
-          <Link href="/" className={styles.backLink}>← Portfolio</Link>
-          <a href="/api/resume.pdf" className={styles.printButton}>Download PDF</a>
-        </div>
-
+      <main className={styles.page}>
         <article className={styles.resume}>
           <header className={styles.header}>
             <div>

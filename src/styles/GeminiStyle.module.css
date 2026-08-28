@@ -1083,6 +1083,43 @@ button.win95Btn {
   color: #000;
 }
 
+.resumePrintButton {
+  display: inline-flex;
+  align-items: center;
+  height: 22px;
+  padding: 0 9px;
+  background: #d7d7d7;
+  border-top: 2px solid #fff;
+  border-left: 2px solid #fff;
+  border-right: 2px solid #3c3c3c;
+  border-bottom: 2px solid #3c3c3c;
+  box-shadow: inset -1px -1px 0 #7b7b7b, inset 1px 1px 0 #f7f7f7;
+  color: #000;
+  font-weight: 700;
+  line-height: 1;
+  text-shadow: 1px 1px 0 #fff;
+  white-space: nowrap;
+}
+
+.resumePrintButton:hover {
+  background: #e7e7e7;
+}
+
+.resumePrintButton:active {
+  border-top-color: #3c3c3c;
+  border-left-color: #3c3c3c;
+  border-right-color: #fff;
+  border-bottom-color: #fff;
+  box-shadow: inset 1px 1px 0 #7b7b7b;
+  padding: 1px 8px 0 10px;
+  text-shadow: none;
+}
+
+.resumePrintButton:focus-visible {
+  outline: 1px dotted #000;
+  outline-offset: -4px;
+}
+
 @keyframes blink {
 
   0%,

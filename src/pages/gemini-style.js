@@ -756,7 +756,13 @@ export default function Home() {
               <img className={styles.themeSwitchHalfRight} src="/assets/gemini_icon.png" alt="" />
             </span>
           </a>
-          <Link href="/resume" onClick={() => track("nav_click", "resume")}>Resume</Link>
+          <Link
+            href="/resume?print=1"
+            className={styles.resumePrintButton}
+            onClick={() => track("nav_click", "print_resume")}
+          >
+            Print Resume
+          </Link>
         </div>
       </div>
     </div>

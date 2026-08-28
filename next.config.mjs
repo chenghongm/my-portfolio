@@ -3,7 +3,6 @@ const nextConfig = {
   /* config options here */
   reactCompiler: true,
   reactStrictMode: true,
-  serverExternalPackages: ['@sparticuz/chromium-min', 'puppeteer-core'],
   async rewrites() {
     return [
       {

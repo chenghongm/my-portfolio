@@ -436,7 +436,7 @@ export default function ClaudeStyle() {
             <li><a href="#process" onClick={(e) => { e.preventDefault(); scrollToSection('process'); }}>Attitude</a></li>
             <li><a href="#behavior-qa" onClick={(e) => { e.preventDefault(); scrollToSection('behavior-qa'); }}>Q&amp;A</a></li>
             <li><a href="#contact" onClick={(e) => { e.preventDefault(); scrollToSection('contact'); }}>Contact</a></li>
-            <li><Link href="/resume" onClick={() => track('nav_click', 'resume')}>Resume</Link></li>
+            <li><Link href="/resume?print=1" onClick={() => track('nav_click', 'print_resume')}>Print Resume</Link></li>
           </ul>
           <div className={styles.navActions}>
             <button

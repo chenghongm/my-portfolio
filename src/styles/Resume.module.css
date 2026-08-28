@@ -5,37 +5,6 @@
   color: #18212b;
 }
 
-.toolbar {
-  width: min(8.5in, 100%);
-  margin: 0 auto 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 0.9rem;
-}
-
-.backLink,
-.printButton {
-  border: 1px solid #26384d;
-  border-radius: 6px;
-  padding: 9px 13px;
-  background: transparent;
-  color: #26384d;
-  font: inherit;
-  cursor: pointer;
-}
-
-.printButton {
-  border-color: #26384d;
-  background: #26384d;
-  color: #fff;
-}
-
-.backLink:hover,
-.printButton:hover {
-  opacity: 0.82;
-}
-
 .resume {
   width: min(8.5in, 100%);
   margin: 0 auto;
@@ -175,10 +144,6 @@
     padding: 18px 0 32px;
   }
 
-  .toolbar {
-    padding: 0 16px;
-  }
-
   .resume {
     padding: 30px 20px;
   }
@@ -198,18 +163,4 @@
   .skills {
     grid-template-columns: 1fr 1fr;
   }
-}
-
-.pdfPage {
-  min-height: 0;
-  padding: 0;
-  background: #fff;
-}
-
-.pdfPage .toolbar {
-  display: none;
-}
-
-.pdfPage .resume {
-  box-shadow: none;
 }
