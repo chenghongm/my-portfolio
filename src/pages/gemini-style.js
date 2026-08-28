@@ -1,4 +1,5 @@
 import Head from "next/head";
+import Link from "next/link";
 import { useState, useRef, useEffect } from "react";
 import Script from "next/script";
 import styles from "../styles/GeminiStyle.module.css";
@@ -755,6 +756,7 @@ export default function Home() {
               <img className={styles.themeSwitchHalfRight} src="/assets/gemini_icon.png" alt="" />
             </span>
           </a>
+          <Link href="/resume" onClick={() => track("nav_click", "resume")}>Resume</Link>
         </div>
       </div>
     </div>

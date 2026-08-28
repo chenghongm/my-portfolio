@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef } from 'react';
 import Head from 'next/head';
+import Link from 'next/link';
 import Script from "next/script";
 import styles from '@/styles/ClaudeStyle.module.css';
 import {
@@ -435,6 +436,7 @@ export default function ClaudeStyle() {
             <li><a href="#process" onClick={(e) => { e.preventDefault(); scrollToSection('process'); }}>Attitude</a></li>
             <li><a href="#behavior-qa" onClick={(e) => { e.preventDefault(); scrollToSection('behavior-qa'); }}>Q&amp;A</a></li>
             <li><a href="#contact" onClick={(e) => { e.preventDefault(); scrollToSection('contact'); }}>Contact</a></li>
+            <li><Link href="/resume" onClick={() => track('nav_click', 'resume')}>Resume</Link></li>
           </ul>
           <div className={styles.navActions}>
             <button
