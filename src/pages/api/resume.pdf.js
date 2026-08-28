@@ -1,4 +1,8 @@
 import puppeteer from 'puppeteer';
+import puppeteerCore from 'puppeteer-core';
+import { createRequire } from 'node:module';
+
+const nodeRequire = createRequire(import.meta.url);
 
 export const config = {
   api: {
@@ -17,6 +21,26 @@ function getOrigin(request) {
   return `${protocol}://${host}`;
 }
 
+async function launchBrowser() {
+  // Deployment runs on Linux, where Puppeteer's browser cache is not persisted.
+  // @sparticuz/chromium supplies an executable that is packaged with the function.
+  if (process.platform === 'linux') {
+    const chromium = nodeRequire('@sparticuz/chromium').default;
+    chromium.setGraphicsMode = false;
+
+    return puppeteerCore.launch({
+      args: chromium.args,
+      executablePath: await chromium.executablePath(),
+      headless: 'shell',
+    });
+  }
+
+  return puppeteer.launch({
+    headless: true,
+    args: ['--no-sandbox', '--disable-setuid-sandbox'],
+  });
+}
+
 export default async function handler(request, response) {
   if (request.method !== 'GET') {
     response.setHeader('Allow', 'GET');
@@ -26,10 +50,7 @@ export default async function handler(request, response) {
   let browser;
 
   try {
-    browser = await puppeteer.launch({
-      headless: true,
-      args: ['--no-sandbox', '--disable-setuid-sandbox'],
-    });
+    browser = await launchBrowser();
 
     const page = await browser.newPage();
     await page.setViewport({ width: 816, height: 1056, deviceScaleFactor: 1 });
