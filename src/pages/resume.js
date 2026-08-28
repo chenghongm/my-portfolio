@@ -85,7 +85,7 @@ export default function Resume() {
           </ResumeSection>
 
           <ResumeSection title="Selected Projects">
-            <div className={styles.entryList}>
+            <div className={`${styles.entryList} ${styles.selectedProjectsList}`}>
               {visibleProjects.map((project, index) => (
                 <section className={styles.entry} key={`${project.id}-${index}`}>
                   <div className={styles.entryHeading}>

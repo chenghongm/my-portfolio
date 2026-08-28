@@ -57,7 +57,9 @@
 }
 
 .section h2 {
-  margin: 0 0 10px;
+  margin: 0 0 12px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid #26384d;
   color: #26384d;
   font-size: 11pt;
   letter-spacing: 0.13em;
@@ -71,6 +73,10 @@
 .entryList {
   display: grid;
   gap: 15px;
+}
+
+.selectedProjectsList {
+  padding-left: 18px;
 }
 
 .entry {
@@ -162,5 +168,9 @@
 
   .skills {
     grid-template-columns: 1fr 1fr;
+  }
+
+  .selectedProjectsList {
+    padding-left: 12px;
   }
 }
