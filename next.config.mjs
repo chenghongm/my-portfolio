@@ -3,6 +3,9 @@ const nextConfig = {
   /* config options here */
   reactCompiler: true,
   reactStrictMode: true,
+  outputFileTracingIncludes: {
+    '/api/resume.pdf': ['./node_modules/@sparticuz/chromium/bin/**/*'],
+  },
   async rewrites() {
     return [
       {
