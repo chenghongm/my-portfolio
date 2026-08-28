@@ -202,7 +202,7 @@
 
 @media print {
   @page {
-    margin: 0.45in;
+    margin: 0.62in 0.7in;
   }
 
   .page {
@@ -220,22 +220,35 @@
     margin: 0;
     padding: 0;
     box-shadow: none;
-    font-size: 9.5pt;
+    font-size: 10pt;
+    line-height: 1.5;
   }
 
   .section {
-    margin-top: 16px;
+    margin-top: 22px;
   }
 
   .entryList {
-    gap: 11px;
+    gap: 15px;
   }
 
   .section h2 {
-    margin-bottom: 7px;
+    margin-bottom: 10px;
   }
 
   .entryHeading h3 {
-    font-size: 9.5pt;
+    font-size: 10pt;
+  }
+
+  .entry > p:not(.tags) {
+    margin-top: 6px;
+  }
+
+  .tags {
+    margin-top: 8px !important;
+  }
+
+  .header {
+    padding-bottom: 22px;
   }
 }
