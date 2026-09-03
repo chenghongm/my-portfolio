@@ -155,6 +155,7 @@ export const EXPERIENCES = [
   {
     id: 'exp_1',
     title: 'Full-Stack Developer | Therapy Industry | New York, NY',
+    printTitle: 'Full-Stack Developer | iBrain | New York, NY',
     dateRange: '2022-03 - 2026-04',
     status: 'Completed',
     scope: 'Designed and developed internal systems for session scheduling, wellness digitalization, goal progress tracking, batch reporting,and compliance workflows across multiple roles and campuses.6200+ contributions from May 2022 on GitHub ',
@@ -200,6 +201,7 @@ export const EXPERIENCES = [
   {
     id: 'exp_2',
     title: 'Software Engineer | Crypto Trading Platform | New York, NY',
+    printTitle: 'Software Engineer | Golden Source Capital, LLC | New York, NY',
     dateRange: '2021-05 - 2022-01',
     status: 'Completed',
     scope: 'Managed user center and developed KYC verification flow for a cryptocurrency trading platform supporting 68k+ users, ensuring secure and compliant onboarding while maintaining a seamless user experience.',

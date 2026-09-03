@@ -13,6 +13,7 @@ function externalHref(contact) {
 export default function Resume() {
   const router = useRouter();
   const hasRequestedPrint = useRef(false);
+  const isPrint = router.isReady && router.query.print === '1';
 
   useEffect(() => {
     if (!router.isReady || router.query.print !== '1' || hasRequestedPrint.current) return;
@@ -65,7 +66,7 @@ export default function Resume() {
               {EXPERIENCES.map((experience) => (
                 <section className={styles.entry} key={experience.id}>
                   <div className={styles.entryHeading}>
-                    <h3>{experience.title}</h3>
+                    <h3>{isPrint ? experience.printTitle ?? experience.title : experience.title}</h3>
                     <span>{experience.dateRange}</span>
                   </div>
                   <p>{experience.scope}</p>
