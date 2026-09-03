@@ -170,15 +170,6 @@ export const EXPERIENCES = [
 
       },
       {
-        id: 'exp_proj_2',
-        title: 'Event and Reminder Management System',
-        description: 'Designed and developed event management system to send timely reminders for important dates and events, allowing admin flexibly grouping up different categories employees based on their roles and locations to customize reminder preferences and ensuring high attendance and engagement. Implemented with queue-based architecture for scalability and reliability',
-        tags: ['Event Management', 'Reminder System', 'User Preferences', 'Queue Architecture'],
-        status: 'Deployed on dev and pending production deployment',
-        year: '2026'
-
-      },
-      {
         id: 'exp_proj_3',
         title: 'Scheduling Systems for session coordination across 5+ roles and 3 campuses',
         description: 'Designed a scheduling system to orchestra resources across 5+ roles and 3 campuses weekly 2000+ and daily 400+ sessions to be auditable and aligned with student attendance and employee PTO and availability; ensure session manageable under flexible constraints; generate reports for resource coordination and capacity planning.',
