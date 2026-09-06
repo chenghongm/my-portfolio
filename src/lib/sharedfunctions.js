@@ -176,7 +176,7 @@ export const EXPERIENCES = [
         description: 'Designed a scheduling system to orchestra resources across 5+ roles and 3 campuses weekly 2000+ and daily 400+ sessions to be auditable and aligned with student attendance and employee PTO and availability; ensure session manageable under flexible constraints; generate reports for resource coordination and capacity planning.',
         tags: ['Scheduling', 'Resource Coordination', 'Multi-role', 'Multi-campus'],
         status: 'Deployed and maintained',
-        year: '2024'
+        year: '2025'
       },
       {
         id: 'exp_proj_4',
@@ -395,6 +395,7 @@ export const CONTACT_INFO = [
 ];
 
 export const ACTIVITY_LOG = [
+  { date: '2026-09', prefix: 'Tech blog: ', highlight: 'What if AI assistants had 2 mins freetime?', href: 'https://dev.to/chenghongm', suffix: ' · ' },
   { date: '2026-08', prefix: 'Apart Sprint: ', highlight: 'Digital Mind Hackathon', href: 'https://github.com/chenghongm/digital-mind-sprint', suffix: ' · ' },
   { date: '2026-07', prefix: 'Apart Sprint: ', highlight: 'Secret Loyalties Hackathon', href: 'https://github.com/chenghongm/secret-loyalties-track2', suffix: ' · ' },
   { date: '2026-06', prefix: 'Snowflake Dev Day: ', highlight: 'Tech Blogs', href: 'https://dev.to/chenghongm', suffix: ' · ' },
