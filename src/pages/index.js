@@ -292,6 +292,12 @@ export default function Landing() {
         </Link>
       </main>
 
+      <Link href="/gpt-style" className="mt-10 mb-28 group flex items-center gap-4 rounded-full border border-violet-300/20 bg-violet-300/5 px-6 py-3 text-sm text-violet-200 transition-colors hover:border-violet-300/50 hover:bg-violet-300/10 focus-visible:outline-2 focus-visible:outline-violet-300">
+        <span aria-hidden="true" className="text-xl">✧</span>
+        <span>GPT Style <span className="ml-2 text-xs text-violet-200/60">A digital journey</span></span>
+        <span aria-hidden="true">↗</span>
+      </Link>
+
       <footer className="fixed bottom-12 text-gray-700 text-[10px] tracking-[0.3em] uppercase">
         Chenghong Meng - Systems & Engineering
       </footer>
