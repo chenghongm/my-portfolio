@@ -35,7 +35,7 @@ export default function GptStyle() {
           <div className={styles.eyebrow}><span /> CHENGHONG MENG · {HERO_INFO.area.toUpperCase()}</div>
           <h1 id="intro-title">A little curiosity.<br />An endless <em>journey.</em></h1>
           <p className={styles.intro}>Full-stack developer exploring the space between<br className={styles.desktopBreak} /> thoughtful systems and the possibilities of AI.</p>
-          <div className={styles.heroActions}><a href="#journey" className={styles.primary}>Explore my timeline <span aria-hidden="true">↓</span></a><Link href="/resume" className={styles.resume}>View résumé <Arrow /></Link></div>
+          <div className={styles.heroActions}><a href="#journey" className={styles.primary}>Explore my timeline <span aria-hidden="true">↓</span></a><Link href="/resume?print=1" className={styles.resume}>Print Resume <Arrow /></Link></div>
           <div className={styles.coordinates} aria-hidden="true"><span>BUILD · LEARN · ITERATE</span><span>01 — ∞</span></div>
           <div className={styles.horizon} aria-hidden="true"><div /><span>✧</span></div>
         </section>
