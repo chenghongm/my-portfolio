@@ -183,22 +183,84 @@
 
 .navLinks {
   display: flex;
-  gap: 40px;
+  align-items: center;
+  gap: clamp(18px, 2.2vw, 40px);
   list-style: none;
 }
 
-.navLinks a {
-  font-size: 14px;
+.navLinks a,
+.navMoreBtn {
+  font-size: clamp(12px, 0.95vw, 14px);
   font-family: 'Syne', sans-serif;
-  letter-spacing: 2px;
+  letter-spacing: clamp(1px, 0.14vw, 2px);
   text-transform: uppercase;
   text-decoration: none;
   color: rgba(255, 248, 242, 0.92);
   transition: color 0.2s;
 }
 
-.navLinks a:hover {
+.navLinks a:hover,
+.navMoreBtn:hover,
+.navMore:focus-within .navMoreBtn {
   color: var(--yellow);
+}
+
+/* "More" is invisible on wide screens: its items flow inline with the rest */
+.navMore,
+.navMoreList {
+  display: contents;
+}
+
+.navMoreBtn {
+  display: none;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+@media (min-width: 1201px) and (max-width: 1500px) {
+  .navMore {
+    display: block;
+    position: relative;
+  }
+
+  .navMoreBtn {
+    display: inline;
+  }
+
+  .navMoreList {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    min-width: 170px;
+    margin-top: 12px;
+    padding: 14px 18px;
+    list-style: none;
+    flex-direction: column;
+    gap: 14px;
+    background: rgba(10, 10, 10, 0.94);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 10px;
+    box-shadow: 0 14px 30px rgba(0, 0, 0, 0.35);
+  }
+
+  /* invisible bridge so the menu stays open while the pointer crosses the gap */
+  .navMoreList::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: -14px;
+    height: 14px;
+  }
+
+  .navMore:hover .navMoreList,
+  .navMore:focus-within .navMoreList {
+    display: flex;
+  }
 }
 
 /* STATUS BAR */

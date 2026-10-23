@@ -24,6 +24,20 @@ import {
   CERTS
 } from '../lib/sharedfunctions';
 
+const NAV_PRIMARY = [
+  { id: 'about', label: 'About' },
+  { id: 'experience', label: 'Experience' },
+  { id: 'work', label: 'Projects' },
+  { id: 'blogs', label: 'Blogs' },
+  { id: 'certs', label: 'Certs' },
+];
+const NAV_SECONDARY = [
+  { id: 'process', label: 'Attitude' },
+  { id: 'job-search', label: 'Job Search' },
+  { id: 'behavior-qa', label: 'Q&A' },
+];
+const NAV_CONTACT = { id: 'contact', label: 'Contact' };
+
 export default function ClaudeStyle() {
   const PAGE_ID = 'claude-style';
   const MODEL_NAME = 'claude-sonnet-4-5';
@@ -64,6 +78,21 @@ export default function ClaudeStyle() {
     setIsMobileNavOpen(false);
     track('nav_click', id);
   };
+
+  const renderNavItem = ({ id, label }) => (
+    <li key={id}>
+      <a
+        href={`#${id}`}
+        onClick={(e) => {
+          e.preventDefault();
+          e.currentTarget.blur();
+          scrollToSection(id);
+        }}
+      >
+        {label}
+      </a>
+    </li>
+  );
 
   const termBodyRef = useRef(null);
   const termInputRef = useRef(null);
@@ -431,15 +460,15 @@ export default function ClaudeStyle() {
       <nav className={styles.nav}>
         <div className={styles.navActions}>
           <ul className={`${styles.navLinks} ${isMobileNavOpen ? styles.navLinksOpen : ''}`}>
-            <li><a href="#about" onClick={(e) => { e.preventDefault(); scrollToSection('about'); }}>About</a></li>
-            <li><a href="#experience" onClick={(e) => { e.preventDefault(); scrollToSection('experience'); }}>Experience</a></li>
-            <li><a href="#work" onClick={(e) => { e.preventDefault(); scrollToSection('work'); }}>Projects</a></li>
-            <li><a href="#blogs" onClick={(e) => { e.preventDefault(); scrollToSection('blogs'); }}>Blogs</a></li>
-            <li><a href="#certs" onClick={(e) => { e.preventDefault(); scrollToSection('certs'); }}>Certs</a></li>
-            <li><a href="#job-search" onClick={(e) => { e.preventDefault(); scrollToSection('job-search'); }}>Job Search</a></li>
-            <li><a href="#process" onClick={(e) => { e.preventDefault(); scrollToSection('process'); }}>Attitude</a></li>
-            <li><a href="#behavior-qa" onClick={(e) => { e.preventDefault(); scrollToSection('behavior-qa'); }}>Q&amp;A</a></li>
-            <li><a href="#contact" onClick={(e) => { e.preventDefault(); scrollToSection('contact'); }}>Contact</a></li>
+            {NAV_PRIMARY.map(renderNavItem)}
+            {/* Secondary links collapse into "More" on mid-width screens; inline elsewhere */}
+            <li className={styles.navMore}>
+              <button type="button" className={styles.navMoreBtn} aria-haspopup="true">More ▾</button>
+              <ul className={styles.navMoreList}>
+                {NAV_SECONDARY.map(renderNavItem)}
+              </ul>
+            </li>
+            {renderNavItem(NAV_CONTACT)}
             <li><Link href="/resume?print=1" onClick={() => track('nav_click', 'print_resume')}>Print Resume</Link></li>
           </ul>
           <div className={styles.navActions}>

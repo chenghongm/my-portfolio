@@ -152,7 +152,7 @@ export default function Home() {
   const [isThinking, setIsThinking] = useState(false);
   const [isNeuralLinkMaximized, setIsNeuralLinkMaximized] = useState(false);
   const [isNeuralSectionVisible, setIsNeuralSectionVisible] = useState(false);
-  const [isMobileStartOpen, setIsMobileStartOpen] = useState(false);
+  const [isStartMenuOpen, setIsStartMenuOpen] = useState(false);
   const [time, setTime] = useState("");
   const [visibleHooks, setVisibleHooks] = useState(INITIAL_PROMPT_HOOKS);
   const [activeJobTab, setActiveJobTab] = useState(0);
@@ -160,6 +160,7 @@ export default function Home() {
 
 
   const terminalBodyRef = useRef(null);
+  const startMenuRef = useRef(null);
   const userScrolledRef = useRef(false);
 
   // Wrap trackActivity for convenience
@@ -272,15 +273,24 @@ export default function Home() {
   }, [isNeuralLinkMaximized]);
 
   useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth > 720) {
-        setIsMobileStartOpen(false);
+    if (!isStartMenuOpen) return undefined;
+
+    const handlePointerDown = (event) => {
+      if (!startMenuRef.current?.contains(event.target)) {
+        setIsStartMenuOpen(false);
       }
     };
+    const handleKeyDown = (event) => {
+      if (event.key === "Escape") setIsStartMenuOpen(false);
+    };
 
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
+    document.addEventListener("pointerdown", handlePointerDown);
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("pointerdown", handlePointerDown);
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isStartMenuOpen]);
 
   const submitPrompt = async (rawPrompt, source = "typed", hookType = null) => {
     const userMsg = rawPrompt.trim();
@@ -360,31 +370,28 @@ export default function Home() {
       el.scrollIntoView({ behavior: "smooth" });
       track("nav_click", id);
     }
-    setIsMobileStartOpen(false);
+    setIsStartMenuOpen(false);
   };
 
+  // All routes live in the Start menu; only pinned ones get a taskbar button
   const taskbarRoutes = [
-    { id: "top", label: "IDENTITY_V95.SYS" },
-    { id: "sec_about", label: "About.log" },
-    { id: "sec_projects", label: "Projects.exe" },
-    { id: "sec_experience", label: "Experience.log" },
-    { id: "sec_blogs", label: "Blogs.md" },
-    { id: "sec_certs", label: "Certs.crt" },
-    { id: "sec_neural_link", label: "NeuralLink.com" },
-    { id: "sec_job_search", label: "JobSearch.xls" },
-    { id: "sec_how_i_work", label: "HowIWork.log" },
-    { id: "sec_behavior_qa", label: "BehaviorQnA.txt" },
-    { id: "sec_skills", label: "Skills.dll" },
-    { id: "sec_contact", label: "Contact.sys" },
+    { id: "top", label: "IDENTITY_V95.SYS", icon: "🖥️" },
+    { id: "sec_about", label: "About.log", icon: "📝", pinned: true },
+    { id: "sec_projects", label: "Projects.exe", icon: "💾", pinned: true },
+    { id: "sec_experience", label: "Experience.log", icon: "📁", pinned: true },
+    { id: "sec_blogs", label: "Blogs.md", icon: "📄", pinned: true },
+    { id: "sec_certs", label: "Certs.crt", icon: "🏅", pinned: true },
+    { id: "sec_neural_link", label: "NeuralLink.com", icon: "📡", pinned: true },
+    { id: "sec_job_search", label: "JobSearch.xls", icon: "📊" },
+    { id: "sec_how_i_work", label: "HowIWork.log", icon: "⚙️" },
+    { id: "sec_skills", label: "Skills.dll", icon: "🧩" },
+    { id: "sec_behavior_qa", label: "BehaviorQnA.txt", icon: "💬" },
+    { id: "sec_contact", label: "Contact.sys", icon: "✉️", pinned: true },
   ];
 
   const handleStartButtonClick = () => {
-
-    if (window.innerWidth <= 720) {
-      setIsMobileStartOpen((prev) => !prev);
-      return;
-    }
-    scrollTo("top");
+    setIsStartMenuOpen((prev) => !prev);
+    track("click", "start_menu");
   };
 
   return (
@@ -816,20 +823,48 @@ export default function Home() {
 
       {/* Win95 Taskbar */}
       <div className={styles.win95Taskbar}>
-        <button type="button" className={styles.win95StartBtn} onClick={handleStartButtonClick}>
-          <img src="/assets/gemini_icon.png" alt="Gemini" />
-          <span>Start</span>
-        </button>
+        <div className={styles.startMenuWrap} ref={startMenuRef}>
+          <button
+            type="button"
+            className={`${styles.win95StartBtn} ${isStartMenuOpen ? styles.win95StartBtnActive : ""}`}
+            onClick={handleStartButtonClick}
+            aria-haspopup="menu"
+            aria-expanded={isStartMenuOpen}
+          >
+            <img src="/assets/gemini_icon.png" alt="Gemini" />
+            <span>Start</span>
+          </button>
+          {isStartMenuOpen && (
+            <div className={styles.startMenu} role="menu">
+              <div className={styles.startMenuBanner} aria-hidden="true"><b>Chenghong</b>95</div>
+              <div className={styles.startMenuItems}>
+                {taskbarRoutes.map((route) => (
+                  <button
+                    key={route.id}
+                    type="button"
+                    role="menuitem"
+                    className={styles.startMenuItem}
+                    onClick={() => scrollTo(route.id)}
+                  >
+                    <span aria-hidden="true">{route.icon}</span>
+                    {route.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
         <div className={styles.taskbarDivider} />
-        <div className={`${styles.taskbarTabs} ${isMobileStartOpen ? styles.taskbarTabsOpen : ""}`}>
-          {taskbarRoutes.map((route) => (
+        <div className={styles.taskbarTabs}>
+          {taskbarRoutes.filter((route) => route.pinned).map((route) => (
             <button
               key={route.id}
               type="button"
               className={styles.taskbarTab}
               onClick={() => scrollTo(route.id)}
+              title={route.label}
             >
-              {route.label}
+              <span>{route.label}</span>
             </button>
           ))}
         </div>

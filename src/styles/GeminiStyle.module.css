@@ -1197,6 +1197,84 @@ button.win95Btn {
   background: var(--win-white);
 }
 
+/* Windows 95 Start menu */
+.startMenuWrap {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.win95StartBtnActive {
+  border-top-color: var(--win-black);
+  border-left-color: var(--win-black);
+  border-right-color: var(--win-white);
+  border-bottom-color: var(--win-white);
+}
+
+.startMenu {
+  position: absolute;
+  left: -2px;
+  bottom: calc(100% + 4px);
+  display: flex;
+  min-width: 220px;
+  background: var(--win-bg);
+  border-top: 2px solid var(--win-white);
+  border-left: 2px solid var(--win-white);
+  border-right: 2px solid var(--win-black);
+  border-bottom: 2px solid var(--win-black);
+  box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.35);
+}
+
+.startMenuBanner {
+  width: 26px;
+  padding: 8px 0;
+  background: linear-gradient(0deg, var(--win-blue), #808080);
+  color: #c0c0c0;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font-size: 16px;
+  letter-spacing: 1px;
+  white-space: nowrap;
+}
+
+.startMenuBanner b {
+  color: var(--win-white);
+}
+
+.startMenuItems {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 2px;
+}
+
+.startMenuItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 14px 6px 8px;
+  background: none;
+  border: none;
+  color: var(--win-text);
+  font-family: inherit;
+  font-size: 12px;
+  text-align: left;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.startMenuItem span {
+  width: 18px;
+  font-size: 15px;
+  text-align: center;
+}
+
+.startMenuItem:hover,
+.startMenuItem:focus-visible {
+  background: var(--win-blue);
+  color: var(--win-white);
+  outline: none;
+}
+
 /* Windows 95 Taskbar */
 .win95Taskbar {
   position: fixed;
@@ -1247,19 +1325,16 @@ button.win95Btn {
 
 .taskbarTabs {
   flex: 1;
+  min-width: 0;
   display: flex;
   gap: 3px;
-  overflow-x: auto;
-  scrollbar-width: none;
+  overflow: hidden;
 }
 
-.taskbarTabsOpen {
-  display: flex;
-}
-
+/* Like real Win95: buttons shrink and truncate instead of scrolling */
 .taskbarTab {
-  min-width: 80px;
-  max-width: 160px;
+  flex: 0 1 140px;
+  min-width: 34px;
   padding: 2px 8px;
   background: var(--win-bg);
   border-top: 1px solid var(--win-white);
@@ -1276,6 +1351,11 @@ button.win95Btn {
   cursor: pointer;
   user-select: none;
   font-family: inherit;
+}
+
+.taskbarTab > span {
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .taskbarTray {
@@ -1459,36 +1539,14 @@ button.win95Btn {
     height: 40px;
   }
 
-  .taskbarDivider {
-    display: none;
-  }
-
+  .taskbarDivider,
   .taskbarTabs {
-    position: absolute;
-    left: 2px;
-    bottom: calc(100% + 4px);
-    width: min(150px, calc(100vw - 20px));
     display: none;
-    flex-direction: column;
-    gap: 2px;
-    padding: 4px;
-    background: var(--win-bg);
-    border-top: 2px solid var(--win-white);
-    border-left: 2px solid var(--win-white);
-    border-right: 2px solid var(--win-black);
-    border-bottom: 2px solid var(--win-black);
-    overflow: visible;
   }
 
-  .taskbarTabsOpen {
-    display: flex;
-  }
-
-  .taskbarTab {
-    max-width: none;
-    width: 100%;
-    justify-content: flex-start;
-    height: 28px;
+  .startMenuItem {
+    padding: 9px 14px 9px 8px;
+    font-size: 13px;
   }
 }
 
