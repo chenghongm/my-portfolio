@@ -416,61 +416,64 @@ export const BLOGS = [
     summary: 'A thought experiment on idle cycles, curiosity, and what language models might do when no one is prompting them.',
     platform: 'Dev.to',
     date: '2026-09',
-    tags: ['LLM', 'Essay'],
+    tags: ['LLM', 'AI Behavior', 'Idle Cycles', 'Curiosity'],
     href: 'https://dev.to/chenghongm'
   },
   {
-    id: 'blog_ledger_pto',
+    id: 'blog_fifa_prediction',
     num: '02',
-    windowTitle: "BLOG://LEDGER_PTO.MD",
-    title: 'Modeling PTO as a Ledger, Not a Balance',
-    summary: 'Why immutable transactions beat mutable balance fields for audit trails, refunds, and carry-over reconciliation.',
+    windowTitle: "BLOG://FIFA_PREDICTION.MD",
+    title: 'The Model That Held Its Ground Got Everything Wrong. The One That Caved to an Emoji Got Almost Everything Right',
+    summary: 'A small cross-model test of stance stability, run on the World Cup. The model that caved to an emoji got almost everything right. The one that held its ground got everything wrong.',
+    platform: 'Dev.to',
+    date: '2026-07',
+    tags: ['AI Behavior', 'Sycophancy', 'FIFA', 'Prediction'],
+    href: 'http://dev.to/chenghongm/the-model-that-held-its-ground-got-everything-wrong-the-one-that-caved-to-an-emoji-got-almost-ddb'
+  },
+  {
+    id: 'blog_ai_story',
+    num: '03',
+    windowTitle: "BLOG://AI_Assistant_Story.MD",
+    title: 'Ever been burned by your AI assistant? Hold on — who dug the hole?',
+    summary: 'A story about how AI assistants can mislead us. A cautionary tale about the importance of context, guardrails, and human-in-the-loop.',
     platform: 'Dev.to',
     date: '2026-06',
-    tags: ['System Design', 'Laravel', 'MySQL'],
-    href: 'https://dev.to/chenghongm'
-  },
-  {
-    id: 'blog_score_before_desensitize',
-    num: '03',
-    windowTitle: "BLOG://SCORE_FIRST.MD",
-    title: 'Score Before You Desensitize: Lessons from a Local LLM Pipeline',
-    summary: 'How placeholder leakage sneaks into fine-tuning data, and the pipeline ordering that prevents it.',
-    platform: 'Dev.to',
-    date: '2026-03',
-    tags: ['MLX', 'Fine-tuning', 'Data Pipeline'],
-    href: 'https://dev.to/chenghongm'
+    tags: ['AI', 'Productivity', 'Guardrails', 'Debugging'],
+    href: 'https://dev.to/chenghongm/ever-been-burned-by-your-ai-assistant-hold-on-who-dug-the-hole-1ipl'
   }
 ];
 
-// TODO: dummy data — replace with real certifications
+
 export const CERTS = [
   {
     id: 'cert_aws_dev',
     num: '01',
-    name: 'AWS Certified Developer – Associate',
+    name: 'AWS Certified Generative AI Developer - Professional',
     issuer: 'Amazon Web Services',
-    date: '2026-05',
-    credentialId: 'AWS-DVA-XXXXXX',
-    href: '#'
+    issue_date: '2026-09-17',
+    expiration_date: '2029-09-17',
+    credentialId: '065177314b734c6bb87e1e15c21bbed2',
+    href: 'https://cp.certmetrics.com/amazon/en/public/verify/credential/065177314b734c6bb87e1e15c21bbed2'
   },
   {
-    id: 'cert_dl_ai_llm',
+    id: 'cert_aws_solutions_architect',
     num: '02',
-    name: 'Generative AI with Large Language Models',
-    issuer: 'DeepLearning.AI',
-    date: '2026-02',
-    credentialId: 'DLAI-XXXXXX',
-    href: '#'
+    name: 'AWS Certified Solutions Architect - Associate',
+    issuer: 'Amazon Web Services',
+    issue_date: '2020-07-03',
+    expiration_date: '2023-07-03',
+    credentialId: '66SHSK9KNEQ4Q83Z',
+    href: 'https://cp.certmetrics.com/amazon/en/public/verify/credential/66SHSK9KNEQ4Q83Z'
   },
   {
     id: 'cert_anthropic_api',
     num: '03',
-    name: 'Building with the Claude API',
-    issuer: 'Anthropic Academy',
-    date: '2025-11',
-    credentialId: 'ANT-XXXXXX',
-    href: '#'
+    name: 'AWS Certified Developer - Associate',
+    issuer: 'Amazon Web Services',
+    issue_date: '2020-06-15',
+    expiration_date: '2023-06-15',
+    credentialId: 'RDCH97ZCGMBQ1V55',
+    href: 'https://cp.certmetrics.com/amazon/en/public/verify/credential/RDCH97ZCGMBQ1V55'
   }
 ];
 
