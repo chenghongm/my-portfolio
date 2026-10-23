@@ -26,6 +26,7 @@ import {
 
 const PAGE_ID = 'gemini-style';
 const PROMPT_CHAR_LIMIT = 300;
+const TODAY = new Date().toISOString().slice(0, 10);
 
 function SectionHeader({ num, label }) {
   return (
@@ -543,41 +544,40 @@ export default function Home() {
               <br />
               Writing.
             </h2>
-            <div className={styles.projectsGrid}>
-              {BLOGS.map((blog) => (
-                <WindowFrame key={blog.id} id={blog.id} title={blog.windowTitle} className={styles.projectWindow} compact>
-                  <div className={`${styles.projectPanel} win95-inset`}>
-                    <div className={styles.projectCardTop}>
-                      <div>
-                        <div className={styles.projectId}>{blog.num}</div>
-                        <h3 className={styles.projectTitle}>{blog.title}</h3>
-                      </div>
-                      <div className={styles.projectSide}>
-                        <div className={styles.projectStatus}>{blog.platform}</div>
-                        <div className={styles.projectYear}>{blog.date}</div>
-                        <div className={styles.projLinkRow}>
-                          <a
-                            href={blog.href}
-                            target="_blank"
-                            rel="noreferrer"
-                            onClick={(e) => { e.stopPropagation(); track("click", `${blog.id}_link`); }}
-                            className={styles.projLink}
-                          >
-                            Read Post
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-                    <p className={styles.projectDesc}>{blog.summary}</p>
-                    <div className={styles.projectTags}>
-                      {blog.tags.map((tag) => (
-                        <span key={tag} className={styles.projectTag}>{tag}</span>
-                      ))}
-                    </div>
-                  </div>
-                </WindowFrame>
-              ))}
-            </div>
+            <WindowFrame title={"C:\\BLOG\\*.MD - Exploring"} id="blog_explorer" compact>
+              <div className={`${styles.explorer} win95-inset`}>
+                <div className={styles.explorerHead}>
+                  <span>Name</span>
+                  <span>Source</span>
+                  <span>Modified</span>
+                </div>
+                {BLOGS.map((blog) => (
+                  <a
+                    key={blog.id}
+                    id={blog.id}
+                    href={blog.href}
+                    target="_blank"
+                    rel="noreferrer"
+                    className={styles.explorerRow}
+                    onClick={(e) => { e.stopPropagation(); track("click", `${blog.id}_link`); }}
+                  >
+                    <span className={styles.explorerName}>
+                      <span className={styles.explorerIcon} aria-hidden="true">📄</span>
+                      <span>
+                        <strong>{blog.title}</strong>
+                        <small>{blog.summary}</small>
+                      </span>
+                    </span>
+                    <span>{blog.platform}</span>
+                    <span>{blog.date}</span>
+                  </a>
+                ))}
+              </div>
+              <div className={styles.explorerStatus}>
+                <span>{BLOGS.length} object(s)</span>
+                <span>Click a file to open</span>
+              </div>
+            </WindowFrame>
           </section>
 
           <section className={styles.sectionBlock} id="sec_certs">
@@ -587,13 +587,34 @@ export default function Home() {
               <br />
               Credentials.
             </h2>
-            <div className={styles.workGrid}>
+            <div className={styles.certGrid}>
               {CERTS.map((cert) => (
-                <article key={cert.id} id={cert.id} className={styles.workCard} onClick={() => track("click", cert.id)}>
-                  <div className={styles.workCardNum}>{cert.num} · {cert.date}</div>
-                  <h3 className={styles.workCardTitle}>{cert.name}</h3>
-                  <p className={styles.workCardDesc}>{cert.issuer}<br />ID: {cert.credentialId}</p>
-                </article>
+                <a
+                  key={cert.id}
+                  id={cert.id}
+                  href={cert.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  className={styles.certPaper}
+                  onClick={() => track("click", `${cert.id}_link`)}
+                >
+                  <div className={styles.certPaperInner}>
+                    <div className={styles.certKicker}>Certificate of Completion</div>
+                    <h3 className={styles.certName}>{cert.name}</h3>
+                    <div className={styles.certIssuedBy}>issued by</div>
+                    <div className={styles.certIssuer}>{cert.issuer}</div>
+                    <div className={styles.certFooter}>
+                      <span>{cert.issue_date}</span>
+                      {cert.logo
+                        ? <img src={cert.logo} alt="" className={styles.certSealImg} />
+                        : <span className={styles.certSeal} aria-hidden="true">🏅</span>}
+                      <span>{cert.credentialId}</span>
+                    </div>
+                    <div className={`${styles.certValid} ${cert.expiration_date < TODAY ? styles.certExpired : ''}`}>
+                      {cert.expiration_date >= TODAY ? `Valid until ${cert.expiration_date}` : `Expired ${cert.expiration_date}`}
+                    </div>
+                  </div>
+                </a>
               ))}
             </div>
           </section>
@@ -694,6 +715,11 @@ export default function Home() {
 
           <section className={styles.sectionBlock} id="sec_how_i_work">
             <SectionHeader num="08" label="How I work" />
+            <h2 className={styles.sectionHeading}>
+              How I
+              <br />
+              Work.
+            </h2>
             <div className={styles.workGrid}>
               {WORK_CARDS.map((card) => (
                 <article key={card.id} id={card.id} className={styles.workCard} onClick={() => track("click", card.id)}>

@@ -417,7 +417,7 @@ export const BLOGS = [
     platform: 'Dev.to',
     date: '2026-09',
     tags: ['LLM', 'AI Behavior', 'Idle Cycles', 'Curiosity'],
-    href: 'https://dev.to/chenghongm'
+    href: 'https://dev.to/chenghongm/what-if-your-ai-assistant-had-two-minutes-of-free-timeru-guo-ni-de-aizhu-shou-you-liang-fen-zhong-de-kong-xian-shi-jian-hui-zen-yang--aka'
   },
   {
     id: 'blog_fifa_prediction',
@@ -453,7 +453,8 @@ export const CERTS = [
     issue_date: '2026-09-17',
     expiration_date: '2029-09-17',
     credentialId: '065177314b734c6bb87e1e15c21bbed2',
-    href: 'https://cp.certmetrics.com/amazon/en/public/verify/credential/065177314b734c6bb87e1e15c21bbed2'
+    href: 'https://cp.certmetrics.com/amazon/en/public/verify/credential/065177314b734c6bb87e1e15c21bbed2',
+    logo: '/assets/certs/aws-genai-developer-pro.png'
   },
   {
     id: 'cert_aws_solutions_architect',
@@ -463,17 +464,19 @@ export const CERTS = [
     issue_date: '2020-07-03',
     expiration_date: '2023-07-03',
     credentialId: '66SHSK9KNEQ4Q83Z',
-    href: 'https://cp.certmetrics.com/amazon/en/public/verify/credential/66SHSK9KNEQ4Q83Z'
+    href: 'https://cp.certmetrics.com/amazon/en/public/verify/credential/66SHSK9KNEQ4Q83Z',
+    logo: '/assets/certs/aws-solutions-architect-associate.png'
   },
   {
-    id: 'cert_anthropic_api',
+    id: 'cert_aws_developer',
     num: '03',
     name: 'AWS Certified Developer - Associate',
     issuer: 'Amazon Web Services',
     issue_date: '2020-06-15',
     expiration_date: '2023-06-15',
     credentialId: 'RDCH97ZCGMBQ1V55',
-    href: 'https://cp.certmetrics.com/amazon/en/public/verify/credential/RDCH97ZCGMBQ1V55'
+    href: 'https://cp.certmetrics.com/amazon/en/public/verify/credential/RDCH97ZCGMBQ1V55',
+    logo: '/assets/certs/aws-developer-associate.png'
   }
 ];
 

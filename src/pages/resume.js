@@ -104,8 +104,12 @@ export default function Resume() {
             <div className={styles.compactList}>
               {CERTS.map((cert) => (
                 <div className={styles.entryHeading} key={cert.id}>
-                  <h3>{cert.name} <span className={styles.inlineMeta}>— {cert.issuer}</span></h3>
-                  <span>{cert.date}</span>
+                  <h3>
+                    {cert.logo && <img src={cert.logo} alt="" className={styles.certIcon} />}
+                    <a href={cert.href} target="_blank" rel="noreferrer">{cert.name}</a>{' '}
+                    <span className={styles.inlineMeta}>— {cert.issuer} · ID {cert.credentialId}</span>
+                  </h3>
+                  <span>{cert.issue_date}</span>
                 </div>
               ))}
             </div>

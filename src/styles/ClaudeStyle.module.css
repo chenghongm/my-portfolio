@@ -950,6 +950,222 @@
   color: var(--dim);
 }
 
+/* BLOGS */
+.blogFeed {
+  border: 1px solid var(--border);
+  background: var(--bg2);
+  font-family: 'Space Mono', monospace;
+}
+
+.blogFeedBar {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 20px;
+  background: var(--c-assCorButBac);
+  border-bottom: 1px solid var(--border);
+  font-size: 12px;
+  letter-spacing: 1px;
+  color: var(--yellow);
+}
+
+.blogFeedBar span:last-child {
+  color: var(--dim2);
+}
+
+.blogRow {
+  position: relative;
+  display: grid;
+  grid-template-columns: 90px minmax(0, 1fr) auto;
+  gap: 28px;
+  align-items: start;
+  padding: 26px 20px;
+  border-bottom: 1px dashed var(--border);
+  color: inherit;
+  text-decoration: none;
+  transition: background 0.2s ease, padding-left 0.2s ease;
+}
+
+.blogRow:last-child {
+  border-bottom: none;
+}
+
+.blogRow::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--yellow);
+  transform: scaleY(0);
+  transition: transform 0.2s ease;
+}
+
+.blogRow:hover {
+  background: var(--yellow-dim);
+  padding-left: 28px;
+}
+
+.blogRow:hover::before {
+  transform: scaleY(1);
+}
+
+.blogDate {
+  font-size: 13px;
+  color: var(--green);
+  padding-top: 4px;
+}
+
+.blogTitle {
+  font-family: 'Syne', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.35;
+  color: var(--white);
+  margin-bottom: 8px;
+}
+
+.blogRow:hover .blogTitle {
+  color: var(--yellow);
+}
+
+.blogSummary {
+  font-size: 13px;
+  line-height: 1.8;
+  color: var(--dim);
+}
+
+.blogTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  margin-top: 10px;
+  font-size: 11px;
+  color: var(--dim2);
+}
+
+.blogPlatform {
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--dim2);
+  white-space: nowrap;
+  padding-top: 5px;
+}
+
+.blogPlatform span {
+  display: inline-block;
+  transition: transform 0.2s ease;
+}
+
+.blogRow:hover .blogPlatform {
+  color: var(--yellow);
+}
+
+.blogRow:hover .blogPlatform span {
+  transform: translateX(4px);
+}
+
+/* CERTS */
+.certGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 20px;
+}
+
+.certBadge {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 28px 24px 20px;
+  border: 1px dashed rgba(245, 168, 0, 0.45);
+  border-radius: 14px;
+  background: radial-gradient(circle at 100% 0%, rgba(245, 168, 0, 0.1), transparent 55%), var(--bg3);
+  overflow: hidden;
+  color: inherit;
+  text-decoration: none;
+  transition: transform 0.25s ease, border-color 0.25s ease;
+}
+
+.certBadge:hover {
+  transform: translateY(-4px);
+  border-color: var(--yellow);
+}
+
+.certStamp {
+  position: absolute;
+  top: 16px;
+  right: -30px;
+  width: 120px;
+  padding: 3px 0;
+  transform: rotate(35deg);
+  background: var(--green);
+  color: #000;
+  font-family: 'Space Mono', monospace;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-align: center;
+}
+
+.certLogo {
+  width: 72px;
+  height: 72px;
+  object-fit: contain;
+  filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.4));
+  transition: transform 0.25s ease;
+}
+
+.certBadge:hover .certLogo {
+  transform: rotate(-6deg) scale(1.06);
+}
+
+.certIssuer {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--yellow);
+  padding-right: 50px;
+}
+
+.certName {
+  font-family: 'Syne', sans-serif;
+  font-size: 19px;
+  font-weight: 700;
+  line-height: 1.35;
+  color: var(--white);
+  flex: 1;
+}
+
+.certFooter {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  color: var(--dim2);
+  flex-wrap: wrap;
+}
+
+.certFooter span:first-child {
+  word-break: break-all;
+}
+
+@media (max-width: 768px) {
+  .blogRow {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .blogRow:hover {
+    padding-left: 20px;
+  }
+}
+
 /* CONTACT */
 .contactHeading {
   font-family: 'Syne', sans-serif;

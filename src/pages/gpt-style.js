@@ -65,22 +65,30 @@ export default function GptStyle() {
 
         <section id="blogs" className={styles.shelf} aria-labelledby="blogs-title">
           <div className={styles.sectionHeading}><div><p className={styles.kicker}>FIELD NOTES</p><h2 id="blogs-title">Thinking out loud<span>.</span></h2></div><p>Notes and essays written along the way.</p></div>
-          <div className={styles.shelfGrid}>{BLOGS.map((blog) => <article key={blog.id} className={styles.card}>
-            <div className={styles.cardMeta}><span>✎ {blog.platform}</span><span>{blog.date}</span></div>
-            <h4>{blog.title}</h4>
-            <p className={styles.description}>{blog.summary}</p>
-            <div className={styles.tags}>{blog.tags.map((tag) => <span key={tag}>{tag}</span>)}</div>
-            <div className={styles.cardFooter}><span /><a href={blog.href} target="_blank" rel="noreferrer">Read post <Arrow /></a></div>
-          </article>)}</div>
+          <ol className={styles.blogIndex}>{BLOGS.map((blog, index) => <li key={blog.id}>
+            <a href={blog.href} target="_blank" rel="noreferrer" className={styles.blogItem}>
+              <span className={styles.blogNum}>{String(index + 1).padStart(2, '0')}</span>
+              <span className={styles.blogBody}>
+                <span className={styles.blogTitle}>{blog.title}</span>
+                <span className={styles.blogSummary}>{blog.summary}</span>
+                <span className={styles.blogMeta}>{blog.date} · {blog.platform} · {blog.tags.join(' / ')}</span>
+              </span>
+              <span className={styles.blogArrow} aria-hidden="true">↗</span>
+            </a>
+          </li>)}</ol>
         </section>
 
         <section id="certs" className={styles.shelf} aria-labelledby="certs-title">
           <div className={styles.sectionHeading}><div><p className={styles.kicker}>MILESTONES EARNED</p><h2 id="certs-title">Certifications<span>.</span></h2></div><p>Credentials picked up while learning in public.</p></div>
-          <div className={styles.shelfGrid}>{CERTS.map((cert) => <article key={cert.id} className={styles.card}>
-            <div className={styles.cardMeta}><span>◈ {cert.issuer}</span><span>{cert.date}</span></div>
-            <h4>{cert.name}</h4>
-            <div className={styles.cardFooter}><span className={styles.status}><i />ID: {cert.credentialId}</span>{cert.href !== '#' && <a href={cert.href} target="_blank" rel="noreferrer">Verify <Arrow /></a>}</div>
-          </article>)}</div>
+          <div className={styles.certRow}>{CERTS.map((cert) => <a key={cert.id} href={cert.href} target="_blank" rel="noreferrer" className={styles.cert}>
+            {cert.logo ? <img src={cert.logo} alt="" className={styles.certLogo} /> : <span className={styles.certOrb} aria-hidden="true">✦</span>}
+            <div>
+              <h3>{cert.name}</h3>
+              <p>{cert.issuer} · <span>{cert.issue_date} → {cert.expiration_date}</span></p>
+              <code>{cert.credentialId}</code>
+            </div>
+            <span className={styles.certVerify}>Verify <Arrow /></span>
+          </a>)}</div>
         </section>
 
         <section id="about" className={styles.about} aria-labelledby="about-title"><div><p className={styles.kicker}>BEHIND THE WORK</p><h2 id="about-title">Grounded in systems.<br /><em>Drawn to possibility.</em></h2></div><div><p>{HERO_INFO.summary}</p><div className={styles.skillList}>{SKILLS.map((skill) => <span key={skill.name}>{skill.name}</span>)}</div></div></section>

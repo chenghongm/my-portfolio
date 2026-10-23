@@ -700,33 +700,33 @@ export default function ClaudeStyle() {
           <span className={styles.sectionNum}>04</span><span className={styles.sectionLine}></span><span className={styles.sectionLabel}>Blogs</span>
         </div>
         <h2 className={`${styles.sectionHeading} ${styles.reveal}`}>Latest<br />Writing.</h2>
-        {BLOGS.map((blog) => (
-          <div key={blog.id} id={blog.id} className={`${styles.projectItem} ${styles.reveal}`} onClick={() => track("click", blog.id)}>
-            <span className={styles.projNum}>{blog.num}</span>
-            <div className={styles.projContent}>
-              <h3 className={styles.projTitle}>{blog.title}</h3>
-              <p className={styles.projDesc}>{blog.summary}</p>
-              <div className={styles.projTags}>
-                {blog.tags.map(tag => <span key={tag} className={styles.projTag}>{tag}</span>)}
-              </div>
-            </div>
-            <div className={styles.projSide}>
-              <div className={styles.projStatus}>{blog.platform}</div>
-              <div className={styles.projYear}>{blog.date}</div>
-              <div className={styles.projLinkRow}>
-                <a
-                  href={blog.href}
-                  target="_blank"
-                  rel="noreferrer"
-                  onClick={(e) => { e.stopPropagation(); track("click", `${blog.id}_link`); }}
-                  className={styles.projLink}
-                >
-                  Read Post
-                </a>
-              </div>
-            </div>
+        <div className={`${styles.blogFeed} ${styles.reveal}`}>
+          <div className={styles.blogFeedBar}>
+            <span>~/blog $ ls -t *.md</span>
+            <span>{BLOGS.length} posts</span>
           </div>
-        ))}
+          {BLOGS.map((blog) => (
+            <a
+              key={blog.id}
+              id={blog.id}
+              href={blog.href}
+              target="_blank"
+              rel="noreferrer"
+              className={styles.blogRow}
+              onClick={() => track("click", `${blog.id}_link`)}
+            >
+              <span className={styles.blogDate}>{blog.date}</span>
+              <div>
+                <h3 className={styles.blogTitle}>{blog.title}</h3>
+                <p className={styles.blogSummary}>{blog.summary}</p>
+                <div className={styles.blogTags}>
+                  {blog.tags.map(tag => <span key={tag}>#{tag}</span>)}
+                </div>
+              </div>
+              <span className={styles.blogPlatform}>{blog.platform} <span aria-hidden="true">→</span></span>
+            </a>
+          ))}
+        </div>
       </section>
 
       <section id="certs" className={styles.section}>
@@ -734,13 +734,26 @@ export default function ClaudeStyle() {
           <span className={styles.sectionNum}>05</span><span className={styles.sectionLine}></span><span className={styles.sectionLabel}>Certs</span>
         </div>
         <h2 className={`${styles.sectionHeading} ${styles.reveal}`}>Certs &amp;<br />Credentials.</h2>
-        <div className={styles.processGrid}>
+        <div className={styles.certGrid}>
           {CERTS.map((cert) => (
-            <div key={cert.id} id={cert.id} className={`${styles.processCard} ${styles.reveal}`} onClick={() => track("click", cert.id)}>
-              <div className={styles.processCardNum}>{cert.num} · {cert.date}</div>
-              <h3 style={{ color: '#83a5c7' }}>{cert.name}</h3>
-              <p>{cert.issuer}<br /><small>ID: {cert.credentialId}</small></p>
-            </div>
+            <a
+              key={cert.id}
+              id={cert.id}
+              href={cert.href}
+              target="_blank"
+              rel="noreferrer"
+              className={`${styles.certBadge} ${styles.reveal}`}
+              onClick={() => track("click", `${cert.id}_link`)}
+            >
+              <span className={styles.certStamp} aria-hidden="true">✓ VERIFIED</span>
+              {cert.logo && <img src={cert.logo} alt="" className={styles.certLogo} />}
+              <div className={styles.certIssuer}>{cert.issuer}</div>
+              <h3 className={styles.certName}>{cert.name}</h3>
+              <div className={styles.certFooter}>
+                <span>ID: {cert.credentialId}</span>
+                <span>{cert.issue_date} → {cert.expiration_date}</span>
+              </div>
+            </a>
           ))}
         </div>
       </section>
@@ -749,6 +762,7 @@ export default function ClaudeStyle() {
         <div className={`${styles.sectionHeader} ${styles.reveal}`}>
           <span className={styles.sectionNum}>06</span><span className={styles.sectionLine}></span><span className={styles.sectionLabel}>How I work</span>
         </div>
+        <h2 className={`${styles.sectionHeading} ${styles.reveal}`}>How I<br />Work.</h2>
         <div className={styles.processGrid}>
           {WORK_CARDS.map((style) => (
             <div key={style.id} id={style.id} className={`${styles.processCard} ${styles.reveal}`} onClick={() => track("click", style.id)}>

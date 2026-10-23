@@ -550,6 +550,216 @@ button.win95Btn {
   line-height: 1.6;
 }
 
+/* BLOGS - EXPLORER VIEW */
+.explorer {
+  background: var(--win-white);
+  color: var(--win-text);
+}
+
+.explorerHead,
+.explorerRow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 110px 110px;
+}
+
+.explorerRow > span {
+  padding: 0 8px;
+}
+
+.explorerHead {
+  padding: 0;
+  background: var(--win-bg);
+}
+
+.explorerHead span {
+  padding: 4px 8px;
+  border-top: 2px solid var(--win-white);
+  border-left: 2px solid var(--win-white);
+  border-right: 2px solid var(--win-bg-dark);
+  border-bottom: 2px solid var(--win-bg-dark);
+  font-size: 12px;
+}
+
+.explorerRow {
+  padding: 10px 0;
+  color: var(--win-text);
+  text-decoration: none;
+  font-size: 13px;
+  border-bottom: 1px dotted #c8c8c8;
+}
+
+.explorerRow:hover,
+.explorerRow:focus-visible {
+  background: var(--win-blue);
+  color: var(--win-white);
+  outline: none;
+}
+
+.explorerName {
+  display: flex;
+  gap: 10px;
+  min-width: 0;
+}
+
+.explorerName strong {
+  display: block;
+  font-size: 14px;
+}
+
+.explorerName small {
+  display: block;
+  margin-top: 3px;
+  color: var(--win-text-soft);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+.explorerRow:hover small {
+  color: #d8d8ff;
+}
+
+.explorerIcon {
+  font-size: 18px;
+  line-height: 1.2;
+}
+
+.explorerStatus {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 6px;
+  padding: 3px 8px;
+  border-top: 2px solid var(--win-bg-dark);
+  border-left: 2px solid var(--win-bg-dark);
+  border-right: 2px solid var(--win-white);
+  border-bottom: 2px solid var(--win-white);
+  color: var(--win-text);
+  font-size: 12px;
+}
+
+/* CERTS - CERTIFICATE PAPER */
+.certGrid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.certPaper {
+  display: block;
+  padding: 8px;
+  text-decoration: none;
+  background: #fbf6e6;
+  border-top: 2px solid var(--win-white);
+  border-left: 2px solid var(--win-white);
+  border-right: 2px solid var(--win-black);
+  border-bottom: 2px solid var(--win-black);
+  transition: transform 0.18s ease;
+}
+
+.certPaper:hover {
+  transform: rotate(-1deg) translateY(-3px);
+}
+
+.certPaperInner {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 20px 14px 14px;
+  border: 3px double var(--win-blue);
+  color: var(--win-text);
+  font-family: Georgia, 'Times New Roman', serif;
+  text-align: center;
+}
+
+.certKicker {
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--win-blue);
+}
+
+.certName {
+  margin: 8px 0 4px;
+  font-size: 1.15rem;
+  line-height: 1.3;
+  flex: 1;
+}
+
+.certIssuedBy {
+  font-size: 12px;
+  font-style: italic;
+  color: var(--win-text-soft);
+}
+
+.certIssuer {
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.certFooter {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+  padding-top: 8px;
+  border-top: 1px solid #c9bf9f;
+  font-family: monospace;
+  font-size: 11px;
+  color: var(--win-text-soft);
+}
+
+.certFooter span:first-child {
+  white-space: nowrap;
+}
+
+.certFooter span:last-child {
+  word-break: break-all;
+  text-align: right;
+}
+
+.certValid {
+  font-family: monospace;
+  font-size: 10px;
+  color: var(--win-green);
+}
+
+.certExpired {
+  color: #8a8a8a;
+}
+
+.certSealImg {
+  width: 56px;
+  height: 56px;
+  flex-shrink: 0;
+  object-fit: contain;
+}
+
+.certSeal {
+  font-size: 24px;
+}
+
+@media (max-width: 900px) {
+  .certGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  .explorerHead,
+  .explorerRow {
+    grid-template-columns: minmax(0, 1fr) 70px;
+  }
+
+  .explorerHead span:nth-child(2),
+  .explorerRow > span:nth-child(2) {
+    display: none;
+  }
+}
+
 /* EXPERIENCE STYLES */
 .experienceGrid {
   display: grid;
