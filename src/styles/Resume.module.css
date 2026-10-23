@@ -123,6 +123,23 @@
   font-size: 8.5pt;
 }
 
+.compactList {
+  display: grid;
+  gap: 5px;
+}
+
+.compactList a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.entryHeading .inlineMeta {
+  color: #43546a;
+  font-size: 9pt;
+  font-weight: 400;
+  white-space: normal;
+}
+
 .skills {
   display: grid;
   grid-template-columns: repeat(3, 1fr);

@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect, useRef } from 'react';
-import { CONTACT_INFO, EXPERIENCES, HERO_INFO, PROJECTS, SKILLS } from '../lib/sharedfunctions';
+import { BLOGS, CERTS, CONTACT_INFO, EXPERIENCES, HERO_INFO, PROJECTS, SKILLS } from '../lib/sharedfunctions';
 import styles from '../styles/Resume.module.css';
 
 const visibleProjects = PROJECTS.filter((project) => project.title && project.description);
@@ -96,6 +96,31 @@ export default function Resume() {
                   <p>{project.description}</p>
                   <TagList tags={project.tags} />
                 </section>
+              ))}
+            </div>
+          </ResumeSection>
+
+          <ResumeSection title="Certifications">
+            <div className={styles.compactList}>
+              {CERTS.map((cert) => (
+                <div className={styles.entryHeading} key={cert.id}>
+                  <h3>{cert.name} <span className={styles.inlineMeta}>— {cert.issuer}</span></h3>
+                  <span>{cert.date}</span>
+                </div>
+              ))}
+            </div>
+          </ResumeSection>
+
+          <ResumeSection title="Writing">
+            <div className={styles.compactList}>
+              {BLOGS.map((blog) => (
+                <div className={styles.entryHeading} key={blog.id}>
+                  <h3>
+                    <a href={blog.href} target="_blank" rel="noreferrer">{blog.title}</a>{' '}
+                    <span className={styles.inlineMeta}>— {blog.platform}</span>
+                  </h3>
+                  <span>{blog.date}</span>
+                </div>
               ))}
             </div>
           </ResumeSection>

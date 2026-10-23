@@ -19,7 +19,9 @@ import {
   BEHAVIOR_QUESTIONS,
   INITIAL_PROMPT_HOOKS,
   getFollowupHooks,
-  ACTIVITY_LOG
+  ACTIVITY_LOG,
+  BLOGS,
+  CERTS
 } from '../lib/sharedfunctions';
 
 export default function ClaudeStyle() {
@@ -432,6 +434,8 @@ export default function ClaudeStyle() {
             <li><a href="#about" onClick={(e) => { e.preventDefault(); scrollToSection('about'); }}>About</a></li>
             <li><a href="#experience" onClick={(e) => { e.preventDefault(); scrollToSection('experience'); }}>Experience</a></li>
             <li><a href="#work" onClick={(e) => { e.preventDefault(); scrollToSection('work'); }}>Projects</a></li>
+            <li><a href="#blogs" onClick={(e) => { e.preventDefault(); scrollToSection('blogs'); }}>Blogs</a></li>
+            <li><a href="#certs" onClick={(e) => { e.preventDefault(); scrollToSection('certs'); }}>Certs</a></li>
             <li><a href="#job-search" onClick={(e) => { e.preventDefault(); scrollToSection('job-search'); }}>Job Search</a></li>
             <li><a href="#process" onClick={(e) => { e.preventDefault(); scrollToSection('process'); }}>Attitude</a></li>
             <li><a href="#behavior-qa" onClick={(e) => { e.preventDefault(); scrollToSection('behavior-qa'); }}>Q&amp;A</a></li>
@@ -691,9 +695,59 @@ export default function ClaudeStyle() {
         ))}
       </section>
 
+      <section id="blogs" className={styles.section}>
+        <div className={`${styles.sectionHeader} ${styles.reveal}`}>
+          <span className={styles.sectionNum}>04</span><span className={styles.sectionLine}></span><span className={styles.sectionLabel}>Blogs</span>
+        </div>
+        <h2 className={`${styles.sectionHeading} ${styles.reveal}`}>Latest<br />Writing.</h2>
+        {BLOGS.map((blog) => (
+          <div key={blog.id} id={blog.id} className={`${styles.projectItem} ${styles.reveal}`} onClick={() => track("click", blog.id)}>
+            <span className={styles.projNum}>{blog.num}</span>
+            <div className={styles.projContent}>
+              <h3 className={styles.projTitle}>{blog.title}</h3>
+              <p className={styles.projDesc}>{blog.summary}</p>
+              <div className={styles.projTags}>
+                {blog.tags.map(tag => <span key={tag} className={styles.projTag}>{tag}</span>)}
+              </div>
+            </div>
+            <div className={styles.projSide}>
+              <div className={styles.projStatus}>{blog.platform}</div>
+              <div className={styles.projYear}>{blog.date}</div>
+              <div className={styles.projLinkRow}>
+                <a
+                  href={blog.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  onClick={(e) => { e.stopPropagation(); track("click", `${blog.id}_link`); }}
+                  className={styles.projLink}
+                >
+                  Read Post
+                </a>
+              </div>
+            </div>
+          </div>
+        ))}
+      </section>
+
+      <section id="certs" className={styles.section}>
+        <div className={`${styles.sectionHeader} ${styles.reveal}`}>
+          <span className={styles.sectionNum}>05</span><span className={styles.sectionLine}></span><span className={styles.sectionLabel}>Certs</span>
+        </div>
+        <h2 className={`${styles.sectionHeading} ${styles.reveal}`}>Certs &amp;<br />Credentials.</h2>
+        <div className={styles.processGrid}>
+          {CERTS.map((cert) => (
+            <div key={cert.id} id={cert.id} className={`${styles.processCard} ${styles.reveal}`} onClick={() => track("click", cert.id)}>
+              <div className={styles.processCardNum}>{cert.num} · {cert.date}</div>
+              <h3 style={{ color: '#83a5c7' }}>{cert.name}</h3>
+              <p>{cert.issuer}<br /><small>ID: {cert.credentialId}</small></p>
+            </div>
+          ))}
+        </div>
+      </section>
+
       <section id="process" className={styles.section}>
         <div className={`${styles.sectionHeader} ${styles.reveal}`}>
-          <span className={styles.sectionNum}>04</span><span className={styles.sectionLine}></span><span className={styles.sectionLabel}>How I work</span>
+          <span className={styles.sectionNum}>06</span><span className={styles.sectionLine}></span><span className={styles.sectionLabel}>How I work</span>
         </div>
         <div className={styles.processGrid}>
           {WORK_CARDS.map((style) => (
@@ -708,7 +762,7 @@ export default function ClaudeStyle() {
 
       <section id="job-search" className={styles.section}>
         <div className={`${styles.sectionHeader} ${styles.reveal}`}>
-          <span className={styles.sectionNum}>05</span><span className={styles.sectionLine}></span><span className={styles.sectionLabel}>Daily Activity</span>
+          <span className={styles.sectionNum}>07</span><span className={styles.sectionLine}></span><span className={styles.sectionLabel}>Daily Activity</span>
         </div>
         <h2 className={`${styles.sectionHeading} ${styles.reveal}`}>Job Search<br />Results.</h2>
 
@@ -740,7 +794,7 @@ export default function ClaudeStyle() {
 
       <section id="behavior-qa" className={styles.section}>
         <div className={`${styles.sectionHeader} ${styles.reveal}`}>
-          <span className={styles.sectionNum}>06</span><span className={styles.sectionLine}></span><span className={styles.sectionLabel}>Q&A</span>
+          <span className={styles.sectionNum}>08</span><span className={styles.sectionLine}></span><span className={styles.sectionLabel}>Q&A</span>
         </div>
         <h2 className={`${styles.sectionHeading} ${styles.reveal}`}>Behavioral<br />Q&amp;A.</h2>
         <div className={styles.behaviorQaGrid}>
@@ -779,7 +833,7 @@ export default function ClaudeStyle() {
 
       <section id="contact" className={styles.section}>
         <div className={`${styles.sectionHeader} ${styles.reveal}`}>
-          <span className={styles.sectionNum}>07</span><span className={styles.sectionLine}></span><span className={styles.sectionLabel}>Contact</span>
+          <span className={styles.sectionNum}>09</span><span className={styles.sectionLine}></span><span className={styles.sectionLabel}>Contact</span>
         </div>
         <h2 className={`${styles.contactHeading} ${styles.reveal}`}>Let&apos;s build<br /><span>something.</span></h2>
         <div className={`${styles.contactGrid} ${styles.reveal}`}>

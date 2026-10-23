@@ -406,6 +406,74 @@ export const ACTIVITY_LOG = [
   { date: '2026-01', prefix: 'debug timezone logic · production fix', highlight: null, href: null, suffix: null },
 ];
 
+// TODO: dummy data — replace with real posts
+export const BLOGS = [
+  {
+    id: 'blog_ai_freetime',
+    num: '01',
+    windowTitle: "BLOG://AI_FREETIME.MD",
+    title: 'What if AI assistants had 2 mins of free time?',
+    summary: 'A thought experiment on idle cycles, curiosity, and what language models might do when no one is prompting them.',
+    platform: 'Dev.to',
+    date: '2026-09',
+    tags: ['LLM', 'Essay'],
+    href: 'https://dev.to/chenghongm'
+  },
+  {
+    id: 'blog_ledger_pto',
+    num: '02',
+    windowTitle: "BLOG://LEDGER_PTO.MD",
+    title: 'Modeling PTO as a Ledger, Not a Balance',
+    summary: 'Why immutable transactions beat mutable balance fields for audit trails, refunds, and carry-over reconciliation.',
+    platform: 'Dev.to',
+    date: '2026-06',
+    tags: ['System Design', 'Laravel', 'MySQL'],
+    href: 'https://dev.to/chenghongm'
+  },
+  {
+    id: 'blog_score_before_desensitize',
+    num: '03',
+    windowTitle: "BLOG://SCORE_FIRST.MD",
+    title: 'Score Before You Desensitize: Lessons from a Local LLM Pipeline',
+    summary: 'How placeholder leakage sneaks into fine-tuning data, and the pipeline ordering that prevents it.',
+    platform: 'Dev.to',
+    date: '2026-03',
+    tags: ['MLX', 'Fine-tuning', 'Data Pipeline'],
+    href: 'https://dev.to/chenghongm'
+  }
+];
+
+// TODO: dummy data — replace with real certifications
+export const CERTS = [
+  {
+    id: 'cert_aws_dev',
+    num: '01',
+    name: 'AWS Certified Developer – Associate',
+    issuer: 'Amazon Web Services',
+    date: '2026-05',
+    credentialId: 'AWS-DVA-XXXXXX',
+    href: '#'
+  },
+  {
+    id: 'cert_dl_ai_llm',
+    num: '02',
+    name: 'Generative AI with Large Language Models',
+    issuer: 'DeepLearning.AI',
+    date: '2026-02',
+    credentialId: 'DLAI-XXXXXX',
+    href: '#'
+  },
+  {
+    id: 'cert_anthropic_api',
+    num: '03',
+    name: 'Building with the Claude API',
+    issuer: 'Anthropic Academy',
+    date: '2025-11',
+    credentialId: 'ANT-XXXXXX',
+    href: '#'
+  }
+];
+
 export const SKILLS = [
   { name: 'Laravel / PHP', pct: '90%', level: 'Primary' },
   { name: 'React', pct: '80%', level: 'Primary' },

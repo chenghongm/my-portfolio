@@ -19,7 +19,9 @@ import {
   BEHAVIOR_QUESTIONS,
   INITIAL_PROMPT_HOOKS,
   getFollowupHooks,
-  ACTIVITY_LOG
+  ACTIVITY_LOG,
+  BLOGS,
+  CERTS
 } from '../lib/sharedfunctions';
 
 const PAGE_ID = 'gemini-style';
@@ -365,6 +367,8 @@ export default function Home() {
     { id: "sec_about", label: "About.log" },
     { id: "sec_projects", label: "Projects.exe" },
     { id: "sec_experience", label: "Experience.log" },
+    { id: "sec_blogs", label: "Blogs.md" },
+    { id: "sec_certs", label: "Certs.crt" },
     { id: "sec_neural_link", label: "NeuralLink.com" },
     { id: "sec_job_search", label: "JobSearch.xls" },
     { id: "sec_how_i_work", label: "HowIWork.log" },
@@ -532,9 +536,71 @@ export default function Home() {
             </div>
           </section>
 
+          <section className={styles.sectionBlock} id="sec_blogs">
+            <SectionHeader num="04" label="Blogs" />
+            <h2 className={styles.sectionHeading}>
+              Latest
+              <br />
+              Writing.
+            </h2>
+            <div className={styles.projectsGrid}>
+              {BLOGS.map((blog) => (
+                <WindowFrame key={blog.id} id={blog.id} title={blog.windowTitle} className={styles.projectWindow} compact>
+                  <div className={`${styles.projectPanel} win95-inset`}>
+                    <div className={styles.projectCardTop}>
+                      <div>
+                        <div className={styles.projectId}>{blog.num}</div>
+                        <h3 className={styles.projectTitle}>{blog.title}</h3>
+                      </div>
+                      <div className={styles.projectSide}>
+                        <div className={styles.projectStatus}>{blog.platform}</div>
+                        <div className={styles.projectYear}>{blog.date}</div>
+                        <div className={styles.projLinkRow}>
+                          <a
+                            href={blog.href}
+                            target="_blank"
+                            rel="noreferrer"
+                            onClick={(e) => { e.stopPropagation(); track("click", `${blog.id}_link`); }}
+                            className={styles.projLink}
+                          >
+                            Read Post
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                    <p className={styles.projectDesc}>{blog.summary}</p>
+                    <div className={styles.projectTags}>
+                      {blog.tags.map((tag) => (
+                        <span key={tag} className={styles.projectTag}>{tag}</span>
+                      ))}
+                    </div>
+                  </div>
+                </WindowFrame>
+              ))}
+            </div>
+          </section>
+
+          <section className={styles.sectionBlock} id="sec_certs">
+            <SectionHeader num="05" label="Certs" />
+            <h2 className={styles.sectionHeading}>
+              Certs &amp;
+              <br />
+              Credentials.
+            </h2>
+            <div className={styles.workGrid}>
+              {CERTS.map((cert) => (
+                <article key={cert.id} id={cert.id} className={styles.workCard} onClick={() => track("click", cert.id)}>
+                  <div className={styles.workCardNum}>{cert.num} · {cert.date}</div>
+                  <h3 className={styles.workCardTitle}>{cert.name}</h3>
+                  <p className={styles.workCardDesc}>{cert.issuer}<br />ID: {cert.credentialId}</p>
+                </article>
+              ))}
+            </div>
+          </section>
+
           {/* Neural Link Terminal */}
           <section className={styles.sectionBlock} id="sec_neural_link">
-            <SectionHeader num="04" label="Neural Link" />
+            <SectionHeader num="06" label="Neural Link" />
             <div
               className={`${styles.terminalWindow} ${isNeuralLinkMaximized ? styles.terminalWindowMaximized : ""} win95-inset`}
             >
@@ -594,7 +660,7 @@ export default function Home() {
           </section>
 
           <section className={styles.sectionBlock} id="sec_job_search">
-            <SectionHeader num="05" label="Daily Activity" />
+            <SectionHeader num="07" label="Daily Activity" />
             <h2 className={styles.sectionHeading}>
               Job Search
               <br />
@@ -627,7 +693,7 @@ export default function Home() {
           </section>
 
           <section className={styles.sectionBlock} id="sec_how_i_work">
-            <SectionHeader num="06" label="How I work" />
+            <SectionHeader num="08" label="How I work" />
             <div className={styles.workGrid}>
               {WORK_CARDS.map((card) => (
                 <article key={card.id} id={card.id} className={styles.workCard} onClick={() => track("click", card.id)}>
@@ -640,7 +706,7 @@ export default function Home() {
           </section>
 
           <section className={styles.sectionBlock} id="sec_skills">
-            <SectionHeader num="07" label="Technical Skills" />
+            <SectionHeader num="09" label="Technical Skills" />
             <WindowFrame title="SYSTEM://CORE_CAPABILITIES.DLL" compact>
               <div className={styles.skillGrid}>
                 {SKILLS.map((skill, index) => (
@@ -662,7 +728,7 @@ export default function Home() {
           </section>
 
           <section className={styles.sectionBlock} id="sec_behavior_qa">
-            <SectionHeader num="08" label="Q&A" />
+            <SectionHeader num="10" label="Q&A" />
             <h2 className={styles.sectionHeading}>
               Behavioral
               <br />
@@ -685,7 +751,7 @@ export default function Home() {
           </section>
 
           <section className={styles.sectionBlock} id="sec_contact">
-            <SectionHeader num="09" label="Contact" />
+            <SectionHeader num="11" label="Contact" />
             <h2 className={styles.contactHeading}>
               Let&apos;s build
               <br />

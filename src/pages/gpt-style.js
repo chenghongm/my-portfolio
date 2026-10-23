@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import Link from 'next/link';
-import { CONTACT_INFO, EXPERIENCES, HERO_INFO, PROJECTS, SKILLS } from '../lib/sharedfunctions';
+import { BLOGS, CERTS, CONTACT_INFO, EXPERIENCES, HERO_INFO, PROJECTS, SKILLS } from '../lib/sharedfunctions';
 import styles from '../styles/GptStyle.module.css';
 
 // Place ongoing work at its start date, so chronology stays stable over time.
@@ -26,7 +26,7 @@ export default function GptStyle() {
       <div className={styles.ambient} aria-hidden="true" />
       <header className={styles.header}>
         <Link href="/" className={styles.brand}><span className={styles.brandMark}>✳</span> chm<span className={styles.brandDot}>.one</span></Link>
-        <nav aria-label="Main navigation"><a href="#journey">Journey</a><a href="#about">About</a><a href="#contact">Contact <Arrow /></a></nav>
+        <nav aria-label="Main navigation"><a href="#journey">Journey</a><a href="#blogs">Blogs</a><a href="#certs">Certs</a><a href="#about">About</a><a href="#contact">Contact <Arrow /></a></nav>
         <Link href="/" className={styles.edition}>GPT STYLE <span> / 03</span></Link>
       </header>
 
@@ -61,6 +61,26 @@ export default function GptStyle() {
               <div className={styles.beginning}><span>✦</span> Every next chapter starts with curiosity.</div>
             </div>
           </div>
+        </section>
+
+        <section id="blogs" className={styles.shelf} aria-labelledby="blogs-title">
+          <div className={styles.sectionHeading}><div><p className={styles.kicker}>FIELD NOTES</p><h2 id="blogs-title">Thinking out loud<span>.</span></h2></div><p>Notes and essays written along the way.</p></div>
+          <div className={styles.shelfGrid}>{BLOGS.map((blog) => <article key={blog.id} className={styles.card}>
+            <div className={styles.cardMeta}><span>✎ {blog.platform}</span><span>{blog.date}</span></div>
+            <h4>{blog.title}</h4>
+            <p className={styles.description}>{blog.summary}</p>
+            <div className={styles.tags}>{blog.tags.map((tag) => <span key={tag}>{tag}</span>)}</div>
+            <div className={styles.cardFooter}><span /><a href={blog.href} target="_blank" rel="noreferrer">Read post <Arrow /></a></div>
+          </article>)}</div>
+        </section>
+
+        <section id="certs" className={styles.shelf} aria-labelledby="certs-title">
+          <div className={styles.sectionHeading}><div><p className={styles.kicker}>MILESTONES EARNED</p><h2 id="certs-title">Certifications<span>.</span></h2></div><p>Credentials picked up while learning in public.</p></div>
+          <div className={styles.shelfGrid}>{CERTS.map((cert) => <article key={cert.id} className={styles.card}>
+            <div className={styles.cardMeta}><span>◈ {cert.issuer}</span><span>{cert.date}</span></div>
+            <h4>{cert.name}</h4>
+            <div className={styles.cardFooter}><span className={styles.status}><i />ID: {cert.credentialId}</span>{cert.href !== '#' && <a href={cert.href} target="_blank" rel="noreferrer">Verify <Arrow /></a>}</div>
+          </article>)}</div>
         </section>
 
         <section id="about" className={styles.about} aria-labelledby="about-title"><div><p className={styles.kicker}>BEHIND THE WORK</p><h2 id="about-title">Grounded in systems.<br /><em>Drawn to possibility.</em></h2></div><div><p>{HERO_INFO.summary}</p><div className={styles.skillList}>{SKILLS.map((skill) => <span key={skill.name}>{skill.name}</span>)}</div></div></section>
