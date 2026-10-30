@@ -70,7 +70,6 @@ export default async function handler(req, res) {
   }
 
   const apiKey = process.env.ASSISTANT_ID; // Using ASSISTANT_ID for Claude
-console.log('key len:', apiKey?.length, 'prefix:', apiKey?.slice(0, 10));
   if (!apiKey) {
     return res.status(500).json({ error: 'Claude API key not configured' });
   }
