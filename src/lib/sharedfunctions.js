@@ -395,6 +395,7 @@ export const CONTACT_INFO = [
 ];
 
 export const ACTIVITY_LOG = [
+  { date: '2026-10', prefix: 'Experiment: ', highlight: 'First-person pronoun frequency analysis', href: 'https://github.com/chenghongm/digital-mind-sprint', suffix: ' · ' },
   { date: '2026-09', prefix: 'Tech blog: ', highlight: 'What if AI assistants had 2 mins freetime?', href: 'https://dev.to/chenghongm', suffix: ' · ' },
   { date: '2026-08', prefix: 'Apart Sprint: ', highlight: 'Digital Mind Hackathon', href: 'https://github.com/chenghongm/digital-mind-sprint', suffix: ' · ' },
   { date: '2026-07', prefix: 'Apart Sprint: ', highlight: 'Secret Loyalties Hackathon', href: 'https://github.com/chenghongm/secret-loyalties-track2', suffix: ' · ' },
