@@ -661,3 +661,23 @@ const FALLBACK_PROMPT_HOOKS = [
   `Can you summarize ${PROFILE_FIRST_NAME}'s experience?`,
   "Which project should I look at first?"
 ];
+
+// Case-study videos shown on /case-studies. Add new entries at the top.
+export const CASE_STUDIES = [
+  {
+    id: 'qpr-rebuild',
+    youtubeId: '36qpax8hi-I',
+    title: 'Rebuilding a Quarterly Progress Report System',
+    org: 'Special-education nonprofit',
+    duration: '3:15',
+    summary:
+      'Reports that decided Department of Education funding were losing data. Three problems, one stopgap, and the fixes.',
+    points: [
+      'Write amplification: one benchmark edit rewrote the whole report, so concurrent saves overwrote each other',
+      'Stopgap mid-quarter: a write lock; root fix after quarter end: scoped writes and a finer-grained schema',
+      'Wrong join direction (RIGHT → LEFT JOIN) leaked old quarters into new reports',
+      'Snapshots at submission made past reports auditable',
+    ],
+    tags: ['Laravel', 'MySQL', 'Schema design', 'Data integrity'],
+  },
+];

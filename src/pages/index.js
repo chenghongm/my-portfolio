@@ -292,7 +292,13 @@ export default function Landing() {
         </Link>
       </main>
 
-      <Link href="/gpt-style" className="mt-10 mb-28 group flex items-center gap-4 rounded-full border border-violet-300/20 bg-violet-300/5 px-6 py-3 text-sm text-violet-200 transition-colors hover:border-violet-300/50 hover:bg-violet-300/10 focus-visible:outline-2 focus-visible:outline-violet-300">
+      <Link href="/case-studies" className="mt-10 group flex items-center gap-4 rounded-full border border-yellow-300/20 bg-yellow-300/5 px-6 py-3 text-sm text-yellow-100 transition-colors hover:border-yellow-300/50 hover:bg-yellow-300/10 focus-visible:outline-2 focus-visible:outline-yellow-300">
+        <span aria-hidden="true" className="text-base">▶</span>
+        <span>Case Studies <span className="ml-2 text-xs text-yellow-100/60">Video walkthroughs</span></span>
+        <span aria-hidden="true">↗</span>
+      </Link>
+
+      <Link href="/gpt-style" className="mt-4 mb-28 group flex items-center gap-4 rounded-full border border-violet-300/20 bg-violet-300/5 px-6 py-3 text-sm text-violet-200 transition-colors hover:border-violet-300/50 hover:bg-violet-300/10 focus-visible:outline-2 focus-visible:outline-violet-300">
         <span aria-hidden="true" className="text-xl">✧</span>
         <span>GPT Style <span className="ml-2 text-xs text-violet-200/60">A digital journey</span></span>
         <span aria-hidden="true">↗</span>
