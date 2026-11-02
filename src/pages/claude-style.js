@@ -40,7 +40,7 @@ const NAV_CONTACT = { id: 'contact', label: 'Contact' };
 
 export default function ClaudeStyle() {
   const PAGE_ID = 'claude-style';
-  const MODEL_NAME = 'claude-sonnet-4-5';
+  const MODEL_NAME = 'claude-sonnet-5-5';
   const PROMPT_CHAR_LIMIT = 300;
   const INITIAL_TERMINAL_LINES = [
     // { type: 'system', text: "// type your question and press Enter" },
@@ -354,7 +354,8 @@ export default function ClaudeStyle() {
       });
 
       const data = await response.json();
-      const reply = data.content?.[0]?.text || data.reply || "sh: command not found";
+      // content may start with a thinking block, so pick the first text block
+      const reply = data.content?.find(block => block.type === 'text')?.text || data.reply || "sh: command not found";
 
       setTerminalHistory(prev => [
         ...prev,

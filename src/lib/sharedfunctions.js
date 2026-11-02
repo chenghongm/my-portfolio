@@ -263,6 +263,13 @@ export function buildSystemPrompt(basePrompt, history = []) {
   const cleanProjects = PROJECTS.map(({ id, ...proj }) => proj);
   const userHistoryInputs = getLastUserInputs(history, 3);
 
+  // ACTIVITY_LOG is ordered newest first; flatten display fields into plain text
+  const recentActivities = ACTIVITY_LOG.slice(0, 2).map(({ date, prefix, highlight, href, suffix }) => ({
+    date,
+    activity: `${prefix || ''}${highlight || ''}${suffix && suffix.trim() !== '·' ? suffix : ''}`.trim(),
+    ...(href ? { link: href } : {})
+  }));
+
   const userHistoryBlock = userHistoryInputs.length
     ? `\n\n[USER HISTORY INPUT]\n${userHistoryInputs
       .map((input, index) => `${index + 1}. ${input}`)
@@ -277,7 +284,10 @@ Context Information about Chenghong:
 ${JSON.stringify(cleanExperiences, null, 2)}
 
 [PROJECTS]
-${JSON.stringify(cleanProjects, null, 2)}`;
+${JSON.stringify(cleanProjects, null, 2)}
+
+[RECENT ACTIVITIES]
+${JSON.stringify(recentActivities, null, 2)}`;
 }
 
 export function getPromptTopic(prompt = "") {

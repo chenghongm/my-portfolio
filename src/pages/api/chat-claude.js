@@ -83,8 +83,10 @@ export default async function handler(req, res) {
         'content-type': 'application/json',
       },
       body: JSON.stringify({
-        model: model || 'claude-sonnet-4-5', // or your preferred model
+        model: model || 'claude-sonnet-5-5', // or your preferred model
         max_tokens: 2048,
+        // Thinking is on by default for this model and counts toward max_tokens; keep it light for short chat replies
+        output_config: { effort: 'low' },
         system: system || '',
         messages: messages || [],
       }),
