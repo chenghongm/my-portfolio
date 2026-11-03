@@ -677,10 +677,10 @@ const FALLBACK_PROMPT_HOOKS = [
 export const CASE_STUDIES = [
   {
     id: 'qpr-rebuild',
-    youtubeId: '36qpax8hi-I',
+    youtubeId: 'fsn4AaCCqOM',
     title: 'Rebuilding a Quarterly Progress Report System',
     org: 'Special-education nonprofit',
-    duration: '3:15',
+    duration: '3:11',
     summary:
       'Reports that decided Department of Education funding were losing data. Three problems, one stopgap, and the fixes.',
     points: [
