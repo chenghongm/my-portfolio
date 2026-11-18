@@ -1,0 +1,9 @@
+name = "portfolio-logs"
+main = "portfolio-logs.mjs"
+compatibility_date = "2026-11-17"
+compatibility_flags = ["nodejs_compat"]
+
+[[d1_databases]]
+binding = "DB"
+database_name = "portfolio-logs"
+database_id = "142e6536-07ac-4476-a960-aaf14cb51226"

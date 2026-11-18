@@ -1,9 +1,4 @@
-import { createClient } from "@supabase/supabase-js";
-
-const supabase = createClient(
-  process.env.mybase_SUPABASE_URL,
-  process.env.mybase_SUPABASE_SERVICE_ROLE_KEY
-);
+import { insertPortfolioLog } from "../../lib/portfolio-log-storage";
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -13,7 +8,7 @@ export default async function handler(req, res) {
   try {
     const body = req.body;
 
-    const { data, error } = await supabase.from("user_activities").insert({
+    await insertPortfolioLog("user_activities", "/activities", {
       user_forward_ip: req.headers["x-forwarded-for"]?.split(",")[0].trim() ?? null,
       user_remote_ip: req.headers["cf-connecting-ip"] ?? null,
       header_language: req.headers["accept-language"] ?? null,
@@ -24,14 +19,9 @@ export default async function handler(req, res) {
       user_agent: req.headers["user-agent"] ?? null,
     });
 
-    if (error) {
-      console.error("[log/activity] Supabase error:", error);
-      return res.status(500).json({ error: error.message });
-    }
-
     return res.status(200).json({ ok: true });
-  } catch (e) {
-    console.error("[log/activity] Runtime error:", e);
-    return res.status(500).json({ error: e.message || "Failed to log activity" });
+  } catch {
+    console.error("[log/activities] Failed to write event");
+    return res.status(500).json({ error: "Failed to write event" });
   }
 }

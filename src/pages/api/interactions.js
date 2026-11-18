@@ -1,9 +1,4 @@
-import { createClient } from "@supabase/supabase-js";
-
-const supabase = createClient(
-  process.env.mybase_SUPABASE_URL,
-  process.env.mybase_SUPABASE_SERVICE_ROLE_KEY
-);
+import { insertPortfolioLog } from "../../lib/portfolio-log-storage";
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -13,7 +8,7 @@ export default async function handler(req, res) {
   try {
     const body = req.body;
 
-    const { data, error } = await supabase.from("user_ai_interactions").insert({
+    await insertPortfolioLog("user_ai_interactions", "/interactions", {
       user_prompt: body.user_prompt,
       ai_model: body.ai_model,
       ai_output: body.ai_output,
@@ -22,14 +17,9 @@ export default async function handler(req, res) {
                         ?? null
     });
 
-    if (error) {
-      console.error("[log/interaction] Supabase error:", error);
-      return res.status(500).json({ error: error.message });
-    }
-
     return res.status(200).json({ ok: true });
-  } catch (e) {
-    console.error("[log/interaction] Runtime error:", e);
-    return res.status(500).json({ error: e.message || "Failed to log interaction" });
+  } catch {
+    console.error("[log/interactions] Failed to write event");
+    return res.status(500).json({ error: "Failed to write event" });
   }
 }
